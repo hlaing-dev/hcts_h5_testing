@@ -75,7 +75,7 @@ const ChatRoom = ({ theme }) => {
 
   return (
     <div className={`fixed bottom-0 left-0 right-0 max-w-screen-lg mx-auto ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-t-lg shadow-lg`}>
-      <div className="overflow-y-auto px-4 py-2" style={{ height: 'calc(100vh - 130px)' }}>
+      <div className="overflow-y-auto px-4 py-2" style={{ height: 'calc(100vh - 170px)' }}>
         {messages && messages.map((msg) => <ChatMessage key={msg.id} message={msg} isSent={msg.uid === auth.currentUser.uid} />)}
         <span ref={dummy}></span>
       </div>

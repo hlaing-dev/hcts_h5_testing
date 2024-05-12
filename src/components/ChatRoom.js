@@ -53,7 +53,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
             <FiCopy className="inline-block mr-1" /> Copy Server ID
           </button>
         </div>
-        <div className="flex flex-col space-y-4 overflow-x-hidden overflow-y-scroll" style={{height: '60vh'}}>
+        <div className="flex flex-col space-y-4 overflow-x-hidden overflow-y-scroll" style={{height: '50vh'}}>
           {messages.map((message) => (
             <div
               key={message.id}

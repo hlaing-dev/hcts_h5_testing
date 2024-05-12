@@ -39,11 +39,12 @@ const App = () => {
   
         // If the user has sent a message in the server, add it to the userServers array
         if (!userMessagesRef.empty) {
-          userServers.push({id: serverDoc.id, ...serverDoc.data()});
+          userServers.push({id: serverDoc.id, isOwnerServer: serverDoc.data().createdBy === user.uid, ...serverDoc.data()});
         }
   
         // If this is the last server, set the recentServers state
         if (userServers.length === serversRef.size) {
+          console.log('userServers is=', userServers);
           setRecentServers(userServers);
         }
       });
@@ -147,7 +148,7 @@ const App = () => {
                     <h2 className="text-xl font-semibold mb-2 ">
                       {server.name}
                     </h2>
-                    <p className="text-sm text-white">{server.description}</p>
+                    <p className="text-sm text-green-600">{server.isOwnerServer ? '* My Server': ''}</p>
                   </div>
                 </div>
               ))}

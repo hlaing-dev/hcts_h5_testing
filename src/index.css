@@ -32,3 +32,9 @@ code {
   background-color: #EAEAEA;
   align-self: flex-start;
 }
+
+.custom-chatroom-header {
+  border: 2px solid #a7c8ff;
+    border-radius: 14px;
+    padding: 10px;
+}

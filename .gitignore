@@ -1,0 +1,27 @@
+# Node.js files
+node_modules/
+
+# Compiled files
+build/
+dist/
+
+# Logs
+logs
+*.log
+
+# IDE/Editor specific files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Dependency directories
+pids
+logs
+yarn-error.log
+
+# Local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

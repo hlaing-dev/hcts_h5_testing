@@ -42,8 +42,8 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
   };
 
   return (
-    <div className="container mx-auto mt-10 max-w-lg">
-      <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="container" style={{height: '100vh'}}>
+      <div className="h-full">
       <div className="flex items-center justify-between mb-4 custom-chatroom-header">
           <h2 className="text-blue-500">{serverData?.name}</h2>
           <button
@@ -53,7 +53,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
             <FiCopy className="inline-block mr-1" /> Copy Server ID
           </button>
         </div>
-        <div className="flex flex-col space-y-4 min-h-72">
+        <div className="flex flex-col space-y-4 overflow-x-hidden overflow-y-scroll" style={{height: '60vh'}}>
           {messages.map((message) => (
             <div
               key={message.id}

@@ -90,7 +90,7 @@ const App = () => {
   
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center p-10">
+    <div className="flex flex-col justify-center items-center p-10" style={{height: '100vh'}}>
       {!joinedServer && (
         <>
           {!user && (
@@ -104,6 +104,7 @@ const App = () => {
               </button>
             </div>
           )}
+          <></>
           {user && recentServers.length > 0 && (
             <div className="m-8 gap-4 w-full">
               {recentServers.map((server) => (

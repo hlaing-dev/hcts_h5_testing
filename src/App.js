@@ -23,19 +23,37 @@ const App = () => {
 
   const fetchServers = async () => {
     try {
-      const serversRef = firestore
-        .collection("servers")
-        .where("createdBy", "==", user.uid);
-      const snapshot = await serversRef.get();
-      const serverList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setRecentServers(serverList);
+      // Fetch all servers
+      const serversRef = await firestore.collection("servers").get();
+      
+      // Array to store servers where the user has sent a message
+      const userServers = [];
+      // Iterate over each server
+      serversRef.docs.forEach(async (serverDoc) => {
+        const serverRef = firestore.collection("servers").doc(serverDoc.id);
+        // Fetch messages sent by the current user in the server
+        const userMessagesRef = await serverRef.collection("messages")
+          .where("sender", "==", user.displayName)
+          .limit(1) // Limit to 1 message to check if the user has sent any message in the server
+          .get();
+  
+        // If the user has sent a message in the server, add it to the userServers array
+        if (!userMessagesRef.empty) {
+          userServers.push({id: serverDoc.id, ...serverDoc.data()});
+        }
+  
+        // If this is the last server, set the recentServers state
+        if (userServers.length === serversRef.size) {
+          setRecentServers(userServers);
+        }
+      });
     } catch (error) {
       console.error("Error fetching recent servers:", error);
     }
   };
+  
+  
+
 
   const handleCreateServer = () => {
     setCreateServer(true);
@@ -55,7 +73,7 @@ const App = () => {
   };
 
   const handleEnterChat = async (serverId, server = null) => {
-    if (!serverId.trim()) return;
+    if (!serverId?.trim()) return;
     if (server) setServerData(server);
     try {
       const serverRef = firestore.collection("servers").doc(serverId);

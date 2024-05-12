@@ -5,6 +5,9 @@ import CreateServer from "./components/CreateServer";
 import JoinServer from "./components/JoinServer";
 import { firestore } from "./firebase/firebaseConfig";
 import ChatRoom from "./components/ChatRoom";
+import { FaRocketchat } from "react-icons/fa"; // Import the paper plane icon
+import { IoSearchCircleOutline } from "react-icons/io5"; // Import the paper plane icon
+
 const App = () => {
   const [user] = useAuthState(auth);
   const [createServer, setCreateServer] = useState(false);
@@ -90,7 +93,7 @@ const App = () => {
   
 
   return (
-    <div className="flex flex-col justify-center items-center p-10" style={{height: '100vh'}}>
+    <div className="flex flex-col justify-center items-center p-10 bg-neutral-50" style={{height: '100vh'}}>
       {!joinedServer && (
         <>
           {!user && (
@@ -110,7 +113,7 @@ const App = () => {
               {recentServers.map((server) => (
                 <div
                   key={server.id}
-                  className="bg-slate-200 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition duration-300 w-full mt-5 relative"
+                  className="bg-neutral-100 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition duration-300 w-full mt-5 relative"
                   onClick={() => handleEnterChat(server.id, server)}
                 >
                   <button
@@ -135,19 +138,20 @@ const App = () => {
 
           {user && !createServer && !joinServer && (
             <div className="m-8 gap-4 w-full">
-              <button
-                onClick={handleCreateServer}
-                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg shadow-md w-full"
-              >
-                Create Server
-              </button>
-              <button
-                onClick={handleJoinServer}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow-md w-full mt-5"
-              >
-                Join Server
-              </button>
-            </div>
+            <button
+              onClick={handleCreateServer}
+              className="bg-white text-green-700 hover:bg-green-200 hover:text-green-900 font-bold py-2 px-6 rounded-lg shadow-md w-full flex items-center justify-center"
+            >
+              Create Server <FaRocketchat className="ml-2" />
+            </button>
+            <button
+              onClick={handleJoinServer}
+              className="bg-white text-blue-700 hover:bg-blue-200 hover:text-blue-900 font-bold py-2 px-6 rounded-lg shadow-md w-full mt-5 flex items-center justify-center"
+            >
+              Join Server <IoSearchCircleOutline className="ml-2" />
+            </button>
+          </div>
+          
           )}
           {user && createServer && (
             <CreateServer user={user} onCancel={handleCancel} enterServer={setJoinedServer}/>

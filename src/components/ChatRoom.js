@@ -7,7 +7,6 @@ import CryptoJS from "crypto-js"; // Import CryptoJS library
 import { FaLock } from "react-icons/fa";
 
 const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
-  console.log("serverData is=>", serverData);
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -66,7 +65,6 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
 
   // Function to decrypt the message (recipient's end)
   const decryptMessage = (encryptedMessage, key) => {
-    console.log({ encryptedMessage, key });
     const bytes = CryptoJS.AES.decrypt(encryptedMessage, key);
     return bytes.toString(CryptoJS.enc.Utf8);
   };
@@ -75,7 +73,6 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
     e.preventDefault();
     const decrypted = decryptMessage(message, enteredKey);
     if (decrypted) {
-      console.log("decrypted is=>", decrypted);
       setDecryptedMessage(decrypted);
       //   setShowModal(false);
     } else {

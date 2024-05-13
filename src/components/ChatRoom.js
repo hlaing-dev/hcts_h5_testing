@@ -163,16 +163,16 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
               />
               <div className="flex justify-end">
                 <button
-                  onClick={(e) => handleDecrypt(e, encryptedMessage)}
-                  className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md transition duration-300 hover:bg-blue-600 mr-2"
-                >
-                  Decrypt
-                </button>
-                <button
                   onClick={() => setShowModal(false)}
-                  className="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-md transition duration-300 hover:bg-gray-400"
+                  className="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-md transition duration-300 hover:bg-gray-400 mr-2"
                 >
                   Cancel
+                </button>
+                <button
+                  onClick={(e) => handleDecrypt(e, encryptedMessage)}
+                  className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md transition duration-300 hover:bg-blue-600"
+                >
+                  Decrypt
                 </button>
               </div>
               </>}

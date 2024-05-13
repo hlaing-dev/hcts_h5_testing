@@ -145,10 +145,9 @@ const App = () => {
                     -
                   </button>
                   <div className="p-4">
-                    <h2 className="text-xl font-semibold mb-2 ">
+                    <h2 className={`text-xl font-semibold mb-2 ${server.isOwnerServer && 'text-sky-600'}`}>
                       {server.name}
                     </h2>
-                    <p className="text-sm text-green-600">{server.isOwnerServer ? '* My Server': ''}</p>
                   </div>
                 </div>
               ))}

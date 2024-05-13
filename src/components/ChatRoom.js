@@ -191,7 +191,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
           </div>
           </div>
         )}
-        <form className="mt-12 flex">
+        <form className="mt-12 flex absolute bottom-5" style={{width: '80%'}}>
           <input
             type="text"
             placeholder="Type your message here"

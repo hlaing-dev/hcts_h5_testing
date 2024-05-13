@@ -8,6 +8,7 @@ import { firestore } from "./firebase/firebaseConfig";
 import ChatRoom from "./components/ChatRoom";
 import { FaRocketchat } from "react-icons/fa"; // Import the paper plane icon
 import { IoSearchCircleOutline } from "react-icons/io5"; // Import the paper plane icon
+import { GiConversation } from "react-icons/gi"; // Import the paper plane icon
 
 const App = () => {
   const [user] = useAuthState(auth);
@@ -38,14 +39,12 @@ const App = () => {
           .get();
   
         // If the user has sent a message in the server, add it to the userServers array
-        if ( serverDoc.data().createdBy === user.uid) {
+        if (serverDoc.data().createdBy === user.uid || !userMessagesRef.empty) {
           userServers.push({id: serverDoc.id, isOwnerServer: serverDoc.data().createdBy === user.uid, ...serverDoc.data()});
-         } 
-        else if (!userMessagesRef.empty) {
-          userServers.push({id: serverDoc.id, isOwnerServer: serverDoc.data().createdBy === user.uid, ...serverDoc.data()});
-         } 
+         }
         setRecentServers(userServers);
       });
+
     } catch (error) {
       console.error("Error fetching recent servers:", error);
     }
@@ -133,18 +132,18 @@ const App = () => {
                   className="bg-neutral-100 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition duration-300 w-full mt-5 relative"
                   onClick={() => handleEnterChat(server.id, server)}
                 >
-                  <button
-                    className="absolute top-5 right-2 bg-red-400 text-white rounded-full w-6 h-6 flex justify-center items-center"
+                  {server.isOwnerServer && <button
+                    className="absolute top-6 right-2 bg-red-400 text-white rounded-full w-6 h-6 flex justify-center items-center"
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent the click event from bubbling up to the card
                       handleDeleteServer(server.id);
                     }}
                   >
                     -
-                  </button>
+                  </button>}
                   <div className="p-4">
                     <h2 className={`text-xl font-semibold mb-2 ${server.isOwnerServer && 'text-sky-600'}`}>
-                      {server.name}
+                      <GiConversation className="inline-flex mr-5 size-10"/>{server.name}
                     </h2>
                   </div>
                 </div>

@@ -95,8 +95,10 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
     <div className="container" style={{ height: "100vh" }}>
       <div className="h-full">
         <div className="flex items-center justify-between mb-4 custom-chatroom-header mt-5">
-          <FaAngleLeft onClick={onCancel} className="inline-block" />
-          <h2 className="text-blue-500">{serverData?.name}</h2>
+          <h2 className="text-blue-500 cursor-pointer" onClick={onCancel}>
+            <FaAngleLeft className="inline-block size-7" />
+                {serverData?.name}
+         </h2>
           <button
             className="text-blue-500 hover:underline focus:outline-none"
             onClick={handleCopyServerId}
@@ -106,7 +108,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
         </div>
         <div
           className="flex flex-col space-y-4 overflow-x-hidden overflow-y-scroll"
-          style={{ height: "55vh" }}
+          style={{ height: "calc(100vh - 195px)" }}
         >
           {messages.map((message) => (
             <div

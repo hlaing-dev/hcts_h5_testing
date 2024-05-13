@@ -108,7 +108,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
         </div>
         <div
           className="flex flex-col space-y-4 overflow-x-hidden overflow-y-scroll"
-          style={{ height: "calc(100vh - 195px)" }}
+          style={{ height: "calc(100vh - 250px)" }}
         >
           {messages.map((message) => (
             <div

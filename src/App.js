@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, provider } from "./firebase/firebaseConfig";
@@ -25,7 +26,6 @@ const App = () => {
     try {
       // Fetch all servers
       const serversRef = await firestore.collection("servers").get();
-      
       // Array to store servers where the user has sent a message
       const userServers = [];
       // Iterate over each server
@@ -38,15 +38,13 @@ const App = () => {
           .get();
   
         // If the user has sent a message in the server, add it to the userServers array
-        if (!userMessagesRef.empty) {
+        if ( serverDoc.data().createdBy === user.uid) {
           userServers.push({id: serverDoc.id, isOwnerServer: serverDoc.data().createdBy === user.uid, ...serverDoc.data()});
-        }
-  
-        // If this is the last server, set the recentServers state
-        if (userServers.length === serversRef.size) {
-          console.log('userServers is=', userServers);
-          setRecentServers(userServers);
-        }
+         } 
+        else if (!userMessagesRef.empty) {
+          userServers.push({id: serverDoc.id, isOwnerServer: serverDoc.data().createdBy === user.uid, ...serverDoc.data()});
+         } 
+        setRecentServers(userServers);
       });
     } catch (error) {
       console.error("Error fetching recent servers:", error);

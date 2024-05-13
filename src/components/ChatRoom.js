@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FiCopy } from "react-icons/fi";
 import { FaPaperPlane } from "react-icons/fa"; // Import the paper plane icon
 import { FaAngleLeft } from "react-icons/fa"; // Import the paper plane icon
-import { FaGrav } from "react-icons/fa"; // Import the paper plane icon
 import CryptoJS from "crypto-js"; // Import CryptoJS library
-import { FaLock } from "react-icons/fa";
+import { CiLock } from "react-icons/ci";
 
 const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
   const [messages, setMessages] = useState([]);
@@ -137,7 +136,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
                 </p>
                 <div>
                   {message.text.startsWith("ENCRYPTED:") && (
-                    <FaLock
+                    <CiLock
                       style={{
                         cursor: 'pointer', fontZize: 16, color: '#2a282c'
                       }}
@@ -211,7 +210,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
             onClick={(e) => sendMessage(e, true)}
             className="w-28 ml-2 bg-black text-white font-bold py-2 rounded-md transition duration-300 hover:bg-red-600 flex items-center justify-center"
           >
-            <FaGrav /> {/* Icon */}
+            <CiLock /> {/* Icon */}
           </button>
         </form>
       </div>

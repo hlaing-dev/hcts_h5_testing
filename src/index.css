@@ -34,7 +34,44 @@ code {
 }
 
 .custom-chatroom-header {
-  border: 2px solid #a7c8ff;
-    border-radius: 14px;
     padding: 10px;
+    width: 100%;
+    top: 0px;
+    position: fixed;
+    margin: 0px;
+    height: 55px;
+    box-shadow:  -5px 14px 10px #dddcdc;
+  }
+
+.custom-chatroom-body {
+  height: calc(-110px + 100vh);
+  top: 55px;
+  position: absolute;
+  width: 100%;
+  padding: 5px;
+}
+
+.custom-chatroom-form {
+  width: 100%;
+  padding: 5px;
+  position: absolute;
+  bottom: 0px;
+  height: 55px;
+}
+
+/* scroll */
+/* scroll behavior on html */
+html {
+  scroll-behavior: smooth;
+}
+/* scrollbar styling non-standard version */
+html::-webkit-scrollbar {
+  width: 1rem;
+  background-color: rgba(0,0,0,.15); 
+}
+
+/* scrollbar styling standard version */
+html {
+  scrollbar-color: #d76abe rgba(175, 70, 132, 0.15);
+  scrollbar-width: thin;
 }

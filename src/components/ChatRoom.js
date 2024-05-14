@@ -92,35 +92,33 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
     setShowModal(false);
   }
   return (
-    <div className="container" style={{ height: "100vh" }}>
-      <div className="h-full">
+    <div className="flex flex-col items-center bg-neutral-50" style={{height: '100vh'}}>
         <div className="flex items-center justify-between mb-4 custom-chatroom-header mt-5">
-          <h2 className="text-blue-500 cursor-pointer" onClick={onCancel}>
-            <FaAngleLeft className="inline-block size-7" />
+          <h2 className="cursor-pointer" onClick={onCancel}>
+            <FaAngleLeft className="inline-block size-5" />
                 {serverData?.name}
          </h2>
           <button
-            className="text-blue-500 hover:underline focus:outline-none"
+            className="hover:underline focus:outline-none"
             onClick={handleCopyServerId}
           >
-            <FiCopy className="inline-block mr-1" /> Copy Server ID
+            <FiCopy className="inline-block mr-1" />
           </button>
         </div>
         <div
-          className="flex flex-col space-y-4 overflow-x-hidden overflow-y-scroll"
-          style={{ height: "calc(100vh - 250px)" }}
+          className="flex flex-col-reverse overflow-x-hidden overflow-y-scroll custom-chatroom-body"
         >
-          {messages.map((message) => (
+          {[...messages].reverse().map((message) => (
             <div
               key={message.id}
-              className={`flex items-center ${
+              className={`flex column-reverse ${
                 message.sender === user.displayName
                   ? "justify-end"
                   : "justify-start"
               }`}
             >
               <div
-                className={`p-4 rounded-lg ${
+                className={`p-4 mt-1 rounded-lg ${
                   message.sender === user.displayName
                     ? "bg-blue-100 text-blue-900"
                     : "bg-gray-100 text-gray-900"
@@ -192,7 +190,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
           </div>
           </div>
         )}
-        <form className="mt-12 flex absolute bottom-5" style={{width: '80%'}}>
+        <form className="flex absolute custom-chatroom-form p-5">
           <input
             type="text"
             placeholder="Type your message here"
@@ -205,17 +203,16 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
             onClick={(e) => sendMessage(e)}
             className="w-28 ml-2 bg-blue-500 text-white font-bold py-2 rounded-md transition duration-300 hover:bg-blue-600 flex items-center justify-center"
           >
-            <FaPaperPlane /> {/* Icon */}
+            <FaPaperPlane /> 
           </button>
           <button
             type="button"
             onClick={(e) => sendMessage(e, true)}
             className="w-28 ml-2 bg-black text-white font-bold py-2 rounded-md transition duration-300 hover:bg-red-600 flex items-center justify-center"
           >
-            <CiLock /> {/* Icon */}
+            <CiLock /> 
           </button>
         </form>
-      </div>
     </div>
   );
 };

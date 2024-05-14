@@ -32,33 +32,35 @@ code {
   background-color: #EAEAEA;
   align-self: flex-start;
 }
-
 .custom-chatroom-header {
-    padding: 10px;
-    width: 100%;
-    top: 0px;
-    position: fixed;
-    margin: 0px;
-    height: 8vh;
-    box-shadow:  -5px 14px 10px #dddcdc;
-    z-index: 10;
-  }
+  padding: 10px;
+  width: 100%;
+  top: 0;
+  position: sticky; /* Change to sticky for better mobile compatibility */
+  margin: 0;
+  height: 8vh;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adjusted box-shadow */
+  z-index: 10;
+}
 
 .custom-chatroom-body {
-  height: 84vh;
-  top: 55px;
-  position: fixed;
+  height: calc(100vh - 8vh - 8vh);
+  position: relative;
   width: 100%;
   padding: 5px;
+  overflow-y: scroll;
 }
 
 .custom-chatroom-form {
   width: 100%;
   padding: 5px;
-  position: fixed;
-  bottom: 0px;
+  position: sticky; /* Change to sticky for better mobile compatibility */
+  bottom: 0;
   height: 8vh;
+  background-color: white; /* Set background color for better visibility */
+  z-index: 10; /* Ensure form is above chatroom body */
 }
+
 
 /* scroll */
 /* scroll behavior on html */

@@ -41,12 +41,13 @@ code {
     margin: 0px;
     height: 55px;
     box-shadow:  -5px 14px 10px #dddcdc;
+    z-index: 10;
   }
 
 .custom-chatroom-body {
-  height: calc(-110px + 100vh);
+  height: calc(100vh - 110px);
   top: 55px;
-  position: absolute;
+  position: fixed;
   width: 100%;
   padding: 5px;
 }
@@ -54,7 +55,7 @@ code {
 .custom-chatroom-form {
   width: 100%;
   padding: 5px;
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   height: 55px;
 }

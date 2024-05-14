@@ -32,7 +32,9 @@ code {
   background-color: #EAEAEA;
   align-self: flex-start;
 }
+
 .custom-chatroom-header {
+  background: #f3f4f6 !important;
   padding: 10px;
   width: 100%;
   top: 0;
@@ -41,6 +43,7 @@ code {
   height: 8vh;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adjusted box-shadow */
   z-index: 10;
+  opacity: 1;
 }
 
 .custom-chatroom-body {

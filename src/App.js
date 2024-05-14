@@ -150,13 +150,13 @@ const App = () => {
             <div className="mt-5 gap-4 w-full">
               <button
                 onClick={handleCreateServer}
-                className="bg-black text-white font-bold py-2 px-6 rounded-lg shadow-md w-full flex items-center justify-center"
+                className="bg-black text-white font-bold py-2 px-6 rounded-full shadow-md w-full flex items-center justify-center"
               >
                 Create Space <MdWorkspacesOutline className="ml-2" />
               </button>
               <button
                 onClick={handleJoinServer}
-                className="bg-fuchsia-700 text-white font-bold py-2 px-6 rounded-lg shadow-md w-full mt-5 flex items-center justify-center"
+                className="bg-fuchsia-700 text-white font-bold py-2 px-6 rounded-full shadow-md w-full mt-5 flex items-center justify-center"
               >
                 Join Space <TbArrowsJoin className="ml-2" />
               </button>

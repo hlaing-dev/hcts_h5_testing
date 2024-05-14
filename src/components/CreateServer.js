@@ -26,17 +26,17 @@ const CreateServer = ({ user, onCancel, enterServer }) => {
         <>
           <input
             type="text"
-            placeholder="Enter Server Name"
+            placeholder="Enter Space Name"
             value={serverName}
             onChange={(e) => setServerName(e.target.value)}
-            className="border border-gray-300 rounded-md px-4 py-2 mb-4 w-full"
+            className="border border-gray-300 rounded-full px-4 py-2 mb-4 w-full"
           />
           <div className="flex justify-center">
           <button onClick={onCancel}  className="bg-white hover:bg-blue-200 font-bold py-2 px-4 rounded-full mr-5">
               Cancel
             </button>
-            <button onClick={createServer} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-              Create Server
+            <button onClick={createServer} className="bg-black text-white font-bold py-2 px-4 rounded-full">
+              Create Space
             </button>
           </div>
         </>

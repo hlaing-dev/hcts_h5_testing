@@ -28,17 +28,17 @@ const JoinServer = ({ user, onCancel, enterServer }) => {
         <>
           <input
             type="text"
-            placeholder="Enter Server ID"
+            placeholder="Enter Space Address"
             value={serverId}
             onChange={(e) => setServerId(e.target.value)}
-            className="border border-gray-300 rounded-md px-4 py-2 mb-4 w-full"
+            className="border border-gray-300 px-4 py-2 mb-4 w-full rounded-full"
           />
           <div className="flex justify-center">
             <button onClick={onCancel}  className="bg-white hover:bg-blue-200 font-bold py-2 px-4 rounded-full mr-5">
               Cancel
             </button>
-            <button onClick={joinServer} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-              Join Server
+            <button onClick={joinServer} className="bg-fuchsia-700 text-white font-bold py-2 px-4 rounded-full">
+              Join Space
             </button>
           </div>
         </>

@@ -64,6 +64,17 @@ code {
   z-index: 10; /* Ensure form is above chatroom body */
 }
 
+.avatar {
+  display: inline-block;
+  width: 30px; /* Adjust size as needed */
+  height: 30px; /* Adjust size as needed */
+  border-radius: 50%;
+  background-color: #ccc; /* Placeholder background color */
+  text-align: center;
+  line-height: 30px; /* Adjust line-height to center the text */
+  font-weight: bold;
+  color: white; /* Text color */
+}
 
 /* scroll */
 /* scroll behavior on html */

@@ -122,7 +122,7 @@ const App = () => {
         >
           {!user && (
             <div className="text-center">
-              <h1 className="text-3xl font-bold mb-4">Welcome to dddChat</h1>
+              <h1 className="text-3xl font-bold mb-4">Let's start your space...</h1>
               <button
                 onClick={() => auth.signInWithPopup(provider)}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md"

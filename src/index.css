@@ -92,3 +92,9 @@ html {
   scrollbar-color: #d76abe rgba(175, 70, 132, 0.15);
   scrollbar-width: thin;
 }
+
+/* today new css */
+.custom-main {
+  background-image: url('../background.png');
+  background-size: cover; /* Resize the background image to cover the entire container */
+}

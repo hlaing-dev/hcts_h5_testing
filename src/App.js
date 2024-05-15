@@ -117,7 +117,7 @@ const App = () => {
     <>
       {!joinedServer && (
         <div
-          className="flex flex-col justify-center items-center bg-neutral-50 overflow-y-scroll p-5"
+          className="flex flex-col justify-center items-center overflow-y-scroll p-5 custom-main"
           style={{ height: "100vh" }}
         >
           {!user && (
@@ -148,15 +148,15 @@ const App = () => {
 
           {user && !createServer && !joinServer && (
             <div className="mt-5 gap-4 w-full">
-              <button
+              <button style={{border: "1px solid white"}}
                 onClick={handleCreateServer}
-                className="bg-black text-white font-bold py-2 px-6 rounded-full shadow-md w-full flex items-center justify-center"
+                className="text-white backdrop-blur-md font-bold py-2 px-6 rounded-full shadow-md w-full flex items-center justify-center create-space"
               >
                 Create Space <MdWorkspacesOutline className="ml-2" />
               </button>
               <button
-                onClick={handleJoinServer}
-                className="bg-fuchsia-700 text-white font-bold py-2 px-6 rounded-full shadow-md w-full mt-5 flex items-center justify-center"
+                onClick={handleJoinServer} style={{border: "1px solid white"}}
+                className="text-white font-bold py-2 px-6 rounded-full shadow-md w-full mt-5 flex items-center justify-center"
               >
                 Join Space <TbArrowsJoin className="ml-2" />
               </button>

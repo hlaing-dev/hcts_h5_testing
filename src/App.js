@@ -122,12 +122,18 @@ const App = () => {
         >
           {!user && (
             <div className="text-center">
-              <h1 className="text-3xl font-bold mb-4">Let's start your space...</h1>
+              <h1 className="text-3xl text-white font-bold mb-4">Let's start your space...</h1>
               <button
-                onClick={() => auth.signInWithPopup(provider)}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md"
+                onClick={() => auth.signInWithPopup(provider)} style={{border: "1px solid white"}}
+                className="text-white font-bold py-2 px-6 rounded-full shadow-md w-full mt-5 flex items-center justify-center"
               >
                 Sign In with Google
+              </button>
+              <button
+                onClick={() => auth.signInAnonymously()} style={{border: "1px solid white"}}
+                className="text-white font-bold py-2 px-6 rounded-full shadow-md w-full mt-5 flex items-center justify-center"
+              >
+                Sign In As Guest
               </button>
             </div>
           )}

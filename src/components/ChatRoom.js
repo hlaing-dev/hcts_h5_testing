@@ -119,7 +119,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
             }`}
           >
             {message.sender !== user.displayName && (
-                  <span className="avatar">{message.sender.charAt(0)}</span>
+                  <span className="avatar">{message.sender?.charAt(0)}</span>
                 )}{" "}
             <div
               className={`p-4 rounded-lg max-w-80 ml-2 mb-2 ${

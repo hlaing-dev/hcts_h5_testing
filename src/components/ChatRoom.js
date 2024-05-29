@@ -122,7 +122,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
                   <span className="avatar">{message.sender?.charAt(0)}</span>
                 )}{" "}
             <div
-              className={`p-4 rounded-lg max-w-80 ml-2 mb-2 ${
+              className={`p-4 rounded-lg max-w-xs ml-2 mb-2 ${
                 message.sender === user.displayName
                   ? "bg-blue-100 text-blue-900"
                   : "bg-gray-100 text-gray-900"

@@ -8,8 +8,10 @@ import { firestore } from "./firebase/firebaseConfig";
 import ChatRoom from "./components/ChatRoom";
 import { MdWorkspacesOutline } from "react-icons/md"; // Import the paper plane icon
 import { TbArrowsJoin } from "react-icons/tb"; // Import the paper plane icon
+import { FcVideoCall } from "react-icons/fc"; // Import the paper plane icon
 import { GiConversation } from "react-icons/gi"; // Import the paper plane icon
 import ServerComponent from "./components/ServerComponent";
+import VideoCall from './VideoCall';
 const App = () => {
   const [user] = useAuthState(auth);
   const [createServer, setCreateServer] = useState(false);
@@ -17,6 +19,7 @@ const App = () => {
   const [recentServers, setRecentServers] = useState([]);
   const [joinedServer, setJoinedServer] = useState(null);
   const [serverData, setServerData] = useState(null);
+  const [videoCall, setVideoCall] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -71,6 +74,10 @@ const App = () => {
     setJoinServer(false);
     fetchServers();
   };
+
+  const handleVideoCall = () => {
+    setVideoCall(true);
+  }
 
   const handleEnterChat = async (serverId, server = null) => {
     if (!serverId?.trim()) return;
@@ -137,7 +144,6 @@ const App = () => {
               </button>
             </div>
           )}
-          <></>
           {user && recentServers.length > 0 && (
             <div className="gap-4 w-full overflow-y-scroll pb-5">
               {recentServers.map((server, index) => (
@@ -151,7 +157,6 @@ const App = () => {
               ))}
             </div>
           )}
-
           {user && !createServer && !joinServer && (
             <div className="mt-5 gap-4 w-full">
               <button style={{border: "1px solid white"}}
@@ -166,8 +171,15 @@ const App = () => {
               >
                 Join Space <TbArrowsJoin className="ml-2" />
               </button>
+              <button
+                onClick={handleVideoCall} style={{border: "1px solid white"}}
+                className="text-white font-bold py-2 px-6 rounded-full shadow-md w-full mt-5 flex items-center justify-center"
+              >
+                Video Call <FcVideoCall className="ml-2" />
+              </button>
             </div>
           )}
+
           {user && createServer && (
             <CreateServer
               user={user}
@@ -192,6 +204,7 @@ const App = () => {
           onCancel={handleCancel}
         />
       )}
+      {videoCall && <VideoCall />}
     </>
   );
 };

@@ -75,7 +75,6 @@ const App = () => {
   };
 
   const handleVideoCall = () => {
-    console.log('video call is=>', cancelVideoCall);
     setCancelVideocall(false);
   }
 

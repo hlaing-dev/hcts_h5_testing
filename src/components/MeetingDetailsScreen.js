@@ -80,31 +80,21 @@ export function MeetingDetailsScreen({
     >
       {iscreateMeetingClicked ? (
         <div className="border border-solid border-gray-400 rounded-xl px-4 py-3  flex items-center justify-center">
-          <p className="text-white text-base">
-            {`Meeting code : ${meetingId}`}
-          </p>
-          <button
-        className="ml-2"
-        onClick={handleCopy}
-      >
-        {isCopied ? (
-          <CheckIcon className="h-5 w-5 text-green-400" />
-        ) : (
-          <ClipboardIcon className="h-5 w-5 text-white" />
-        )}
-      </button>
       <select
-        className="ml-2 p-1 border"
-        value={selectedServer}
-        onChange={(e) => setSelectedServer(e.target.value)}
-      >
-        <option value="" disabled>Select Server</option>
-        {recentServers.map(server => (
-          <option key={server.id} value={server.id}>
-            {server.name} {server.isOwnerServer ? "(Owner)" : ""}
-          </option>
-        ))}
-      </select>
+  className="ml-2 p-2 bg-gray-800 text-white border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+  style={{ backgroundColor: '#2d3748' }} // Custom dark background color
+  value={selectedServer}
+  onChange={(e) => setSelectedServer(e.target.value)}
+>
+  <option className="bg-gray-800 text-white" value="" disabled>Select Server</option>
+  {recentServers.map(server => (
+    <option className="bg-gray-800 text-white" key={server.id} value={server.id}>
+      {server.name} {server.isOwnerServer ? "(Owner)" : ""}
+    </option>
+  ))}
+</select>
+
+
       <button
         className="ml-2"
         onClick={handleShare}

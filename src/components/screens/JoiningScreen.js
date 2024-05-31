@@ -33,7 +33,10 @@ export function JoiningScreen({
   setMicOn,
   customAudioStream,
   setCustomAudioStream,
-  setCustomVideoStream
+  setCustomVideoStream,
+  handleCancelVideoCall,
+  recentServers,
+  user
 }) {
 
   const {
@@ -357,6 +360,10 @@ export function JoiningScreen({
     );
   };
 
+  const handleLeaveMeeting = () => {
+
+  }
+
   return (
     <div className="fixed inset-0">
       <div className="overflow-y-auto flex flex-col flex-1 h-screen bg-gray-800">
@@ -456,9 +463,12 @@ export function JoiningScreen({
                   <MeetingDetailsScreen
                     participantName={participantName}
                     setParticipantName={setParticipantName}
+                    handleCancelVideoCall={handleCancelVideoCall}
                     videoTrack={videoTrack}
                     setVideoTrack={setVideoTrack}
                     onClickStartMeeting={onClickStartMeeting}
+                    recentServers={recentServers}
+                    user={user}
                     onClickJoin={async (id) => {
                       const token = await getToken();
                       const { meetingId, err } = await validateMeeting({

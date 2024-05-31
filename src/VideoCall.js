@@ -6,7 +6,7 @@ import { MeetingContainer } from "./meeting/MeetingContainer";
 import { LeaveScreen } from "./components/screens/LeaveScreen";
 import { JoiningScreen } from "./components/screens/JoiningScreen"
 
-function App() {
+function VideoCall({handleCancelVideoCall, recentServers, user}) {
   const [token, setToken] = useState("");
   const [meetingId, setMeetingId] = useState("");
   const [participantName, setParticipantName] = useState("");
@@ -66,6 +66,9 @@ function App() {
         ) : (
 
           <JoiningScreen
+          recentServers={recentServers}
+          user={user}
+          handleCancelVideoCall={handleCancelVideoCall}
             participantName={participantName}
             setParticipantName={setParticipantName}
             setMeetingId={setMeetingId}
@@ -90,4 +93,4 @@ function App() {
   );
 }
 
-export default App;
+export default VideoCall;

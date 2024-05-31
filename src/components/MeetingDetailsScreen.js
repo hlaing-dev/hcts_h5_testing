@@ -1,6 +1,7 @@
-import { CheckIcon, ClipboardIcon } from "@heroicons/react/outline";
+import { CheckIcon, ClipboardIcon, ShareIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { firestore } from '../firebase/firebaseConfig';
 
 export function MeetingDetailsScreen({
   onClickJoin,
@@ -8,12 +9,70 @@ export function MeetingDetailsScreen({
   participantName,
   setParticipantName,
   onClickStartMeeting,
+  handleCancelVideoCall,
+  recentServers,
+  user
 }) {
   const [meetingId, setMeetingId] = useState("");
   const [meetingIdError, setMeetingIdError] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [iscreateMeetingClicked, setIscreateMeetingClicked] = useState(false);
   const [isJoinMeetingClicked, setIsJoinMeetingClicked] = useState(false);
+  const [selectedServer, setSelectedServer] = useState('');
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(meetingId);
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 3000);
+  };
+
+  const handleShare = async () => {
+    if (!selectedServer) {
+      toast('Please select a server to share with.', {
+        position: "bottom-left",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeButton: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
+    try {
+      const server = recentServers.find(server => server.id === selectedServer);
+      await firestore.collection("servers").doc(server.id).collection("messages").add({
+        sender: user.displayName,
+        text: meetingId,
+        timestamp: new Date(),
+      });
+      toast('Meeting ID shared successfully!', {
+        position: "bottom-left",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeButton: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (err) {
+      toast(`Failed to share: ${err.message}`, {
+        position: "bottom-left",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeButton: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
 
   return (
     <div
@@ -25,21 +84,33 @@ export function MeetingDetailsScreen({
             {`Meeting code : ${meetingId}`}
           </p>
           <button
-            className="ml-2"
-            onClick={() => {
-              navigator.clipboard.writeText(meetingId);
-              setIsCopied(true);
-              setTimeout(() => {
-                setIsCopied(false);
-              }, 3000);
-            }}
-          >
-            {isCopied ? (
-              <CheckIcon className="h-5 w-5 text-green-400" />
-            ) : (
-              <ClipboardIcon className="h-5 w-5 text-white" />
-            )}
-          </button>
+        className="ml-2"
+        onClick={handleCopy}
+      >
+        {isCopied ? (
+          <CheckIcon className="h-5 w-5 text-green-400" />
+        ) : (
+          <ClipboardIcon className="h-5 w-5 text-white" />
+        )}
+      </button>
+      <select
+        className="ml-2 p-1 border"
+        value={selectedServer}
+        onChange={(e) => setSelectedServer(e.target.value)}
+      >
+        <option value="" disabled>Select Server</option>
+        {recentServers.map(server => (
+          <option key={server.id} value={server.id}>
+            {server.name} {server.isOwnerServer ? "(Owner)" : ""}
+          </option>
+        ))}
+      </select>
+      <button
+        className="ml-2"
+        onClick={handleShare}
+      >
+        <ShareIcon className="h-5 w-5 text-white" />
+      </button>
         </div>
       ) : isJoinMeetingClicked ? (
         <>
@@ -129,6 +200,14 @@ export function MeetingDetailsScreen({
           </div>
         </div>
       )}
+      <button
+              className="w-full bg-gray-650 text-red-500 px-2 py-3 rounded-xl mt-5"
+              onClick={(e) => {
+                handleCancelVideoCall(true);
+              }}
+            >
+              Leave meeting
+            </button>
     </div>
   );
 }

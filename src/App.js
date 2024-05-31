@@ -9,7 +9,6 @@ import ChatRoom from "./components/ChatRoom";
 import { MdWorkspacesOutline } from "react-icons/md"; // Import the paper plane icon
 import { TbArrowsJoin } from "react-icons/tb"; // Import the paper plane icon
 import { FcVideoCall } from "react-icons/fc"; // Import the paper plane icon
-import { GiConversation } from "react-icons/gi"; // Import the paper plane icon
 import ServerComponent from "./components/ServerComponent";
 import VideoCall from './VideoCall';
 const App = () => {
@@ -19,7 +18,7 @@ const App = () => {
   const [recentServers, setRecentServers] = useState([]);
   const [joinedServer, setJoinedServer] = useState(null);
   const [serverData, setServerData] = useState(null);
-  const [videoCall, setVideoCall] = useState(false);
+  const [cancelVideoCall, setCancelVideocall] = useState(true);
 
   useEffect(() => {
     if (user) {
@@ -76,7 +75,8 @@ const App = () => {
   };
 
   const handleVideoCall = () => {
-    setVideoCall(true);
+    console.log('video call is=>', cancelVideoCall);
+    setCancelVideocall(false);
   }
 
   const handleEnterChat = async (serverId, server = null) => {
@@ -120,6 +120,9 @@ const App = () => {
     }
   };
 
+  const handleCancelVideoCall = (event) => {
+    setCancelVideocall(true);
+  }
   return (
     <>
       {!joinedServer && (
@@ -204,7 +207,8 @@ const App = () => {
           onCancel={handleCancel}
         />
       )}
-      {videoCall && <VideoCall />}
+      {!cancelVideoCall && <VideoCall handleCancelVideoCall={(e)=> handleCancelVideoCall(e)} recentServers={recentServers} 
+      user={user}/>}
     </>
   );
 };

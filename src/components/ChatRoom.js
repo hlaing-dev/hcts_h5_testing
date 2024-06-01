@@ -15,11 +15,6 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
   const [encryptedMessage, setEncryptedMessage] = useState("");
 
   useEffect(() => {
-    // Request permission for notifications on component mount
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission();
-    }
-
     const unsubscribe = server
       .collection("messages")
       .orderBy("timestamp")
@@ -39,7 +34,7 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
     return () => unsubscribe();
   }, [server, messages]);
 
-  const playSound = (message) => {
+  const playSound = () => {
     const audio = new Audio(noti);
     audio.play();
   };

@@ -4,7 +4,6 @@ import { FaPaperPlane } from "react-icons/fa"; // Import the paper plane icon
 import { FaAngleLeft } from "react-icons/fa"; // Import the paper plane icon
 import CryptoJS from "crypto-js"; // Import CryptoJS library
 import { CiLock } from "react-icons/ci";
-import noti from '../sounds/noti.mp3'
 
 const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
   const [messages, setMessages] = useState([]);
@@ -23,21 +22,10 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
           id: doc.id,
           ...doc.data(),
         }));
-        
-        // Check if a new message is received
-        if (messages.length && data.length > messages.length) {
-          playSound();
-        }
-
         setMessages(data);
       });
     return () => unsubscribe();
-  }, [server, messages]);
-
-  const playSound = () => {
-    const audio = new Audio(noti);
-    audio.play();
-  };
+  }, [server]);
 
   const sendMessage = async (e, secure = false) => {
     e.preventDefault();
@@ -103,7 +91,6 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
     setEnteredKey("");
     setShowModal(false);
   };
-
   return (
     <div
       className="flex flex-col items-center bg-neutral-50"
@@ -132,8 +119,8 @@ const ChatRoom = ({ server, user, onCancel, serverData = null }) => {
             }`}
           >
             {message.sender !== user.displayName && (
-              <span className="avatar">{message.sender?.charAt(0)}</span>
-            )}
+                  <span className="avatar">{message.sender?.charAt(0)}</span>
+                )}{" "}
             <div
               className={`p-4 rounded-lg max-w-xs ml-2 mb-2 ${
                 message.sender === user.displayName

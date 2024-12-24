@@ -2,254 +2,150 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: "HeaderFont";
+  src: url("./assets/a4speed.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
 }
 
-.message-bubble {
-  max-width: 70%;
-  word-wrap: break-word;
-  padding: 10px;
-  border-radius: 10px;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-white;
+  }
 }
 
-.sent {
-  background-color: #DCF8C6;
-  align-self: flex-end;
+.gradient-bg {
+  @apply bg-gradient-to-r to-[#CD3EFF] from-[#FFB2E0];
 }
 
-.received {
-  background-color: #EAEAEA;
-  align-self: flex-start;
+/* For modern browsers */
+.no-scrollbar {
+  overflow-y: scroll; /* Allows scrolling */
+  scrollbar-width: none; /* For Firefox */
 }
 
-.custom-chatroom-header {
-  background: #f3f4f6 !important;
-  padding: 10px;
-  width: 100%;
-  top: 0;
-  position: sticky; /* Change to sticky for better mobile compatibility */
-  margin: 0;
-  height: 8vh;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adjusted box-shadow */
-  z-index: 10;
-  opacity: 1;
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Edge */
 }
-
-.custom-chatroom-body {
-  height: calc(100vh - 8vh - 8vh);
+.switch {
   position: relative;
-  width: 100%;
-  padding: 5px;
-  overflow-y: scroll;
-}
-
-.custom-chatroom-form {
-  width: 100%;
-  padding: 5px;
-  position: sticky; /* Change to sticky for better mobile compatibility */
-  bottom: 0;
-  height: 8vh;
-  background-color: white; /* Set background color for better visibility */
-  z-index: 10; /* Ensure form is above chatroom body */
-}
-
-.avatar {
   display: inline-block;
-  width: 30px; /* Adjust size as needed */
-  height: 30px; /* Adjust size as needed */
-  border-radius: 50%;
-  background-color: #ccc; /* Placeholder background color */
-  text-align: center;
-  line-height: 30px; /* Adjust line-height to center the text */
-  font-weight: bold;
-  color: white; /* Text color */
+  width: 34px;
+  height: 20px;
 }
 
-/* scroll */
-/* scroll behavior on html */
-html {
-  scroll-behavior: smooth;
-}
-/* scrollbar styling non-standard version */
-html::-webkit-scrollbar {
-  width: 1rem;
-  background-color: rgba(0,0,0,.15); 
-}
-
-/* scrollbar styling standard version */
-html {
-  scrollbar-color: #d76abe rgba(175, 70, 132, 0.15);
-  scrollbar-width: thin;
-}
-
-/* today new css */
-.custom-main {
-  background-image: url('../background.png');
-  background-size: cover; /* Resize the background image to cover the entire container */
-}
-
-
-div .button {
-  margin: 0 15px 15px 0;
-}
-.video-contain video {
-  object-fit: contain;
-  overflow:hidden
-}
-textarea:focus{
-  outline: none;
-  border-color: none;
-  box-shadow: none;
-}
-
-input:focus-visible{
-  outline: none;
-  border-color: none;
-  box-shadow: none;
-}
-
-.video-cover video {
-  position: absolute;
-  object-fit: cover;
-  
-}
-
-input[type="radio"]:checked + label span {
-background-color: #fff; 
-box-shadow: 0px 0px 0px 2px black inset;
-}
-
-
-input[type="radio"]:checked + label{
- color: #fff; 
-}
-
-
-.flying-emojis {
-  position: fixed;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  overflow: hidden;
-  pointer-events: none;
-  user-select: none;
-  z-index: 99;
-}
-.emoji {
-  position: absolute;
-  bottom: 0px;
-  left: 50%;
-  font-size: 48px;
-  line-height: 1;
-  width: 48px;
-  height: 48px;
-}
-.emoji.wiggle-1 {
-  animation: emerge 3s forwards,
-    wiggle-1 1s ease-in-out infinite alternate;
-}
-.emoji.wiggle-2 {
-  animation: emerge 3s forwards,
-    wiggle-2 1s ease-in-out infinite alternate;
-}
-@keyframes emerge {
-  to {
-    bottom: 85%;
-    opacity: 0;
-  }
-}
-@keyframes wiggle-1 {
-  from {
-    margin-left: -50px;
-  }
-  to {
-    margin-left: 50px;
-  }
-}
-@keyframes wiggle-2 {
-  from {
-    margin-left: 50px;
-  }
-  to {
-    margin-left: -50px;
-  }
-}
-
-.carousel {
-  position: relative;
-}
-
-.carousel-inner {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-}
-
-.carousel-open:checked + .carousel-item {
-  position: static;
-  opacity: 100;
-}
-
-.carousel-item {
-  position: absolute;
+/* Hide default HTML checkbox */
+.switch input {
   opacity: 0;
-  -webkit-transition: opacity 0.6s ease-out;
-  transition: opacity 0.6s ease-out;
+  width: 0;
+  height: 0;
 }
 
-.carousel-item img {
-  display: block;
-  height: auto;
-  max-width: 100%;
-}
-
-.carousel-control {
-  background: rgba(0, 0, 0, 0.28);
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  display: none;
-  font-size: 30px;
-  height: 35px;
-  line-height: 30px;
+/* The slider */
+.slider {
   position: absolute;
-  top: 25%;
-  -webkit-transform: translate(0, -50%);
   cursor: pointer;
-  -ms-transform: translate(0, -50%);
-  transform: translate(0, -50%);
-  text-align: center;
-  width:35px;
-  z-index: 10;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #3a3a3a;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
-.carousel-control.prev {
-  left: 2%;
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
-.carousel-control.next {
-  right: 2%;
+input:checked + .slider {
+  @apply bg-gradient-to-r to-[#CD3EFF] from-[#FFB2E0];
 }
 
-.carousel-control:hover {
-  background: rgba(0, 0, 0, 0.8);
-  color: #aaaaaa;
+/* input:focus + .slider {
+  box-shadow: 0 0 1px bg-gradient;
+} */
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(11px);
+  -ms-transform: translateX(11px);
+  transform: translateX(11px);
 }
 
-#carousel-1:checked ~ .control-1,
-#carousel-2:checked ~ .control-2,
-#carousel-3:checked ~ .control-3 {
-  display: block;
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

@@ -1,0 +1,48 @@
+.login_box {
+  border-radius: 32px 32px 0px 0px;
+  background: #fff;
+}
+
+.whole {
+  background: rgba(16, 16, 16, 0.9);
+}
+
+.drag_line {
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.login_button {
+  border-radius: var(--Height-And-Sizes-80, 80px);
+  border: 1px solid #ffabda;
+  background: #fe58b5;
+}
+
+.close_btn {
+  border-radius: 1000px;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.input_border {
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.6);
+  border-radius: 0%;
+}
+
+.next_button {
+  border-radius: var(--Height-And-Sizes-80, 80px);
+  background: #fe58b5;
+}
+
+.otp_button {
+  border-radius: var(--Height-And-Sizes-80, 80px);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.capt_box {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.new_css_button {
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.12);
+}

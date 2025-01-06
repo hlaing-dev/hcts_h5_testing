@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import tt from "../../assets/share/tt.png";
+import tt from "../../assets/share/tt2.png";
 import "./share.css";
 import down from "../../assets/share/down1.svg";
 import copy from "../../assets/share/copy.svg";
@@ -102,7 +102,7 @@ const Share: React.FC<ShareProps> = ({}) => {
     }
   };
   return (
-    <div className="bg-white/90 h-screen flex flex-col p-5 gap-[1px]">
+    <div className="bg-white/30 h-screen flex flex-col p-5 gap-[1px]">
       {/* header */}
       <div className="flex justify-between items-center">
         <Link to="/profile">
@@ -139,7 +139,7 @@ const Share: React.FC<ShareProps> = ({}) => {
       <div className=" flex w-full justify-center items-center py-[50px]">
         <img src={tt} alt="" />
       </div>
-      <div className=" flex flex-col gap-[20px] bg-white rounded-[8px] shadow-lg shadow-black/10">
+      <div className=" flex flex-col gap-[20px] bg-white rounded-[8px] shadow-xl shadow-black/10">
         {/* scan */}
         <div className="">
           {invite ? (
@@ -172,9 +172,9 @@ const Share: React.FC<ShareProps> = ({}) => {
           ) : (
             <div className=" flex justify-center items-center pt-[30px]">
               <div className="scan py-6 px-10 flex flex-col justify-center items-center gap-[16px]">
-                <div className=" animate-pulse bg-white/30 w-[180px] h-[180px] rounded-[10px]"></div>
+                <div className=" animate-pulse bg-black/30 w-[180px] h-[180px] rounded-[10px]"></div>
                 <div className="">
-                  <div className="bg-white/30 rounded-[16px] animate-pulse w-[200px] h-[30px] flex gap-[8px]  px-[16px] py-[8px]"></div>
+                  <div className="bg-black/30 rounded-[16px] animate-pulse w-[200px] h-[30px] flex gap-[8px]  px-[16px] py-[8px]"></div>
                 </div>
               </div>
             </div>
@@ -292,7 +292,7 @@ const Share: React.FC<ShareProps> = ({}) => {
         {/* down and save qr card */}
         <div
           onClick={handleSaveAsImage}
-          className=" flex gap-[8px] justify-center items-center px-[20px] py-[16px] bg-[#fff] rounded-[24px] "
+          className=" flex gap-[8px] justify-center items-center px-[20px] py-[16px] bg-[#fff] rounded-[24px] shadow-lg shadow-black/10"
         >
           {/* <img src={linkD} alt="" /> */}
           <svg

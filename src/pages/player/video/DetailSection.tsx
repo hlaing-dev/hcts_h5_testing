@@ -331,6 +331,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
             <div className="warning rounded-md text-white text-center">
               <div className="warning-content">
                 <span className="warning-text text-gray-500">
+                {/* 切勿相信视频中任何广告，谨防上当受骗！ */}
                   ⬇️官方推荐靠谱平台⬇️，请勿相信视频中任何广告，谨防被骗！
                 </span>
                 <span className="warning-text text-gray-500">

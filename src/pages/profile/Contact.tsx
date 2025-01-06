@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "./components/contact/Navbar";
-import logo from "../../assets/ContactLogo.png";
+// import logo from "../../assets/ContactLogo.png";
+import logo from '../../assets/share/logo.png'
 import { Link } from "react-router-dom";
 import { useGetTagsQuery } from "../search/services/searchApi";
 import Loader from "../search/components/Loader";

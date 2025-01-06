@@ -31,7 +31,7 @@ const ImageWithPlaceholder = ({
                 if (imgRef.current && imgRef.current !== null) {
                   imgRef.current.style.opacity = "1";
                   if (containerRef.current) {
-                    containerRef.current.style.borderRadius = "0";
+                    containerRef.current.style.borderRadius = "5";
                   }
                 }
               };

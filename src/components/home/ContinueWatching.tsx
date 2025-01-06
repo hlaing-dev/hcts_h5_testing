@@ -48,7 +48,7 @@ const ContinueWatching = () => {
               <Link
                 to={`/player/${movie?.movie_id}`}
                 key={movie.id}
-                className="w-[136px]"
+                className="w-[136px] rounded-sm"
               >
                 <div className="relative">
                   <ImageWithPlaceholder

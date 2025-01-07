@@ -140,7 +140,7 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
         <AnimatePresence>
           {isVisible && (
             <motion.div
-              className="login_box h-[480px] fixed bottom-0 z-[99999] w-screen  py-4 px-[20px] bg-[#fff] rounded-t-2xl"
+              className="login_box h-[480px] fixed bottom-0 z-[99999] w-screen  py-4 px-[20px] bg-[#fff] dark:bg-[#2B2B2D] dark:text-white rounded-t-2xl"
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -160,7 +160,7 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
                     onClick={handleBack}
                   /> */}
                   <div className=""></div>
-                  <h2 className="text-[18px] font-[600] leading-[20px] text-black">
+                  <h2 className="text-[18px] font-[600] leading-[20px] text-black dark:text-white">
                     登录
                   </h2>
                   <div
@@ -182,9 +182,9 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
                       onChange={(e) => setEmail(e.target.value)}
                       onFocus={() => setIsFocusedEmail(true)}
                       onBlur={() => setIsFocusedEmail(email !== "")}
-                      className="w-full px- py-2 bg-[#fff] input_border focus:outline-none text-black placeholder-[#5B5B5B]"
+                      className="w-full px- py-2 bg-[#fff] input_border focus:outline-none text-black dark:bg-[#2B2B2D] dark:text-white"
                       required
-                      placeholder="输入用户名/手机号或邮箱"
+                      placeholder="输入用户名"
                     />
                     {/* <label
                       htmlFor="email"
@@ -205,7 +205,7 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
                       onChange={(e) => setPassword(e.target.value)}
                       onFocus={() => setIsFocusedPassword(true)}
                       onBlur={() => setIsFocusedPassword(password !== "")}
-                      className="w-full px- py-2 bg-[#fff] input_border focus:outline-none text-black placeholder-[#5B5B5B]"
+                      className="w-full px- py-2 bg-[#fff] input_border focus:outline-none text-black placeholder-[#5B5B5B] dark:bg-[#2B2B2D] dark:text-white"
                       required
                       placeholder="输入登录密码"
                     />

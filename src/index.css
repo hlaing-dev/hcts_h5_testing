@@ -302,7 +302,7 @@ input[type="range"]::-moz-range-thumb {
   width: 100%;
   box-sizing: border-box;
   position: relative;
-  @apply bg-[#0000001a] text-black dark:bg-[#1F1F22] dark:text-white;
+  /* @apply bg-[#0000001a] text-black dark:bg-[#1F1F22] dark:text-white; */
 }
 
 .warning-content {

@@ -24,6 +24,8 @@ import { DetailSectionProps } from "../../../model/videoModel";
 import { useGetListQuery } from "../../../pages/profile/services/profileApi";
 import NewAds from "../../../components/NewAds";
 import Fire from "../../../assets/Fire.png";
+import PlayerText from "../../../assets/playerText.svg";
+
 import {
   convertToSecurePayload,
   convertToSecureUrl,
@@ -348,14 +350,13 @@ const DetailSection: React.FC<DetailSectionProps> = ({
               </button>
             </div>
             {/* Warning Message */}
-            <div className="warning rounded-md text-white text-center">
-              <div className="warning-content">
-                <span className="warning-text text-gray-500">
-                  {/* 切勿相信视频中任何广告，谨防上当受骗！ */}
-                  ⬇️官方推荐靠谱平台⬇️，请勿相信视频中任何广告，谨防被骗！
-                </span>
-                <span className="warning-text text-gray-500">
-                  ⬇️官方推荐靠谱平台⬇️，请勿相信视频中任何广告，谨防被骗！
+            <div className="warning rounded-md text-white text-center bg-[#FE58B5]">
+              <div className="warning-content rounded-md">
+                <span className="warning-text text-white flex">
+                  <img src={PlayerText} alt="" />    好事不独享，点击分享给好友一起体验！
+                </span> 
+                <span className="warning-text text-white flex">
+                <img src={PlayerText} alt="" />    好事不独享，点击分享给好友一起体验！
                 </span>
               </div>
             </div>

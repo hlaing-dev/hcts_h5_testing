@@ -27,6 +27,7 @@ import { useGetAdsQuery } from "./services/helperService";
 import { setIsScrolling } from "./pages/home/slice/HomeSlice";
 import Social from "./pages/social";
 import Short from "./pages/short";
+import { initializeThemeListener } from "./pages/search/slice/ThemeSlice";
 // import Menber from "./pages/share/member";
 // import Share from "./pages/share";
 
@@ -65,7 +66,15 @@ const App: React.FC = () => {
   const { openAuthModel, openLoginModel, openSignupModel, panding } =
     useSelector((state: any) => state.model);
   const { data, isLoading } = useGetAdsQuery();
+  
+  useEffect(() => {
+    // Initialize the theme listener
+    const cleanup = initializeThemeListener(dispatch);
 
+    // Cleanup on component unmount
+    return cleanup;
+  }, [dispatch]);
+  
   const location = useLocation();
   // const isLoggedIn = localStorage.getItem("authToken"); // Check if the user is authenticated
 
@@ -182,7 +191,7 @@ const App: React.FC = () => {
               <div className="flex-grow">
                 <Suspense
                   fallback={
-                    <div className="flex justify-center items-center h-screen bg-[#fff]">
+                    <div className="flex justify-center items-center h-screen bg-[#fff] dark:bg-black">
                       <Loader />
                     </div>
                   }

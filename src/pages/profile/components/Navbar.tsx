@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { RiSettingsFill } from "react-icons/ri";
 import { BiSolidBell } from "react-icons/bi";
 
-const Navbar = () => {
+const Navbar = ({ darkmode }: any) => {
   return (
     <div className="flex justify-between p- items-center relative py-[50px]">
       <div></div>

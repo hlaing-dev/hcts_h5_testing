@@ -20,6 +20,7 @@ import RegisterApi from "../features/login/RegisterApi";
 import ShareApi from "../features/share/ShareApi";
 import AdsApi from "../features/share/AdsApi";
 import { socialApi } from "../pages/social/services/socialApi";
+import ThemeSlice from "../pages/search/slice/ThemeSlice";
 
 // Define persist config
 const persistConfig = {
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   model: modelReducer,
   history: HistorySlice,
   favorite: FavoriteSlice,
+  theme: ThemeSlice,
   error: ErrorSlice,
   user: UserSlice,
   home: HomeSlice,

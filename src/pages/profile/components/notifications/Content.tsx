@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Content = ({ notice }: any) => {
+const Content = ({ notice, darkmode }: any) => {
   const navigate = useNavigate();
   const [pageType, setPageType] = useState(false);
 
@@ -22,8 +22,20 @@ const Content = ({ notice }: any) => {
   return (
     <div className="content p-3">
       <div className="text-card">
-        <h3>{notice.title}</h3>
-        <p className="mt-3">{notice.content}</p>
+        <h3
+          className={`${
+            darkmode ? "text-white" : "text-black"
+          } text-[12px] font-[500] leading-[14px]`}
+        >
+          {notice.title}
+        </h3>
+        <p
+          className={`mt-3 text-[10px] font-[500] ${
+            darkmode ? "text-white" : "text-black"
+          }`}
+        >
+          {notice.content}
+        </p>
         {pageType ? (
           <>
             {notice.extend.parameters?.video_id && (
@@ -59,7 +71,7 @@ const Content = ({ notice }: any) => {
         ) : (
           notice.extend.page_name && (
             <button
-              className="noti-btn mt-6"
+              className={` mt-6 ${darkmode ? "noti-btn_dark" : "noti-btn"}`}
               onClick={() => window.open(notice.extend.page_path, "_blank")}
             >
               {notice.extend.page_name}

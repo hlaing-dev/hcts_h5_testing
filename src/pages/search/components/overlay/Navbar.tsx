@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setHistoryData } from "../../slice/HistorySlice";
 import { useLazyGetAutocompleteQuery } from "../../services/searchApi";
+import { selectTheme } from "../../slice/ThemeSlice";
 
 const Navbar: React.FC = () => {
   const [query, setQuery] = useState("");
@@ -12,7 +13,7 @@ const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State to track header visibility
-
+  const darkmode = useSelector(selectTheme);
   const [triggerAutocomplete, { data: autocompleteData }] =
     useLazyGetAutocompleteQuery(); // Lazy query for autocomplete
 
@@ -83,7 +84,9 @@ const Navbar: React.FC = () => {
         // className={`flex gap-4 w-full py-1 px-3 input-bg-overlay z-[9999]  fixed items-center justify-between transition-all duration-300 ${
         //   isHeaderVisible ? "top-0" : "-top-[135px]"
         // }`}
-        className="flex gap-4 w-full py-1 px-3 input-bg-overlay z-[9999]  fixed items-center justify-between transition-all duration-300 top-0"
+        className={`flex gap-4 w-full py-1 px-3 ${
+          darkmode ? "dark-input-bg-overlay" : "input-bg-overlay"
+        }  z-[9999]  fixed items-center justify-between transition-all duration-300 top-0`}
       >
         <form onSubmit={handleSubmit} className="w-full py-3 pt-3  ">
           {/* <div className="absolute left-6 top-[22px]">
@@ -106,7 +109,7 @@ const Navbar: React.FC = () => {
             <input
               value={query}
               type="text"
-              className="search-input"
+              className={`${darkmode ? "dark-search-input" : "search-input"}`}
               placeholder="觉醒年代"
               onChange={(e) => setQuery(e.target.value)} // Update the query state on input change
               onFocus={() => setIsFocused(true)}
@@ -116,14 +119,21 @@ const Navbar: React.FC = () => {
           </div>
         </form>
         <div className="w-[40px]">
-          <button className="search-btn" onClick={handleRedirect}>
+          <button
+            className={`${darkmode ? "dark-search-btn" : "search-btn"}`}
+            onClick={handleRedirect}
+          >
             取消
           </button>
         </div>
       </div>
 
       {isFocused && suggestions.length > 0 && (
-        <ul className="fixed top-[60px] left-0 pt-[20px] pb-[80px] h-screen w-full bg-white text-black z-50 overflow-y-auto">
+        <ul
+          className={`fixed top-[60px] left-0 pt-[20px] pb-[80px] h-screen w-full ${
+            darkmode ? "bg-black text-white" : "bg-white text-black"
+          } z-50 overflow-y-auto`}
+        >
           {suggestions.map((suggestion: any, index) => (
             <li
               key={index}

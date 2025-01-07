@@ -12,6 +12,7 @@ const Main: React.FC<any> = ({
   setIsEditMode,
   movies,
   refetch,
+  darkmode,
 }) => {
   const { data: adsData, isLoading, isFetching } = useGetAdsQuery(); // Fetch ads data from API
   const [selectedMovies, setSelectedMovies] = useState<any[]>([]);
@@ -74,7 +75,11 @@ const Main: React.FC<any> = ({
   };
 
   return (
-    <div className="bg-[#161619 bg-white mt-[60px] pb-[50px]">
+    <div
+      className={`  mt-[60px] pb-[50px] ${
+        darkmode ? "bg-[#161619]" : "bg-white"
+      }`}
+    >
       {isLoading || isFetching ? (
         <div className="flex justify-center items-center h-[126px]">
           <Loader />
@@ -99,8 +104,14 @@ const Main: React.FC<any> = ({
 
         return (
           <div className="mt-5" key={index}>
-            <div className="flex items-center justify-between bg-black/10 px-4 py-1">
-              <div className="history-text">{movie?.title}</div>
+            <div className={`flex items-center relative justify-between bg-black/10 ${darkmode ? "my-5" : ""} px-4 py-1`}>
+              <div
+                className={`history-text w-full my-[4px py-[4px] pl-[20px] h-[30px] ${
+                  darkmode ? "text-white bg-white/5 absolute" : "text-black bg-black/1"
+                }  left-0`}
+              >
+                h{movie?.title}
+              </div>
               {/* <div className="flex gap-2 items-center">
                 <p className="filter-text">过滤已观看完视频</p>
 
@@ -142,7 +153,9 @@ const Main: React.FC<any> = ({
                 >
                   {/* Checkbox for Edit Mode */}
                   <div
-                    className={`custom-checkbox transition-transform duration-300 ease-in-out transform ${
+                    className={`${
+                      darkmode ? "custom-checkbox_dark" : "custom-checkbox"
+                    } transition-transform duration-300 ease-in-out transform ${
                       isEditMode ? "translate-x-3" : "-translate-x-[50px]"
                     }`}
                   >
@@ -180,10 +193,18 @@ const Main: React.FC<any> = ({
 
                     <div className="flex justify-between w-full ml-5">
                       <div>
-                        <h1 className="text-[16px] font-semibold">
+                        <h1
+                          className={`text-[16px] font-semibold ${
+                            darkmode ? "text-white" : "text-black"
+                          }`}
+                        >
                           {mov.movie_name}
                         </h1>
-                        <p className="text-sm text-black mt-1">
+                        <p
+                          className={`text-sm  mt-1 ${
+                            darkmode ? "text-white/40" : "text-black/60"
+                          }`}
+                        >
                           {mov.episode_name} 已观看
                           <span>
                             {" "}
@@ -202,12 +223,16 @@ const Main: React.FC<any> = ({
             </div>
 
             <div
-              className={`fixed z-10 bottom-0 gap-3 w-full bg-[#fff] border-t border-black/ p-6 flex justify-between items-center transition-transform duration-300 ease-in-out ${
+              className={`fixed z-10 bottom-0 gap-3 w-full ${
+                darkmode ? "bg-[#161619]" : "bg-[#fff]"
+              } border-t border-white/10 p-6 flex justify-between items-center transition-transform duration-300 ease-in-out ${
                 isEditMode ? "translate-y-0" : "transform translate-y-full"
               }`}
             >
               <button
-                className="w-[50%] cancel-all"
+                className={`w-[50%]  ${
+                  darkmode ? "cancel-all_dark" : "cancel-all"
+                }`}
                 onClick={() => handleSelectAllAndCancel()}
               >
                 {selectedMovies && selectedMovies.length === movie?.list?.length
@@ -229,17 +254,29 @@ const Main: React.FC<any> = ({
       {/* Confirmation Modal */}
       {showConfirmation && (
         <div className="fixed inset-0 z-20 bg-black bg-opacity-80 flex justify-center items-center">
-          <div className="bg-[#fff] confirm rounded-2xl mx-10 text-center shadow-lg">
-            <h2 className="p-5">确定要删除所有观看历史吗？</h2>
+          <div
+            className={` ${
+              darkmode ? "bg-[#242428]" : "bg-[#fff]"
+            } confirm rounded-2xl mx-10 text-center shadow-lg`}
+          >
+            <h2
+              className={`p-5 text-white ${
+                darkmode ? "text-white" : "text-[#080808]"
+              }`}
+            >
+              确定要删除所有观看历史吗？
+            </h2>
             <div className="flex justify-between">
               <button
-                className="text-[#080808] w-[50%] p-3 border-t-[1px] border-r-[1px] border-gray-300"
+                className={` ${
+                  darkmode ? "text-white" : "text-[#080808]"
+                } w-[50%] p-3 border-t-[1px] border-r-[1px] border-white/20`}
                 onClick={cancelDelete}
               >
                 取消
               </button>
               <button
-                className="text-[#fe58b5] w-[50%] p-3 border-t-[1px] border-gray-500"
+                className="text-[#fe58b5] w-[50%] p-3 border-t-[1px] border-white/20"
                 onClick={confirmDelete}
               >
                 删除全部

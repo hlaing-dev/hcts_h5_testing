@@ -36,11 +36,11 @@ const Detail = () => {
   return (
     <>
       {isLoading ? (
-        <div className="flex justify-center items-center min-h-screen bg-white">
+        <div className="flex justify-center items-center min-h-screen bg-white dark:bg-[#161619]">
           <Loader />
         </div>
       ) : (
-        <div className="bg-white text-white pb-32">
+        <div className="bg-white dark:bg-[#161619] text-black dark:text-white pb-32">
           <div className="relative">
             <img
               src={details?.cover}

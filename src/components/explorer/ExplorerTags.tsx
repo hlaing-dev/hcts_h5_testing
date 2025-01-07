@@ -36,8 +36,8 @@ const ExplorerTags = ({
                 }}
                               className={`${
                   sort === item?.value
-                    ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                    : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                    ? "tab-bg text-white px-4 py-1 text-xs"
+                    : "bg-[#00000014] px-4 py-1 text-xs text-[#000] dark:text-white"
                 } whitespace-nowrap py-1 rounded-full transition-colors`}
               >
                 {item?.name}
@@ -64,11 +64,11 @@ const ExplorerTags = ({
                                    className={`${
                     classData
                       ? classData === item
-                        ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                        : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                        ? "tab-bg text-white px-4 py-1 text-xs"
+                        : "bg-[#00000014] px-4 py-1 text-xs text-[#000] dark:text-white"
                       : activeClass === index
-                      ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                      : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                      ? "tab-bg text-white px-4 py-1 text-xs"
+                      : "bg-[#00000014] px-4 py-1 text-xs text-[#000] dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
                   {item}
@@ -95,11 +95,11 @@ const ExplorerTags = ({
                                     className={`${
                     area
                       ? area === item
-                        ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                        : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                        ? "tab-bg text-white px-4 py-1 text-xs"
+                        : "bg-[#00000014] px-4 py-1 text-xs text-[#000] dark:text-white"
                       : activeArea === index
-                      ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                      : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                      ? "tab-bg text-white px-4 py-1 text-xs"
+                      : "bg-[#00000014] px-4 py-1 text-xs text-[#000] dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
                   {item}
@@ -126,11 +126,11 @@ const ExplorerTags = ({
  className={`${
                     year
                       ? year === item
-                        ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                        : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                        ? "tab-bg text-white px-4 py-1 text-xs"
+                        : "bg-[#00000014] px-4 py-1 text-xs text-[#000] dark:text-white"
                       : activeYear === index
-                      ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                      : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                      ? "tab-bg text-white px-4 py-1 text-xs"
+                      : "bg-[#00000014] px-4 py-1 text-xs text-[#000] dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
                   {item}

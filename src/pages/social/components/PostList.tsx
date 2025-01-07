@@ -104,7 +104,7 @@ const PostList = ({
 
   if (loading && !data.length) {
     return (
-      <div className="text-center -mt-[100px] bg-white max-sm:h-[80vh]  h-[100vh] flex justify-center items-center">
+      <div className="text-center -mt-[100px] bg-white dark:bg-[#161619] max-sm:h-[80vh]  h-[100vh] flex justify-center items-center">
         <Loader />
       </div>
     );
@@ -112,7 +112,7 @@ const PostList = ({
 
   if (!data.length) {
     return (
-      <div className="text-center -mt-[100px] bg-white  max-sm:h-[80vh]  h-[100vh] flex justify-center items-center">
+      <div className="text-center -mt-[100px] bg-white dark:bg-[#161619]  max-sm:h-[80vh]  h-[100vh] flex justify-center items-center">
         <div className="text-center flex flex-col justify-center items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -298,9 +298,12 @@ const PostList = ({
     }
   };
   return (
-    <div className="bg-gray-300">
+    <div className="bg-gray-300 dark:bg-[#161619]">
       {data.map((post: any, index: number) => (
-        <div key={index} className="bg-white mt-2 rounded-lg p-0 text-white">
+        <div
+          key={index}
+          className="bg-white dark:bg-[#161619] mt-2 rounded-lg p-0 text-white"
+        >
           <div className="flex justify-between items-center mb-4 px-4 pt-4">
             <div className="flex items-center ">
               {post?.user?.avatar ? (
@@ -371,7 +374,7 @@ const PostList = ({
 
               <div>
                 <div className="flex gap-1 items-center">
-                  <h4 className="font-[500] text-[14px] truncate text-black">
+                  <h4 className="font-[500] text-[14px] truncate text-black dark:text-white">
                     {post.user.nickname}
                   </h4>
                   {post?.user?.level && (
@@ -383,7 +386,7 @@ const PostList = ({
                   )}
                 </div>
                 {post?.is_top === 1 && (
-                  <div className="flex items-center gap-1 text-black">
+                  <div className="flex items-center gap-1 text-black dark:text-white">
                     <span className="pin">Pinned</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -487,7 +490,7 @@ const PostList = ({
                 onClick={() =>
                   handleLikeChange(post.post_id, likeStatus[post.post_id])
                 }
-                className="flex -mt-[2px] items-center gap-x-2 text-black"
+                className="flex -mt-[2px] items-center gap-x-2 text-black dark:text-white"
               >
                 {likeStatus[post.post_id]?.liked ? <Like /> : <Unlike />}{" "}
                 {likeStatus[post.post_id]?.count}
@@ -516,7 +519,7 @@ const PostList = ({
                 className="flex items-center gap-x-2"
                 onClick={sendEventToNative}
               >
-              <Share />
+                <Share />
               </button>
 
               {/* <div

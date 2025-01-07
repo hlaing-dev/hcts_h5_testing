@@ -8,10 +8,13 @@ import {
 } from "../profile/services/profileApi"; // import the hook
 import { setUser } from "./components/slice/UserSlice";
 import { showToast } from "./error/ErrorSlice";
+import { selectTheme } from "../search/slice/ThemeSlice";
 
 const Nickname = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const darkmode = useSelector(selectTheme);
+
   const { data: userData, refetch } = useGetUserQuery(undefined);
   const user = userData?.data;
   // const user = useSelector((state: any) => state.user.user);
@@ -58,24 +61,45 @@ const Nickname = () => {
 
   return (
     <div>
-      <div className="fixed-bg"></div>
+      <div className={`${darkmode ? "fixed-bg_dark" : "fixed-bg"}`}></div>
       <div>
-        <div className="flex fixed top-0 w-full z-10 bg-[#161619 bg-transparent justify-between items-center p-2">
+        <div className="flex fixed top-0 w-full z-10 bg-transparent justify-between items-center p-2">
           <Link to="/info" className="back-button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M7.828 10.9999H20V12.9999H7.828L13.192 18.3639L11.778 19.7779L4 11.9999L11.778 4.22192L13.192 5.63592L7.828 10.9999Z"
-                fill="#080808"
-              />
-            </svg>
+            {darkmode ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M7.828 10.9999H20V12.9999H7.828L13.192 18.3639L11.778 19.7779L4 11.9999L11.778 4.22192L13.192 5.63592L7.828 10.9999Z"
+                  fill="white"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M7.828 10.9999H20V12.9999H7.828L13.192 18.3639L11.778 19.7779L4 11.9999L11.778 4.22192L13.192 5.63592L7.828 10.9999Z"
+                  fill="#080808"
+                />
+              </svg>
+            )}
           </Link>
-          <div className="history-title pr-10">修改昵称</div>
+          <div
+            className={`${
+              darkmode ? "history-title_dark" : "history-title"
+            } pr-10`}
+          >
+            修改昵称
+          </div>
           <div className="edit-title cursor-pointer"></div>{" "}
           {/* Trigger form submit */}
         </div>
@@ -83,7 +107,7 @@ const Nickname = () => {
           <form onSubmit={handleSubmit} className="w-full">
             <input
               type="text"
-              className="new-input"
+              className={`${darkmode ? "new-input" : "new-input"}`}
               placeholder="输入你的昵称"
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -94,7 +118,7 @@ const Nickname = () => {
               disabled={!active}
               style={{
                 background: active ? "#FE58B5" : "#FE58B5",
-                opacity : active ? "1" : "0.5",
+                opacity: active ? "1" : "0.5",
                 color: active ? "white" : "white",
               }}
             >

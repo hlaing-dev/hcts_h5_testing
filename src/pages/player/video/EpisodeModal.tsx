@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { Episode, ModalComponentProps } from '../../../model/videoModel';
+import { Episode, ModalComponentProps } from "../../../model/videoModel";
 
 const ModalComponent: React.FC<ModalComponentProps> = ({
   onClose,
@@ -28,7 +28,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
     // Combine all episodes from the playFrom list
     // const allEpisodes = playFrom.flatMap((source) => source.list);
     setFilteredEpisodes(episodes);
-    }, [episodes]);
+  }, [episodes]);
 
   // Handle episode selection and update the state
   const handleEpisodeClick = (episode: Episode) => {
@@ -47,7 +47,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
   }, [defaultEpisodeId]);
 
   const customHeight = () => {
-    const upperDiv = document.getElementById('upper-div');
+    const upperDiv = document.getElementById("upper-div");
     const upperDivHeight = upperDiv?.offsetHeight || 0;
     const remainingHeight = window.innerHeight - upperDivHeight;
     return remainingHeight;
@@ -59,10 +59,10 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
     };
 
     updateHeight(); // Set initial height
-    window.addEventListener('resize', updateHeight); // Update height on window resize
+    window.addEventListener("resize", updateHeight); // Update height on window resize
 
     return () => {
-      window.removeEventListener('resize', updateHeight); // Cleanup event listener
+      window.removeEventListener("resize", updateHeight); // Cleanup event listener
     };
   }, []);
 
@@ -80,8 +80,11 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
   }, [modalRef]);
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
-      <div className="bg-sourceBack backdrop-blur-md w-full max-w-md rounded-t-xl p-4" ref={modalRef}
-        style={{ height: `${lowerDivHeight}px` }}>
+      <div
+        className="bg-sourceBack dark:bg-black backdrop-blur-md w-full max-w-md rounded-t-xl p-4"
+        ref={modalRef}
+        style={{ height: `${lowerDivHeight}px` }}
+      >
         <div className="flex justify-between items-center mb-4">
           <div className="flex space-x-6 overflow-x-auto m-auto">
             {/* Episode Tab */}
@@ -90,7 +93,9 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
               onClick={() => setActiveTab("episodes")}
             >
               选集
-              {activeTab === "episodes" && <div className="absolute w-[32px] h-1 bg-mainColor rounded-md mt-1"></div>}
+              {activeTab === "episodes" && (
+                <div className="absolute w-[32px] h-1 bg-mainColor rounded-md mt-1"></div>
+              )}
             </button>
             {/* Source Tab */}
             <button
@@ -98,10 +103,12 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
               onClick={() => setActiveTab("sources")}
             >
               播放源
-              {activeTab === "sources" && <div className="absolute w-[32px] h-1 bg-mainColor rounded-md mt-1 ml-2"></div>}
+              {activeTab === "sources" && (
+                <div className="absolute w-[32px] h-1 bg-mainColor rounded-md mt-1 ml-2"></div>
+              )}
             </button>
           </div>
-          <button onClick={onClose} className="text-black">
+          <button onClick={onClose} className="text-black dark:text-white">
             <FontAwesomeIcon icon={faTimes} className="text-lg" />
           </button>
         </div>
@@ -111,22 +118,29 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
             <div>
               <div className="flex space-x-4 overflow-x-auto mb-4">
                 {/* Episode Range Tabs */}
-                {Array.from({ length: Math.ceil(filteredEpisodes.length / 50) }, (_, index) => {
-                  const start = index * 50;
-                  const end = Math.min(start + 50, filteredEpisodes.length);
-                  return (
-                    <>
-                    <button
-                      key={index}
-                      className={`px-4 whitespace-nowrap py-2 text-sm`}
-                      onClick={() => handleTabClick(start, end)}
-                    >
-                      <div className="mb-2">{start + 1}-{end}集</div>
-                      {episodeRange[0] === start && <div className="w-full h-1 bg-mainColor rounded-md"></div>}
-                    </button>
-                    </>
-                  );
-                })}
+                {Array.from(
+                  { length: Math.ceil(filteredEpisodes.length / 50) },
+                  (_, index) => {
+                    const start = index * 50;
+                    const end = Math.min(start + 50, filteredEpisodes.length);
+                    return (
+                      <>
+                        <button
+                          key={index}
+                          className={`px-4 whitespace-nowrap py-2 text-sm`}
+                          onClick={() => handleTabClick(start, end)}
+                        >
+                          <div className="mb-2 text-black dark:text-white">
+                            {start + 1}-{end}集
+                          </div>
+                          {episodeRange[0] === start && (
+                            <div className="w-full h-1 bg-mainColor rounded-md"></div>
+                          )}
+                        </button>
+                      </>
+                    );
+                  }
+                )}
               </div>
               <div className="grid grid-cols-2 gap-2">
                 {filteredEpisodes
@@ -134,14 +148,19 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
                   .map((episode) => (
                     <button
                       key={episode.episode_id}
-                      onClick={() => {handleEpisodeClick(episode); onClose();}}
+                      onClick={() => {
+                        handleEpisodeClick(episode);
+                        onClose();
+                      }}
                       className={`py-2 text-center rounded-lg ${
                         episode.episode_id !== selectedEpisodeId
-                          ? "bg-source text-black"
-                          : "bg-episodeSelected  text-black"
+                          ? "bg-source dark:bg-[#FFFFFF1A] text-black dark:text-white"
+                          : "bg-episodeSelected dark:bg-[#FFFFFF0A]  text-black dark:text-white"
                       }`}
-                    > 
-                      {episode.episode_name.length > 7 ? `${episode.episode_name.substring(0, 100)}...` : episode.episode_name}
+                    >
+                      {episode.episode_name.length > 7
+                        ? `${episode.episode_name.substring(0, 100)}...`
+                        : episode.episode_name}
                       {episode?.episode_id === selectedEpisodeId && (
                         <span className="transform -translate-x-1/2 loader ml-5 -mt-1.5">
                           <div></div>
@@ -162,7 +181,11 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
                   <div
                     key={index}
                     className={`flex justify-between items-center p-3 rounded-lg mb-2 cursor-pointer 
-                      ${index === selectedSource ? 'bg-episodeSelected' : 'bg-source'}`}
+                      ${
+                        index === selectedSource
+                          ? "bg-episodeSelected dark:bg-[#FFFFFF0A]"
+                          : "bg-source dark:bg-[#FFFFFF1A]"
+                      }`}
                     onClick={() => {
                       setSelectedSource(index);
                       changeSource(source);
@@ -170,22 +193,33 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
                     }}
                   >
                     <div>
-                      <h4 className="text-black">{source.name}</h4>
+                      <h4 className="text-black dark:text-white">{source.name}</h4>
                       {/* Display total videos if available */}
                       <div className="flex justify-between items-center">
-                      {source.total && (
-                        <p className="bg-source text-black text-xs px-3 py-1.5 my-2 mr-3 rounded-md">{source.total} 个视频</p>
-                      )}
-                      {/* Display tips if available */}
-                      <p className="bg-source text-black text-xs px-3 py-1.5 my-2 rounded-md">
-                        {source.tips || "No description available"}
-                      </p>
+                        {source.total && (
+                          <p className="bg-source text-black dark:text-white text-xs px-3 py-1.5 my-2 mr-3 rounded-md">
+                            {source.total} 个视频
+                          </p>
+                        )}
+                        {/* Display tips if available */}
+                        <p className="bg-source text-black dark:text-white text-xs px-3 py-1.5 my-2 rounded-md">
+                          {source.tips || "No description available"}
+                        </p>
                       </div>
                     </div>
                     {index === selectedSource && (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="9" fill="#fe58b5"/>
-                      <path d="M10.5 13.6032L16.0152 8.0874L16.8642 8.9358L10.5 15.3L6.68158 11.4816L7.52998 10.6332L10.5 13.6032Z" fill="white"/>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle cx="12" cy="12" r="9" fill="#fe58b5" />
+                        <path
+                          d="M10.5 13.6032L16.0152 8.0874L16.8642 8.9358L10.5 15.3L6.68158 11.4816L7.52998 10.6332L10.5 13.6032Z"
+                          fill="white"
+                        />
                       </svg>
                     )}
                   </div>

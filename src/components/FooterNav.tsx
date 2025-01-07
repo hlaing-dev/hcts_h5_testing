@@ -7,9 +7,9 @@ import homeIcon from "../assets/home1.png";
 import homeSelectedIcon from "../assets/homeSelected1.png";
 import explorerIcon from "../assets/explorer1.png";
 import explorerSelectedIcon from "../assets/explorerSelected1.png";
-import socialIcon from "../assets/social1.png";
+import socialIcon from "../assets/SocialFooter.svg";
 import socialSelectedIcon from "../assets/socialSelected1.png";
-import profileIcon from "../assets/profile2.png";
+import profileIcon from "../assets/ProfileFooter.svg";
 import profileSelectedIcon from "../assets/profileSelected1.png";
 import beforePostIcon from "../assets/beforepost.png";
 import afterPostIcon from "../assets/afterpost.png";
@@ -62,7 +62,7 @@ const Footer: FC = () => {
       // className={`bg-[#1f1f21] fixed  transition-all duration-300 w-full shadow-lg z-50 ${
       //   isHeaderVisible ? "bottom-0" : "-bottom-[135px]"
       // }`}
-      className={`bg-[#fff] fixed  transition-all duration-300 w-full shadow-lg z-[200] bottom-0`}
+      className={`bg-[#fff] dark:bg-[#1D1D1D] fixed  transition-all duration-300 w-full shadow-lg z-[200] bottom-0`}
     >
       <div className="flex pt-4 justify-around items-center py-2">
         {/* Home Icon */}
@@ -80,7 +80,9 @@ const Footer: FC = () => {
           </div>
           <span
             className={`${
-              selectedMenu === "home" ? "text-black" : "text-[#000000CC]"
+              selectedMenu === "home"
+                ? "text-black dark:text-white"
+                : "text-[#000000CC] dark:text-[#FFFFFFCC]"
             } text-[10px]`}
           >
             {t("footer.home")}
@@ -106,7 +108,9 @@ const Footer: FC = () => {
           </div>
           <span
             className={`${
-              selectedMenu === "explorer" ? "text-black" : "text-[#000000CC]"
+              selectedMenu === "explorer"
+                ? "text-black dark:text-white"
+                : "text-[#000000CC] dark:text-[#FFFFFFCC]"
             } text-[10px]`}
           >
             {t("footer.explorer")}
@@ -126,7 +130,9 @@ const Footer: FC = () => {
           </div>
           <span
             className={`${
-              selectedMenu === "social" ? "text-black" : "text-[#000000CC]"
+              selectedMenu === "social"
+                ? "text-black dark:text-white"
+                : "text-[#000000CC] dark:text-[#FFFFFFCC]"
             } text-[10px]`}
           >
             {t("广场")}
@@ -147,7 +153,7 @@ const Footer: FC = () => {
           </div>
           <span
             className={`${
-              selectedMenu === "social" ? "text-black" : "text-[#000000CC]"
+              selectedMenu === "social" ? "text-black dark:text-white" : "text-[#000000CC] dark:text-[#FFFFFFCC]"
             } text-[10px]`}
           >
             广场
@@ -169,7 +175,7 @@ const Footer: FC = () => {
           </div>
           <span
             className={`${
-              selectedMenu === "short" ? "text-black" : "text-[#000000CC]"
+              selectedMenu === "short" ? "text-black dark:text-white" : "text-[#000000CC] dark:text-[#FFFFFFCC]"
             } text-[10px] mt-[6px]`}
           >
             短剧
@@ -193,7 +199,9 @@ const Footer: FC = () => {
           </div>
           <span
             className={`${
-              selectedMenu === "profile" ? "text-black" : "text-[#000000CC]"
+              selectedMenu === "profile"
+                ? "text-black dark:text-white"
+                : "text-[#000000CC] dark:text-[#FFFFFFCC]"
             } text-[10px]`}
           >
             {t("footer.profile")}

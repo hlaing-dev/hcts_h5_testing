@@ -1,16 +1,20 @@
+import { useSelector } from "react-redux";
 import Main from "./components/info/Main";
 import Navbar from "./components/info/Navbar";
 import "./profile.css";
+import { selectTheme } from "../search/slice/ThemeSlice";
 
 const Info = () => {
+  const darkmode = useSelector(selectTheme);
+
   return (
     <div>
-      <div className="fixed-bg"></div>
+      <div className={`${darkmode ? "fixed-bg_dark" : "fixed-bg"}`}></div>
       <div className="text-white">
-        <Navbar />
+        <Navbar darkmode={darkmode} />
       </div>
       <div>
-        <Main />
+        <Main darkmode={darkmode} />
       </div>
     </div>
   );

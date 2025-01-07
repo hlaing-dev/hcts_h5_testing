@@ -5,15 +5,17 @@ import Navbar from "./components/settings/Navbar";
 import SettingFirst from "./components/settings/SettinngFirst";
 import Versions from "./components/settings/Versions";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "./components/slice/UserSlice";
 import { showToast } from "./error/ErrorSlice";
+import { selectTheme } from "../search/slice/ThemeSlice";
 
 const Settings = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logOutUser] = useLogOutUserMutation();
+  const darkmode  = useSelector(selectTheme);
 
   useEffect(() => {
     const isOkay = localStorage.getItem("authToken");
@@ -47,19 +49,23 @@ const Settings = () => {
   };
 
   return (
-    <div className="bg-[#fff] text-white w-full h-screen">
+    <div
+      className={`${
+        darkmode ? "bg-[#161619]" : "bg-[#fff]"
+      } text-white w-full h-screen`}
+    >
       <div className="z-10">
-        <div className="bg-[#fff]">
-          <Navbar />
+        <div className={`${darkmode ? "bg-[#161619]" : "bg-[#fff]"}`}>
+          <Navbar darkmode={darkmode} />
         </div>
-        <div className="bg-[#fff]">
-          <SettingFirst />
+        <div className={`${darkmode ? "bg-[#161619]" : "bg-[#fff]"}`}>
+          <SettingFirst darkmode={darkmode} />
         </div>
-        <div className="bg-[#fff]">
-          <Versions />
+        <div className={`${darkmode ? "bg-[#161619]" : "bg-[#fff]"}`}>
+          <Versions darkmode={darkmode} />
         </div>
         {isLoggedIn && (
-          <div className="setting-profile-div bg-[#fff] flex">
+          <div className="setting-profile-div flex">
             <button className="logout-div gap-2" onClick={handleLogOut}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

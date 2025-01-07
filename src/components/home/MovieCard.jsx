@@ -66,7 +66,7 @@ const MovieCard = ({
           <h2
             className={`text-[12px] ${
               isSlider ? "w-[105px]" : ""
-            } mt-[.14rem] leading-[18px] font-confortFont font-[400] text-black truncate`}
+            } mt-[.14rem] leading-[18px] font-confortFont font-[400] text-black dark:text-white truncate`}
           >
             {he.decode(movie?.name || "Unknown Title")}
           </h2>

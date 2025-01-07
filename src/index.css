@@ -52,8 +52,7 @@ button {
 .loader div {
   width: 2px;
   height: 90%;
-  background-color: #FE58B5;
-  ; /* Adjust color to match the design */
+  background-color: #fe58b5; /* Adjust color to match the design */
   animation: grow 1s infinite ease-in-out;
 }
 
@@ -167,24 +166,22 @@ input[type="range"]::-moz-range-thumb {
   border-color: #fe58b5 !important;
 } */
 .gradient-bg-home2 {
-  background: linear-gradient(to bottom, #fdb1dc, #fcdfd4, #fff9fc);
+  /* background: linear-gradient(to bottom, #fdb1dc, #fcdfd4, #fff9fc); */
+  @apply bg-gradient-to-b from-[#fff9fc]  to-[#fff9fc] dark:to-[#58402E] dark:from-[#763459];
 }
 .gradient-bg-home {
-  background: linear-gradient(to right, #fe58b5, #ff7584, #ff9153);
-  /* background: linear-gradient(
-      180deg,
-      rgba(22, 22, 25, 0) 100%,
-      rgba(22, 22, 25, 0) 100%
-    ),
-    linear-gradient(90deg, #0a5b75 0%, #4b2555 100%); */
-  /* background-image: url("./pages/home/images/blur.png"); */
+  /* background: linear-gradient(to right, #fe58b5, #ff7584, #ff9153); */
+  @apply bg-gradient-to-r from-[#fe58b5] to-[#ff9153] dark:to-[#58402E] dark:from-[#763459];
+}
+.dark-gradient {
+  background: linear-gradient(to right, #58402e, #58402e);
+}
+.tab-bg {
+  @apply bg-gradient-to-r from-[#fe58b5] to-[#ff9153]  dark:to-[#FFFFFF29] dark:from-[#FFFFFF29];
+}
 
-  /* background: linear-gradient(
-      180deg,
-      rgba(22, 22, 25, 0) 0%,
-      rgba(22, 22, 25, 0.9) 100%
-    ),
-    linear-gradient(90deg, #0a5b75 0%, #4b2555 100%), #161619; */
+.home-tab-bg {
+  @apply bg-gradient-to-r from-[#fff] to-[#fff]  dark:to-[#58402E] dark:from-[#763459];
 }
 
 .home-input {
@@ -213,18 +210,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .home-bg {
-  height: 100vh;
-  padding-bottom: 100px;
-  z-index: -1;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #fff;
-  /* background-image: url("./pages/home/images/homebg.png");
-  background-repeat: no-repeat;
-  background-size: contain; */
-  /* margin-top: 50px; */
+  @apply h-screen pb-[100px] -z-10 w-full fixed top-0 left-0 bg-white dark:bg-black;
 }
 
 @media screen and (min-width: 470px) {
@@ -309,13 +295,14 @@ input[type="range"]::-moz-range-thumb {
   display: flex;
   overflow: hidden;
   padding: 10px;
-  background-color: #0000001a;
+  /* background-color: #0000001a; */
   border-radius: 10px;
-  color: black;
+  /* color: black; */
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
   position: relative;
+  @apply bg-[#0000001a] text-black dark:bg-[#1F1F22] dark:text-white;
 }
 
 .warning-content {

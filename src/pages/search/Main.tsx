@@ -15,6 +15,7 @@ import {
   useGetHeaderTopicsQuery,
   useGetAdsQuery,
 } from "../../services/helperService";
+import { selectTheme } from "./slice/ThemeSlice";
 
 const Main = () => {
   const [searchParams] = useSearchParams();
@@ -56,6 +57,7 @@ const Main = () => {
   const [movies, setMovies] = useState<any[]>([]);
   const [noDataFound, setNoDataFound] = useState(false); // New state to track "no data"
   const navigate = useNavigate();
+  const darkmode = useSelector(selectTheme);
   const [triggerSearchMovie, { data, isLoading, isFetching }] =
     useLazyGetSearchMovieQuery();
 
@@ -170,7 +172,7 @@ const Main = () => {
 
   return (
     <>
-      <div className="search-bg"></div>
+      <div className={`${darkmode ? "dark-search-bg" : "search-bg"}`}></div>
       <Navbar
         resActive={resActive}
         sortActive={sortActive}

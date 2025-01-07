@@ -49,7 +49,7 @@ const Explorer: React.FC = () => {
         // className={`flex flex-wrap gap-4 items-center py-2 px-3  bg-background fixed transition-all duration-300 w-full z-50 ${
         //   isHeaderVisible ? "top-0" : "-top-[135px]"
         // }`}
-        className={`flex flex-wrap gap-4 items-center py-2 px-3  bg-white fixed transition-all duration-300 w-full z-50 top-0`}
+        className={`flex flex-wrap gap-4 items-center py-2 px-3  bg-white dark:bg-[#161619] fixed transition-all duration-300 w-full z-50 top-0`}
       >
         {tabs.map((tab, index) => (
           <button
@@ -62,9 +62,9 @@ const Explorer: React.FC = () => {
             // transition-all duration-200 ease-in-out
             className={`inline-flex whitespace-nowrap border-b-2 border-transparent font-semibold  ${
               (activeNav && activeNav === index) || activeTab === index
-                ? "text-[#080808CC] text-[24px]"
+                ? "text-[#080808CC] dark:text-white text-[24px]"
                 : // : activeTab === index ? "text-white text-[24px]"
-                  "text-[#0808087A] text-[18px]"
+                  "text-[#0808087A] dark:text-[#FFFFFFCC] text-[18px]"
             }`}
             onClick={() => {
               setActiveTab(index);
@@ -75,7 +75,7 @@ const Explorer: React.FC = () => {
           </button>
         ))}
       </nav>
-      <div className="bg-white pt-12">
+      <div className="bg-white dark:bg-[#161619] pt-12">
         <div className="text-black">
           {tabs[activeNav ? activeNav : activeTab]?.content}
         </div>

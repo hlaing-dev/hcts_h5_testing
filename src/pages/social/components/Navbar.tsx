@@ -109,8 +109,8 @@ const Navbar = () => {
   const tabs = [{ title: "关注" }, { title: "推荐" }, { title: "最新" }];
 
   return (
-    <div className="h-full bg-white">
-      <div className="fixed bg-white p-3 w-full z-[99] pb-3 transition-all duration-300 top-0">
+    <div className="h-full bg-white dark:bg-[#161619]">
+      <div className="fixed bg-white dark:bg-[#161619] p-3 w-full z-[99] pb-3 transition-all duration-300 top-0">
         <nav className="flex flex-wrap gap-4 items-center">
           {tabs.map((tab, index) => (
             <button
@@ -118,7 +118,7 @@ const Navbar = () => {
               className={`inline-flex whitespace-nowrap social_nav transition-all duration-200 ease-in-out relative ${
                 activeTab === index
                   ? "text-[#FE58B5] text-[20px]"
-                  : "text-[#000000B2] text-[20px]"
+                  : "text-[#000000B2] dark:text-[#FFFFFFCC] text-[20px]"
               }`}
               onClick={() => handleTabClick(index)}
               style={{
@@ -133,7 +133,7 @@ const Navbar = () => {
           ))}
         </nav>
       </div>
-      <div className="pt-[70px] pb-[10px] bg-white">
+      <div className="pt-[70px] pb-[10px] bg-white dark:bg-[#161619]">
         <Ads section={"search_input_under"} />
       </div>
 

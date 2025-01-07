@@ -4,27 +4,40 @@
   top: 0;
   left: 0;
   background-color: white;
-  color: black !important;
-  /* background: linear-gradient(
-      180deg,
-      rgba(22, 22, 25, 0) 0%,
-      rgba(22, 22, 25, 0.9) 100%
-    ),
-    linear-gradient(90deg, #0a5b75 0%, #4b2555 100%), #161619; */
   height: 100vh;
   padding-bottom: 100px;
   z-index: -1;
 }
+
+.dark-search-bg {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-image: url("./images/dark-search-bg1.jpg");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+
+  height: 100vh;
+  padding-bottom: 100px;
+  z-index: -1;
+}
+
 .input-bg {
   border: none;
   background-color: white;
   color: black;
-  /* background: linear-gradient(
-      180deg,
-      rgba(22, 22, 25, 0) 100%,
-      rgba(22, 22, 25, 0) 100%
-    ),
-    linear-gradient(90deg, #0a5b75 0%, #4b2555 100%); */
+}
+
+.dark-input-bg {
+  border: none;
+  background-image: url("./images/dark-search-bg1.jpg");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+
+  color: white;
 }
 
 .input-bg-overlay {
@@ -38,6 +51,13 @@
     linear-gradient(90deg, #0a5b75 0%, #4b2555 100%); */
 }
 
+.dark-input-bg-overlay {
+  border: none;
+  background-image: url("./images/dark-search-bg1.jpg");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+}
 .search-input {
   border-radius: 18px;
   background: rgba(0, 0, 0, 0.08);
@@ -79,6 +99,44 @@
   line-height: normal;
 }
 
+.dark-search-btn {
+  color: white;
+  text-align: right;
+  font-family: "PingFang SC";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.dark-search-input {
+  border-radius: 18px;
+  border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
+  background: var(--White-10, rgba(255, 255, 255, 0.1));
+  color: var(--White-60, rgba(255, 255, 255, 0.6));
+  font-family: "PingFang SC";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 100%;
+  display: flex;
+  height: 36px;
+  padding: 8.062px 16.123px;
+  /* padding-left: 37px; */
+  padding-left: 20px;
+  align-items: center;
+  gap: 4px;
+  flex: 1 0 0;
+}
+
+.dark-search-input::placeholder {
+  color: var(--White-60, rgba(255, 255, 255, 0.6));
+}
+.dark-search-input:focus {
+  outline: none;
+}
+
 .ads {
   display: flex;
   width: 100%;
@@ -105,6 +163,25 @@
   line-height: normal;
 }
 
+.dark-history-tab,
+.dark-everyone-tab {
+  border-radius: 52px;
+
+  background: var(--White-10, rgba(255, 255, 255, 0.1));
+  display: flex;
+  padding: 8px 16px;
+
+  gap: 10px;
+  color: white;
+  /* color: var(--White-100, #fff); */
+  font-family: "PingFang SC";
+  font-size: 14px;
+
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
 .no_history1 {
   color: black;
   text-align: center;
@@ -114,6 +191,27 @@
   font-weight: 500;
   line-height: normal;
   margin-top: 10px;
+}
+
+.dark-no_history1 {
+  color: white;
+  text-align: center;
+  font-family: "PingFang SC";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 10px;
+}
+
+.dark-history-title1 {
+  color: white;
+  font-family: "PingFang SC";
+  font-size: 14px;
+  opacity: 40;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .history-title1 {
@@ -126,6 +224,22 @@
 }
 
 .everyone-tab:nth-child(-n + 3) {
+  border-radius: 52px;
+  /* background: rgba(255, 194, 103, 0.2); */
+  background: rgba(255, 194, 103, 0.32);
+  display: flex;
+  padding: 8px 16px;
+
+  gap: 10px;
+  color: #fe9800;
+  font-family: "PingFang SC";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.dark-everyone-tab:nth-child(-n + 3) {
   border-radius: 52px;
   /* background: rgba(255, 194, 103, 0.2); */
   background: rgba(255, 194, 103, 0.32);
@@ -178,7 +292,7 @@
 }
 
 .detail-head-text {
-  color: black;
+  /* color: black; */
   /* color: var(--White-100, #fff); */
   font-family: "PingFang SC";
   font-size: 16px;
@@ -188,7 +302,7 @@
 }
 
 .detail-text {
-  color: rgba(0, 0, 0, 0.6);
+  /* color: rgba(0, 0, 0, 0.6); */
   /* color: var(--White-60, rgba(255, 255, 255, 0.6)); */
   font-family: "PingFang SC";
   font-size: 12px;
@@ -236,6 +350,31 @@
   line-height: normal;
 }
 
+.dark_movie_title {
+  /* color: black; */
+  color: var(--White-80, rgba(255, 255, 255, 0.8));
+  font-family: "PingFang SC";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.dark-tab-main {
+  background-image: url("./images/dark-search-bg1.jpg");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  /* background-color: white;
+  color: rgba(8, 8, 8, 0.64); */
+  text-align: right;
+  font-family: "PingFang SC";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
 .tab-main {
   background-color: white;
   color: rgba(8, 8, 8, 0.64);
@@ -272,6 +411,22 @@
   background: rgba(0, 0, 0, 0.08);
 }
 
+.dark-tab-btn {
+  display: flex;
+  padding: 6px 14px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  text-align: right;
+  font-family: "PingFang SC";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border-radius: 37px;
+}
+
 .active {
   color: white;
   border-radius: 16px;
@@ -282,12 +437,27 @@
   /* background: rgba(255, 255, 255, 0.16); */
 }
 
+.dark-active {
+  color: white;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
 .tab-btn:active {
   color: white;
-  background: var(
+  /* background: var(
     --Gradient-Brand-Gradient-1,
     linear-gradient(270deg, #ff9153 3.81%, #ff7584 45.16%, #fe58b5 86.5%)
-  );
+  ); */
+  /* background: rgba(255, 255, 255, 0.16); */
+}
+
+.tab-btn:active {
+  color: white;
+  /* background: var(
+    --Gradient-Brand-Gradient-1,
+    linear-gradient(270deg, #ff9153 3.81%, #ff7584 45.16%, #fe58b5 86.5%)
+  ); */
   /* background: rgba(255, 255, 255, 0.16); */
 }
 
@@ -302,6 +472,18 @@
 .filter-title {
   color: black;
   /* color: white; */
+}
+
+.dark-filter-title {
+  color: white;
+}
+
+.dark-filter-title span {
+  gap: 2px;
+  color: white;
+  /* color: white; */
+  display: flex;
+  align-items: center;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -374,7 +556,6 @@
 }
 
 .rank h1 {
-  color: white;
   /* color: var(--Secondary-Orange, #ff6a33); */
   font-family: "PingFang SC";
   font-size: 14px;

@@ -93,13 +93,13 @@ const Tab2 = () => {
   // console.log(currentIndex, "ci");
 
   return (
-    <div className="pb-32 min-h-screen">
-      <nav className="py-4 sticky top-[50px] z-50 bg-white">
+    <div className="pb-32 min-h-screen bg-white dark:bg-[#161619]">
+      <nav className="py-4 sticky top-[50px] z-50 bg-white dark:bg-[#161619]">
         <div className="grid grid-cols-7 mb-2">
           {currentWeekDates?.map((date, index) => (
             <button
               key={date}
-              className={`text-black text-[16px] text-center`}
+              className={`text-black dark:text-white text-[16px] text-center`}
               onClick={() => {
                 setCurrentIndex(index + 1);
                 dispatch(setActiveWeek(index + 1));
@@ -110,10 +110,10 @@ const Tab2 = () => {
                 className={`${
                   activeWeek
                     ? activeWeek === index + 1
-                      ? "bg-orange-600 px-1.5 py-1 rounded-full"
+                      ? "bg-pink-600 text-white p-1.5 rounded-full"
                       : ""
                     : currentDate === date &&
-                      "bg-orange-600 px-1.5 py-1 rounded-full"
+                      "bg-pink-600 text-white p-1.5 rounded-full"
                 }`}
               >
                 {currentDate === date ? "今" : date}
@@ -131,7 +131,9 @@ const Tab2 = () => {
                 window.scrollTo(0, 0);
               }}
               className={`${
-                activeWeek === index + 1 ? "text-[#080808]" : "text-[#00000099]"
+                activeWeek === index + 1
+                  ? "text-[#080808] dark:text-white"
+                  : "text-[#00000099] dark:text-[#FFFFFFCC]"
               } text-[14px] text-center`}
             >
               {day}

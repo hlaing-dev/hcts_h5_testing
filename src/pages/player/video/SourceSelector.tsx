@@ -35,10 +35,10 @@ const SourceSelector: React.FC<SourceSelectorProps> = ({
   // Close the modal
   const closeModal = () => setIsModalOpen(false);
   return (
-    <div className="bg-white p-4 mb-4">
+    <div className="bg-white dark:bg-[#161619] p-4 mb-4">
       {/* Section header with title and expand all */}
       <div className="flex justify-between items-center mb-2">
-        <h4 className="text-black text-base font-bold">选集</h4>
+        <h4 className="text-black dark:text-white text-base font-bold">选集</h4>
 
         {/* Expand All (展开全部) button triggers the modal */}
         <div className="flex items-center text-gray-400 text-sm">

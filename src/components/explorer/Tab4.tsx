@@ -64,8 +64,8 @@ const Tab4 = () => {
   }, [id]);
 
   return (
-    <div className="pb-32 min-h-screen">
-      <div className="w-full px-3 sticky top-[50px] z-50 bg-white">
+    <div className="pb-32 min-h-screen bg-white dark:bg-[#161619]">
+      <div className="w-full px-3 sticky top-[50px] z-50 bg-white dark:bg-[#161619]">
         <nav className="flex overflow-x-scroll no-scrollbar pb-5 gap-3 remove-scrollbar">
           {data?.data?.map((item: any, index: number) => (
             <div
@@ -81,12 +81,12 @@ const Tab4 = () => {
                 className={`${
                   activeRank
                     ? activeRank === item?.id
-                      ? "text-[#080808]"
+                      ? "text-[#080808] dark:text-white"
                       : "text-gray-400"
                     : activeTab === index
-                    ? "text-[#080808]"
+                    ? "text-[#080808] dark:text-white"
                     : "text-gray-400"
-                } whitespace-nowrap py-2 rounded-lg hover:text-[#080808] transition-colors`}
+                } whitespace-nowrap py-2 rounded-lg transition-colors`}
               >
                 {item?.title}
               </p>

@@ -6,9 +6,11 @@ import {
   setHistoryData,
 } from "../slice/HistorySlice";
 import { useNavigate } from "react-router-dom";
+import { selectTheme } from "../slice/ThemeSlice";
 
 const History = () => {
   const historys = useSelector(selectHistoryData);
+  const darkmode = useSelector(selectTheme);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -31,7 +33,11 @@ const History = () => {
   return (
     <div className="px-3 mt-5">
       <div className="flex justify-between items-center">
-        <h1 className="history-title1">搜索历史</h1>
+        <h1
+          className={`${darkmode ? "dark-history-title1" : "history-title1"} `}
+        >
+          搜索历史
+        </h1>
         <button onClick={handleDelete}>
           {/* <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -46,25 +52,41 @@ const History = () => {
               fill-opacity="0.6"
             />
           </svg> */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-          >
-            <path
-              d="M16.6665 5.83341V17.5001C16.6665 17.7211 16.5787 17.9331 16.4224 18.0893C16.2661 18.2456 16.0542 18.3334 15.8332 18.3334H4.1665C3.94549 18.3334 3.73353 18.2456 3.57725 18.0893C3.42097 17.9331 3.33317 17.7211 3.33317 17.5001V5.83341H1.6665V4.16675H18.3332V5.83341H16.6665ZM4.99984 5.83341V16.6667H14.9998V5.83341H4.99984ZM5.83317 1.66675H14.1665V3.33341H5.83317V1.66675ZM9.1665 8.33341H10.8332V14.1667H9.1665V8.33341Z"
-              fill="black"
-              fill-opacity="0.6"
-            />
-          </svg>
+          {darkmode ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                d="M16.6665 5.83329V17.5C16.6665 17.721 16.5787 17.9329 16.4224 18.0892C16.2661 18.2455 16.0542 18.3333 15.8332 18.3333H4.1665C3.94549 18.3333 3.73353 18.2455 3.57725 18.0892C3.42097 17.9329 3.33317 17.721 3.33317 17.5V5.83329H1.6665V4.16663H18.3332V5.83329H16.6665ZM4.99984 5.83329V16.6666H14.9998V5.83329H4.99984ZM5.83317 1.66663H14.1665V3.33329H5.83317V1.66663ZM9.1665 8.33329H10.8332V14.1666H9.1665V8.33329Z"
+                fill="white"
+                fill-opacity="0.6"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                d="M16.6665 5.83341V17.5001C16.6665 17.7211 16.5787 17.9331 16.4224 18.0893C16.2661 18.2456 16.0542 18.3334 15.8332 18.3334H4.1665C3.94549 18.3334 3.73353 18.2456 3.57725 18.0893C3.42097 17.9331 3.33317 17.7211 3.33317 17.5001V5.83341H1.6665V4.16675H18.3332V5.83341H16.6665ZM4.99984 5.83341V16.6667H14.9998V5.83341H4.99984ZM5.83317 1.66675H14.1665V3.33341H5.83317V1.66675ZM9.1665 8.33341H10.8332V14.1667H9.1665V8.33341Z"
+                fill="black"
+                fill-opacity="0.6"
+              />
+            </svg>
+          )}
         </button>
       </div>
       <div className="flex flex-wrap gap-3 py-3">
         {historys?.map((history: any, index: any) => (
           <button
-            className="history-tab"
+            className={`${darkmode ? "dark-history-tab" : "history-tab"}`}
             key={index}
             onClick={() => handleSearch(history)}
           >

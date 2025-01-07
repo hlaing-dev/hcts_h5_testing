@@ -9,6 +9,8 @@ import Loader from "./components/Loader";
 import Ads from "../../components/NewAds";
 import { useLocation } from "react-router-dom";
 import { useGetAdsQuery } from "../../services/helperService";
+import { useSelector } from "react-redux";
+import { selectTheme } from "./slice/ThemeSlice";
 
 const Search: React.FC = () => {
   const {
@@ -17,6 +19,7 @@ const Search: React.FC = () => {
     isFetching: lateFetching,
     refetch,
   } = useGetSearchLateQuery();
+  const darkmode = useSelector(selectTheme);
 
   const location = useLocation();
 
@@ -29,7 +32,7 @@ const Search: React.FC = () => {
 
   return (
     <>
-      <div className="search-bg"></div>
+      <div className={`${darkmode ? "dark-search-bg" : "search-bg"}`}></div>
       <Navbar />
       <div className="lg:container lg:mx-auto lg:px-[100px]">
         <div className="mt-[76px]">

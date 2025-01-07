@@ -7,7 +7,7 @@ import { setUser } from "./slice/UserSlice";
 import ImageWithPlaceholder from "./info/ImageWithPlaceholder";
 import Right from "../../../assets/svg/Right";
 
-const Header = () => {
+const Header = ({ darkmode }: any) => {
   const dispatch = useDispatch();
 
   // Check for token in localStorage
@@ -32,7 +32,7 @@ const Header = () => {
       {user ? (
         <Link
           to={"/info"}
-          className=" bg-green-400 w-full justify-between profile-card "
+          className={` w-full justify-between ${darkmode ? "profile-card_dark" : "profile-card"}`}
         >
           <div className="flex gap-4 items-center">
             <div className="profile-p">
@@ -113,7 +113,7 @@ const Header = () => {
               )}
             </div>
             <div className="flex flex-col gap-0">
-              <h1>{user?.nickname}</h1>
+              <h1 className={`${darkmode ? "text-white" : "text-black"} font-[600] leading-[22px]`}>{user?.nickname}</h1>
               <div className="flex gap-2 mt-1 items-center">
                 {user?.level && (
                   <img src={user?.level} className="w-[80px] h-[30px]" />
@@ -143,7 +143,7 @@ const Header = () => {
       ) : (
         <div
           onClick={handleLoginClick}
-          className="flex gap-4 bg-red-400 w-full profile-card cursor-pointer"
+          className={`flex gap-4 bg-red-4 w-full  cursor-pointer ${darkmode ? "profile-card_dark" : "profile-card"}`}
         >
           <div className="profile-p">
             <svg
@@ -209,7 +209,7 @@ const Header = () => {
             </svg>
           </div>
           <div className="flex gap-2 items-center">
-            <p>点击登录</p>
+            <h1 className={`${darkmode ? "text-white" : "text-black"}`}>点击登录</h1>
             <Right />
           </div>
         </div>

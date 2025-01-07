@@ -3,7 +3,7 @@ import rate from "../../assets/rate.svg";
 
 const RatingCard = ({ movie, index }) => {
   return (
-    <div className="flex gap-3 items-center">
+    <div className="flex gap-3 items-center text-black dark:text-white">
       <Link to={`/player/${movie?.id}`} className="relative">
         <img
           src={movie?.cover}

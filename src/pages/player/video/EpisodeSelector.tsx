@@ -19,7 +19,7 @@ const EpisodeSelector: React.FC<EpisodeSelectorProps> = ({
   }, [selectedEpisode]);
 
   return (
-    <div className="overflow-x-auto whitespace-nowrap m-4 bg-white remove-scrollbar">
+    <div className="overflow-x-auto whitespace-nowrap m-4 bg-white dark:bg-[#161619] remove-scrollbar">
       {" "}
       {/* Horizontal scroll container */}
       <div className="inline-flex space-x-3">
@@ -36,8 +36,8 @@ const EpisodeSelector: React.FC<EpisodeSelectorProps> = ({
             onClick={() => onEpisodeSelect(episode)}
             className={`py-2 px-4 rounded-lg focus:outline-none relative ${
               selectedEpisode?.episode_id === episode.episode_id
-                ? "bg-[#0000000F] text-pink-400"
-                : "bg-[#0000001A] text-black"
+                ? "bg-[#0000000F] dark:bg-[#FFFFFF0A] text-pink-400"
+                : "bg-[#0000001A] dark:bg-[#FFFFFF1A] text-black dark:text-white"
             }`}
             style={{ minWidth: "100px" }} // Adjust width for uniformity
           >

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const SettingFirst = () => {
+const SettingFirst = ({ darkmode }: any) => {
   // Retrieve initial settings from localStorage or set defaults
   const initialSettings = JSON.parse(
     localStorage.getItem("movieAppSettings") || "{}"
@@ -26,17 +26,23 @@ const SettingFirst = () => {
 
   const handleFilter = () => {
     setFilterToggle((prev: any) => !prev);
-    localStorage.removeItem("headerTopics")
+    localStorage.removeItem("headerTopics");
   };
 
   return (
     <div className="profile-div">
-      <div className="profile-div-main w-full">
+      <div
+        className={` w-full ${
+          darkmode ? "profile-div-main_dark" : "profile-div-main"
+        }`}
+      >
         {/* Teen Mode */}
         <div className="p-first">
           <div className="flex gap-1 max-w-[230px] flex-col ">
-            <h1 className=" text-black">青少年模式</h1>
-            <p className="settings-text">开启后不再展示R18内容 </p>
+            <h1 className={`${darkmode ? " text-white" : "text-black"}`}>
+              青少年模式
+            </h1>
+            <p className={`settings-text ${darkmode ? "text-white" : "text-black"}`}>开启后不再展示R18内容 </p>
           </div>
           <div>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -60,8 +66,10 @@ const SettingFirst = () => {
         {/* Picture-in-Picture Mode */}
         <div className="p-first">
           <div className="flex gap-1 max-w-[230px] flex-col ">
-            <h1 className=" text-black">自动画中画</h1>
-            <p className="settings-text">开启后打开自动画中画模式</p>
+            <h1 className={`${darkmode ? " text-white" : "text-black"}`}>
+              自动画中画
+            </h1>
+            <p className={`settings-text ${darkmode ? "text-white" : "text-black"}`}>开启后打开自动画中画模式</p>
           </div>
           <div>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -85,8 +93,10 @@ const SettingFirst = () => {
         {/* Vibrant Mode */}
         <div className="p-first">
           <div className="flex gap-1 max-w-[230px] flex-col ">
-            <h1 className=" text-black">无痕模式</h1>
-            <p className="settings-text">开启后您的浏览不会被记录</p>
+            <h1 className={`${darkmode ? " text-white" : "text-black"}`}>
+              无痕模式
+            </h1>
+            <p className={`settings-text ${darkmode ? "text-white" : "text-black"}`}>开启后您的浏览不会被记录</p>
           </div>
           <div>
             <label className="relative inline-flex items-center cursor-pointer">

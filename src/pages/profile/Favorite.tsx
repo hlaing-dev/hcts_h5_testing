@@ -8,8 +8,12 @@ import {
   useGetHeaderTopicsQuery,
   useGetAdsQuery,
 } from "../../services/helperService";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../search/slice/ThemeSlice";
 
 const Favorite = () => {
+  const darkmode = useSelector(selectTheme);
+
   const {
     data: adsData,
     isLoading: isAdsLoading,
@@ -88,12 +92,13 @@ const Favorite = () => {
 
   return (
     <>
-      <div className="fixed-bg"></div>
+      <div className={`${darkmode ? "fixed-bg_dark" : "fixed-bg"}`}></div>
       <div className=" text-white">
-        <Navbar isEditMode={isEditMode} onEditClick={handleEditClick} />
+        <Navbar isEditMode={isEditMode} darkmode={darkmode} onEditClick={handleEditClick} />
 
         <>
           <Main
+          darkmode={darkmode}
             currentPage={currentPage}
             setcurrentType={setcurrentType}
             currentType={currentType}

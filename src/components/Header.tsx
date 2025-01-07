@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import downh from "../assets/downh.svg";
+import downd from "../assets/downd.svg";
 import { useNavigate } from "react-router-dom";
 import { useGetHeaderTopicsQuery } from "../../src/services/helperService";
 import { useDispatch, useSelector } from "react-redux";
@@ -81,10 +82,12 @@ const Header: FC = () => {
             placeholder="觉醒年代"
             type="text"
             className={`rounded-[18.138px] home-input ${
-              showFilterTag ? "bg-[#FFFFFF33]" : "bg-[#ffffff1a]"
+              showFilterTag
+                ? "bg-[#4e4e4e1a] dark:bg-[#FFFFFF33]"
+                : "bg-[#ffffff1a] dark:bg-[#FFFFFF33]"
             } py-[8.062px] px-[16.123px] w-full ${
               showFilterTag
-                ? "text-black placeholder:text-[#0000007A]"
+                ? "text-black placeholder:text-[#0000007A] dark:text-white dark:placeholder:text-white"
                 : "text-white placeholder:text-white"
             } outline-none `}
           />
@@ -118,11 +121,11 @@ const Header: FC = () => {
                 className={`${
                   activeTab === item?.id
                     ? showFilterTag
-                      ? "text-black font-bold text-[24px]"
-                      : "text-white font-bold text-[24px]"
+                      ? "text-black dark:text-white font-bold text-[24px]"
+                      : "text-white dark:text-[#FFFFFFCC] font-bold text-[24px]"
                     : showFilterTag
-                    ? "text-[#0000007A] text-[16px]"
-                    : "text-white/80 text-[16px]"
+                    ? "text-[#0000007A] dark:text-[#FFFFFFCC] text-[16px]"
+                    : "text-white/80 dark:text-[#FFFFFFCC] text-[16px]"
                 } whitespace-nowrap py-2 rounded-lg transition-colors`}
               >
                 {item?.name}
@@ -138,7 +141,7 @@ const Header: FC = () => {
             {showFilterTag && (
               <div
                 className={` ${
-                  showFilterTag ? "text-black" : "text-white"
+                  showFilterTag ? "text-black dark:text-white" : "text-white"
                 } text-[14px] ${
                   isShowMenu ? "hidden" : "flex"
                 } items-center gap-1 transition`}
@@ -147,7 +150,8 @@ const Header: FC = () => {
                 <span>
                   {sortName} . {classData} . {area} . {year}
                 </span>
-                <img src={downh} alt="" />
+                <img src={downh} className="block dark:hidden" alt="" />
+                <img src={downd} className="hidden dark:block" alt="" />
               </div>
             )}
             {isShowMenu ? <FilterByTag /> : <></>}

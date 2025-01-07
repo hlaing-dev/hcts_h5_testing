@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../slice/ThemeSlice";
 
 interface FilterProps {
   resActive: string;
@@ -26,6 +28,8 @@ const Filter: React.FC<FilterProps> = ({
   movies,
 }) => {
   const [showTabs, setShowTabs] = useState(false);
+
+  const darkmode = useSelector(selectTheme);
 
   // Dynamically update the filter button text based on selections
   const [filterText, setFilterText] = useState<JSX.Element | string>(
@@ -82,25 +86,28 @@ const Filter: React.FC<FilterProps> = ({
         selectedFilterText = (
           <span>
             {selectedFilterText}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="4"
-              height="4"
-              viewBox="0 0 4 4"
-              fill="none"
-            >
-              <circle cx="2" cy="2" r="2" fill="black" />
-            </svg>
-            {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="4"
-              height="4"
-              viewBox="0 0 4 4"
-              fill="none"
-              className="mx-1"
-            >
-              <circle cx="2" cy="2" r="2" fill="white" />
-            </svg> */}
+            {darkmode ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="4"
+                height="4"
+                viewBox="0 0 4 4"
+                fill="none"
+              >
+                <circle cx="2" cy="2" r="2" fill="white" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="4"
+                height="4"
+                viewBox="0 0 4 4"
+                fill="none"
+              >
+                <circle cx="2" cy="2" r="2" fill="black" />
+              </svg>
+            )}
+
             {selectedSort.name}
           </span>
         );
@@ -113,25 +120,28 @@ const Filter: React.FC<FilterProps> = ({
         selectedFilterText = (
           <span>
             {selectedFilterText}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="4"
-              height="4"
-              viewBox="0 0 4 4"
-              fill="none"
-            >
-              <circle cx="2" cy="2" r="2" fill="black" />
-            </svg>
-            {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="4"
-              height="4"
-              viewBox="0 0 4 4"
-              fill="none"
-              className="mx-1"
-            >
-              <circle cx="2" cy="2" r="2" fill="white" />
-            </svg> */}
+            {darkmode ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="4"
+                height="4"
+                viewBox="0 0 4 4"
+                fill="none"
+              >
+                <circle cx="2" cy="2" r="2" fill="white" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="4"
+                height="4"
+                viewBox="0 0 4 4"
+                fill="none"
+              >
+                <circle cx="2" cy="2" r="2" fill="black" />
+              </svg>
+            )}
+
             {selectedType.name}
           </span>
         );
@@ -149,33 +159,40 @@ const Filter: React.FC<FilterProps> = ({
           onClick={handleFilterClick}
           className="flex gap-1 mt-1 items-center relative z-1"
         >
-          <span className="filter-title">{filterText}</span>
-          {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="9"
-            height="8"
-            viewBox="0 0 9 8"
-            fill="none"
+          <span
+            className={`${darkmode ? "dark-filter-title" : "filter-title"} `}
           >
-            <path
-              d="M5.36603 7.5C4.98113 8.16667 4.01887 8.16667 3.63397 7.5L0.169873 1.5C-0.215027 0.833334 0.266099 0 1.0359 0L7.9641 0C8.7339 0 9.21503 0.833333 8.83013 1.5L5.36603 7.5Z"
-              fill="white"
-              fillOpacity="0.6"
-            />
-          </svg> */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10"
-            height="8"
-            viewBox="0 0 10 8"
-            fill="none"
-          >
-            <path
-              d="M5.86603 7.5C5.48113 8.16667 4.51887 8.16667 4.13397 7.5L0.669873 1.5C0.284973 0.833334 0.766099 0 1.5359 0L8.4641 0C9.2339 0 9.71503 0.833333 9.33013 1.5L5.86603 7.5Z"
-              fill="black"
-              fill-opacity="0.6"
-            />
-          </svg>
+            {filterText}
+          </span>
+          {darkmode ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="9"
+              height="8"
+              viewBox="0 0 9 8"
+              fill="none"
+            >
+              <path
+                d="M5.36603 7.5C4.98113 8.16667 4.01887 8.16667 3.63397 7.5L0.169873 1.5C-0.215027 0.833334 0.266099 0 1.0359 0L7.9641 0C8.7339 0 9.21503 0.833333 8.83013 1.5L5.36603 7.5Z"
+                fill="white"
+                fillOpacity="0.6"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="10"
+              height="8"
+              viewBox="0 0 10 8"
+              fill="none"
+            >
+              <path
+                d="M5.86603 7.5C5.48113 8.16667 4.51887 8.16667 4.13397 7.5L0.669873 1.5C0.284973 0.833334 0.766099 0 1.5359 0L8.4641 0C9.2339 0 9.71503 0.833333 9.33013 1.5L5.86603 7.5Z"
+                fill="black"
+                fill-opacity="0.6"
+              />
+            </svg>
+          )}
         </button>
       </div>
 
@@ -189,9 +206,9 @@ const Filter: React.FC<FilterProps> = ({
 
       {/* Tabs Container */}
       <div
-        className={`overflow-hidden mt-0 transition-all duration-500 ease-in-out fixed top-[55px] left-0 w-full tab-main text-black z-20 rounded-lg ${
-          showTabs ? "max-h-52" : "max-h-0"
-        }`}
+        className={`overflow-hidden mt-2 transition-all duration-500 ease-in-out fixed top-[55px] left-0 w-full ${
+          darkmode ? "dark-tab-main" : "tab-main"
+        }  z-20 rounded-lg ${showTabs ? "max-h-52" : "max-h-0"}`}
       >
         {/* Tabs Content */}
         <div className="p-3 gap-4 flex flex-col my-2">
@@ -199,7 +216,10 @@ const Filter: React.FC<FilterProps> = ({
           <div className="flex items-center gap-2 overflow-x-scroll max-w-full whitespace-nowrap scrollbar-hide">
             {res_type?.map((res: any, index: any) => (
               <button
-                className={`tab-btn ${res.value === resActive && "active"}`}
+                className={`${darkmode ? "dark-tab-btn" : "tab-btn"} ${
+                  res.value === resActive &&
+                  (darkmode ? "dark-active" : "active")
+                }`}
                 key={index}
                 onClick={() => {
                   if (res.value !== resActive) {
@@ -216,7 +236,10 @@ const Filter: React.FC<FilterProps> = ({
           <div className="flex items-center gap-2 overflow-x-scroll max-w-full whitespace-nowrap scrollbar-hide">
             {sort?.map((res: any, index: any) => (
               <button
-                className={`tab-btn ${res.value === sortActive && "active"}`}
+                className={`${darkmode ? "dark-tab-btn" : "tab-btn"} ${
+                  res.value === sortActive &&
+                  (darkmode ? "dark-active" : "active")
+                }`}
                 key={index}
                 onClick={() => {
                   if (res.value !== sortActive) {
@@ -233,7 +256,9 @@ const Filter: React.FC<FilterProps> = ({
           <div className="flex items-center gap-2 overflow-x-scroll max-w-full whitespace-nowrap scrollbar-hide">
             {type?.map((res: any, index: any) => (
               <button
-                className={`tab-btn ${res.id === typeActive && "active"}`}
+                className={`${darkmode ? "dark-tab-btn" : "tab-btn"} ${
+                  res.id === typeActive && (darkmode ? "dark-active" : "active")
+                }`}
                 key={index}
                 onClick={() => {
                   if (res.id !== typeActive) {
@@ -247,7 +272,11 @@ const Filter: React.FC<FilterProps> = ({
           </div>
         </div>
       </div>
-      <div className="movie_title px-4 py-1">
+      <div
+        className={`${
+          darkmode ? "dark_movie_title" : "movie_title"
+        }  px-4 py-1`}
+      >
         共 {movies?.length} 条搜索结果
       </div>
     </div>

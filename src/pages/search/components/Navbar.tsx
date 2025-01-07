@@ -4,6 +4,8 @@ import {
 } from "../services/searchApi"; // Adjust the import based on your API setup
 import { Link } from "react-router-dom";
 import Filter from "./Filter";
+import { selectTheme } from "../slice/ThemeSlice";
+import { useSelector } from "react-redux";
 
 interface NavbarProps {
   query: string;
@@ -42,6 +44,8 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State to track header visibility
   const [triggerAutocomplete, { data: autocompleteData }] =
     useLazyGetAutocompleteQuery(); // Lazy query for autocomplete
+
+  const darkmode = useSelector(selectTheme);
 
   // Fetch autocomplete suggestions when the query changes
   useEffect(() => {
@@ -103,7 +107,9 @@ const Navbar: React.FC<NavbarProps> = ({
         // className={`fixed input-bg w-full z-[9999] pb-3  transition-all duration-300 ${
         //   isHeaderVisible ? "top-0" : "-top-[135px]"
         // }`}
-        className="fixed input-bg w-full z-[9999] pb-3  transition-all duration-300 top-0"
+        className={`fixed ${
+          darkmode ? "dark-input-bg" : "input-bg"
+        }  w-full z-[9999] pb-3  transition-all duration-300 top-0`}
       >
         <div className="flex gap-4 w-full py-3 pt-5 px-3 z-10  items-center justify-between">
           <form onSubmit={handleSearch} className="w-full">
@@ -127,7 +133,7 @@ const Navbar: React.FC<NavbarProps> = ({
               <input
                 value={query}
                 type="text"
-                className="search-input"
+                className={`${darkmode ? "dark-search-input" : "search-input"}`}
                 placeholder="觉醒年代"
                 onChange={(e) => setQuery(e.target.value)} // Update the query state
                 onFocus={() => setIsFocused(true)} // Show suggestions on focus
@@ -137,14 +143,21 @@ const Navbar: React.FC<NavbarProps> = ({
             </div>
           </form>
           <div className="w-[40px]">
-            <Link to={"/search_overlay"} className="search-btn">
+            <Link
+              to={"/search_overlay"}
+              className={`${darkmode ? "dark-search-btn" : "search-btn"}`}
+            >
               搜索
             </Link>
           </div>
         </div>
 
         {isFocused && suggestions.length > 0 && (
-          <ul className="fixed top-[60px] left-0 pt-[20px] pb-[80px] h-screen w-full bg-white text-black z-50 overflow-y-auto">
+          <ul
+            className={`fixed top-[60px] left-0 pt-[20px] pb-[80px] h-screen w-full ${
+              darkmode ? "bg-black text-white" : "bg-white text-black"
+            }  z-50 overflow-y-auto`}
+          >
             {suggestions.map((suggestion: any, index) => (
               <li
                 key={index}

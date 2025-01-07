@@ -123,7 +123,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bottom-0">
       <div
-        className="bg-background backdrop-blur-md w-full max-w-md rounded-xl p-4 text-gray-600"
+        className="bg-background dark:bg-black backdrop-blur-md w-full max-w-md rounded-xl p-4 text-gray-600"
         style={{ height: height }}
         ref={modalRef}
       >
@@ -143,7 +143,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
                 className={`px-4 py-2 rounded-md w-full text-center ${
                   selectedIssue === issue.value
                     ? "bg-[#FE58B5] text-white"
-                    : "bg-[#0000001A] text-gray-600"
+                    : "bg-[#0000001A] dark:bg-[#FFFFFF1A] text-gray-600"
                 }`}
               >
                 {issue.name}
@@ -157,7 +157,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full bg-[#0000001A] text-gray-600 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full bg-[#0000001A] dark:bg-[#FFFFFF1A] text-gray-600 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             placeholder="请描述遇到的问题，我们会帮您解决"
             rows={4}
           />

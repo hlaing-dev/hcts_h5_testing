@@ -3,7 +3,7 @@ import "./social.css";
 
 const Social = () => {
   return (
-    <div className="text-white bg-white">
+    <div className="bg-white dark:bg-[#161619]">
       <Navbar />
     </div>
   );

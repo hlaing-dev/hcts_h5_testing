@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import share from "../../../assets/share.svg";
+import share1 from "../../../assets/share1.svg";
 import star from "../../../assets/star1.png";
 import info from "../../../assets/info1.png";
+import star1 from "../../../assets/star.png";
+import info1 from "../../../assets/info.png";
 import shareLink from "../../../assets/shareLink1.png";
 import selectedStar from "../../../assets/selectedStar1.png";
 import rate from "../../../assets/rate.svg";
@@ -240,12 +243,12 @@ const DetailSection: React.FC<DetailSectionProps> = ({
   }, [activeTab]);
 
   return (
-    <div className="flex flex-col w-full bg-white">
+    <div className="flex flex-col w-full dark:bg-[#161619] bg-white">
       {/* Tabs */}
 
       {/* Tab content */}
       <div
-        className={`bg-white rounded-b-lg p-1 ${
+        className={`dark:bg-[#161619] bg-white rounded-b-lg p-1 ${
           activeTab === "tab-1" && "p-4"
         }`}
       >
@@ -253,10 +256,10 @@ const DetailSection: React.FC<DetailSectionProps> = ({
           <div id="tab-1" className="block">
             {/* Movie Title and Info */}
             <div className="movie-info mb-4 flex-auto overflow-x-scroll">
-              <h2 className="text-[16px] font-semibold text-black">
+              <h2 className="text-[16px] font-semibold text-black dark:text-white">
                 {movieDetail.name || "暂无标题"}
               </h2>
-              <div className="info text-black/40 text-sm flex justify-between items-start overflow-x-auto space-x-2 mt-2">
+              <div className="info text-black/40 dark:text-[#FFFFFF66] text-sm flex justify-between items-start overflow-x-auto space-x-2 mt-2">
                 {/* Left Section: Flames, year, area, and tags */}
                 <div className="left-section flex items-center flex-wrap space-x-2 w-[80%] overflow-x-auto text-[14px]">
                   {/* <span className="rating flex items-center"> */}
@@ -306,32 +309,49 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                 <img
                   src={isStarred ? selectedStar : star}
                   alt=""
-                  className="h-7 mb-2"
+                  className="h-7 mb-2 block dark:hidden"
                 />
-                <span className="text-black/40 text-[14px]">收藏</span>
+                <img
+                  src={isStarred ? selectedStar : star1}
+                  alt=""
+                  className="h-7 mb-2 hidden dark:block"
+                />
+                <span className="text-black/40 dark:text-[#FFFFFF66] text-[14px]">
+                  收藏
+                </span>
               </button>
 
               <button
                 onClick={() => handleTabClick("feedback")}
                 className="flex flex-col items-center px-4 py-2 rounded-md"
               >
-                <img src={info} alt="" className="h-7 mb-2" />
-                <span className="text-black/40 text-[14px]">反馈/求片</span>
+                <img src={info} alt="" className="h-7 mb-2 block dark:hidden" />
+                <img
+                  src={info1}
+                  alt=""
+                  className="h-7 mb-2 hidden dark:block"
+                />
+                <span className="text-black/40 dark:text-[#FFFFFF66] text-[14px]">
+                  反馈/求片
+                </span>
               </button>
 
               <button
                 onClick={() => handleShare()}
                 className="action-btn flex flex-col items-center px-4 py-2 rounded-md"
               >
-                <img src={share} alt="" className="h-7 mb-2" />
-                <span className="text-black/40 text-[14px]">分享</span>
+                <img src={share} alt="" className="h-7 mb-2 block dark:hidden" />
+                <img src={share1} alt="" className="h-7 mb-2 hidden dark:block" />
+                <span className="text-black/40 dark:text-[#FFFFFF66] text-[14px]">
+                  分享
+                </span>
               </button>
             </div>
             {/* Warning Message */}
             <div className="warning rounded-md text-white text-center">
               <div className="warning-content">
                 <span className="warning-text text-gray-500">
-                {/* 切勿相信视频中任何广告，谨防上当受骗！ */}
+                  {/* 切勿相信视频中任何广告，谨防上当受骗！ */}
                   ⬇️官方推荐靠谱平台⬇️，请勿相信视频中任何广告，谨防被骗！
                 </span>
                 <span className="warning-text text-gray-500">
@@ -377,16 +397,13 @@ const DetailSection: React.FC<DetailSectionProps> = ({
         <div className="fixed inset-0 z-50 flex items-end">
           <div
             ref={modalRef}
-            className="bg-white backdrop-blur-md w-full max-w-md bottom-0 rounded-lg p-6 text-black overflow-y-auto"
+            className="dark:bg-[#161619] bg-white backdrop-blur-md w-full max-w-md bottom-0 rounded-lg p-6 text-black dark:text-white overflow-y-auto"
             style={{ height: `${lowerDivHeight}px` }}
           >
             {/* Modal Header */}
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">简介</h2>
-              <button
-                onClick={handleCloseModal}
-                className="text-gray-300 hover:text-black"
-              >
+              <button onClick={handleCloseModal} className="text-gray-300">
                 <FontAwesomeIcon icon={faTimes} className="text-lg" />
               </button>
             </div>

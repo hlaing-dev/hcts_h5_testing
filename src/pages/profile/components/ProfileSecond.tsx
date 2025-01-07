@@ -1,10 +1,18 @@
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setAuthModel } from "../../../features/login/ModelSlice";
-import { Share, Headphone, Contact } from "../../../assets/svg";
+import {
+  Share,
+  Headphone,
+  Contact,
+  HeadphoneDark,
+  ContactDark,
+  ShareDark,
+} from "../../../assets/svg";
 import Right from "../../../assets/svg/Right";
+import RightDark from "../../../assets/svg/RightDark";
 
-const ProfileSecond = () => {
+const ProfileSecond = ({ darkmode }: any) => {
   const isLoggedIn = localStorage.getItem("authToken");
   const parsedLoggedIn = isLoggedIn ? JSON.parse(isLoggedIn) : null;
   const token = parsedLoggedIn?.data?.access_token;
@@ -19,16 +27,24 @@ const ProfileSecond = () => {
   };
   return (
     <div className="profile-div">
-      <div className="profile-div-main w-full">
+      <div
+        className={` w-full ${
+          darkmode ? "profile-div-main_dark" : "profile-div-main"
+        }`}
+      >
         <div onClick={handleLoginClick} className="p-first">
           <div className="flex gap-3 items-center">
             <div>
-              <Share />
+            {darkmode ? <ShareDark /> : <Share />}
             </div>
-            <div className="profile-text">我要分享</div>
+            <div
+              className={`${darkmode ? "profile-text_dark" : "profile-text"}`}
+            >
+              我要分享
+            </div>
           </div>
           <div>
-            <Right />
+            {darkmode ? <RightDark /> : <Right />}
           </div>
         </div>
         <Link
@@ -37,20 +53,28 @@ const ProfileSecond = () => {
           className="p-first"
         >
           <div className="flex gap-3 items-center">
-            <Headphone />
-            <div className="profile-text">帮助中心</div>
+            {darkmode ? <HeadphoneDark /> : <Headphone />}
+            <div
+              className={`${darkmode ? "profile-text_dark" : "profile-text"}`}
+            >
+              帮助中心
+            </div>
           </div>
           <div>
-            <Right />
+            {darkmode ? <RightDark /> : <Right />}
           </div>
         </Link>
         <Link to={"/contact"} className="p-first">
           <div className="flex gap-3 items-center">
-            <Contact />
-            <div className="profile-text">联系我们</div>
+            {darkmode ? <ContactDark /> : <Contact />}
+            <div
+              className={`${darkmode ? "profile-text_dark" : "profile-text"}`}
+            >
+              联系我们
+            </div>
           </div>
           <div>
-            <Right />
+            {darkmode ? <RightDark /> : <Right />}
           </div>
         </Link>
       </div>

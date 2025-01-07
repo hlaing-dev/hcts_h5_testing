@@ -9,8 +9,11 @@ import "../../components/home/home.css";
 import { useGetRecordQuery } from "../profile/services/profileApi";
 import HomeAds from "../../components/home/HomeAds";
 import { useEffect } from "react";
+import { selectTheme } from "../search/slice/ThemeSlice";
 
 const Home: React.FC = () => {
+  const darkmode = useSelector(selectTheme);
+
   const { data, isLoading, refetch } = useGetRecommendedMoviesQuery();
   const activeTab = useSelector((state: any) => state.home.activeTab);
   const isLoggedIn = localStorage.getItem("authToken");
@@ -24,7 +27,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div className="home-bg"></div>
+      <div className={`${darkmode ? "dark-search-bg" : "search-bg"}`}></div>
       {activeTab !== 0 ? (
         <FilteredByType />
       ) : (

@@ -95,7 +95,7 @@ const FilterByTag = ({
       <div
         className={`w-full ${
           paddingTop?.length ? paddingTop : ""
-        } pb-2 flex flex-col gap-3`}
+        } pb-2 flex flex-col gap-3 home-tab-bg`}
       >
         <div className="flex overflow-x-scroll px-3 gap-5 remove-scrollbar items-center pt-2">
           {configData?.data?.movie_screen?.sort?.map(
@@ -107,10 +107,10 @@ const FilterByTag = ({
                     dispatch(setSort(item?.value));
                     dispatch(setSortName(item?.name));
                   }}
-                    className={`${
+                  className={`${
                     sortData === item?.value
-                      ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                      : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                      ? "tab-bg text-white px-4 py-1 text-xs"
+                      : "px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
                   {item?.name}
@@ -130,10 +130,10 @@ const FilterByTag = ({
               >
                 <p
                   onClick={() => dispatch(setClass(item))}
-                 className={`${
+                  className={`${
                     classData === item
-                      ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                      : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                      ? "tab-bg text-white px-4 py-1 text-xs"
+                      : "px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
                   {item}
@@ -154,8 +154,8 @@ const FilterByTag = ({
                   onClick={() => dispatch(setArea(item))}
                   className={`${
                     area === item
-                      ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                      : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                      ? "tab-bg text-white px-4 py-1 text-xs"
+                      : "px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
                   {item}
@@ -174,10 +174,10 @@ const FilterByTag = ({
               >
                 <p
                   onClick={() => dispatch(setYear(item))}
-                   className={`${
+                  className={`${
                     year === item
-                      ? "gradient-bg-home text-white px-4 py-1 text-xs"
-                      : "bg-[#00000014] px-4 py-1 text-xs text-[#000]"
+                      ? "tab-bg text-white px-4 py-1 text-xs"
+                      : "px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
                   {item}

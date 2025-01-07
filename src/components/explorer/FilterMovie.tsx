@@ -116,7 +116,7 @@ const FilterMovie = () => {
   }
 
   return (
-    <div className="bg-white text-text min-h-screen relative">
+    <div className="bg-white dark:bg-[#161619] text-text min-h-screen relative">
       {showMenu ? (
         <div
           onClick={() => dispatch(setShowMenu(false))}

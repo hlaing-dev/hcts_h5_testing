@@ -118,10 +118,41 @@ export const socialApi = createApi({
         }),
       }),
     }),
+    getCommentList: builder.query({
+      query: ({ post_id, page }) =>
+        convertToSecureUrl(`post/comment/list?page=${page}&post_id=${post_id}`),
+    }),
+    likeComment: builder.mutation<void, { id: any; is_like: any }>({
+      query: ({ is_like, id }) => ({
+        url: `post/comment/reaction`,
+        method: "POST",
+        body: convertToSecurePayload({
+          status: is_like ? 1 : 0,
+          comment_id: id,
+        }),
+      }),
+    }),
+    postComment: builder.mutation<
+      void,
+      { comment_id: any; post_id: any; content: any }
+    >({
+      query: ({ comment_id, post_id, content }) => ({
+        url: `post/comment/create`,
+        method: "POST",
+        body: convertToSecurePayload({
+          comment_id: comment_id,
+          post_id: post_id,
+          content: content,
+        }),
+      }),
+    }),
   }),
 });
 
 export const {
+  useGetCommentListQuery,
+  usePostCommentMutation,
+  useLikeCommentMutation,
   useGetPostsQuery,
   useGetRecommandPostsQuery,
   useGetFollowPostsQuery,

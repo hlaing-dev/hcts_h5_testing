@@ -9,9 +9,13 @@ import Ads from "../search/components/Ads";
 import Loader from "../search/components/Loader";
 import NewAds from "../../components/NewAds";
 import { useGetAdsQuery } from "../../services/helperService";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../search/slice/ThemeSlice";
 
 const Notifications = () => {
   const { data, isLoading, isFetching } = useGetNotificationQuery(); // Fetch data from API
+  const darkmode = useSelector(selectTheme);
+
   const {
     data: ads,
     isFetching: isFetched,
@@ -32,7 +36,7 @@ const Notifications = () => {
 
   if (isLoading || isFetching)
     return (
-      <div className="flex justify-center items-center h-screen bg-[#fff]">
+      <div className={`flex justify-center items-center h-screen  ${darkmode ? "bg-black" : "bg-[#fff]"}`}>
         <Loader />
       </div>
     );
@@ -62,10 +66,11 @@ const Notifications = () => {
 
   return (
     <>
-      <div className="fixed-bg"></div>
-      <div className="bg-[#fff] text-white">
+      <div className={`${darkmode ? "fixed-bg_dark" : "fixed-bg"}`}></div>
+      <div className="bg-[#ff] text-white">
         {/* Header */}
         <Header
+        darkmode={darkmode}
           categories={categories}
           onCategoryClick={handleCategoryClick}
           selectedCategory={selectedCategory}
@@ -81,6 +86,7 @@ const Notifications = () => {
         <div className="grid grid-cols-3 gap-2 mt-10 h-full pb-[100px]">
           <div className="col-span-1">
             <Sidebar
+            darkmode={darkmode}
               notices={notices}
               onNoticeClick={handleNoticeClick}
               selectedNotice={selectedNotice}
@@ -89,6 +95,7 @@ const Notifications = () => {
           <div className="col-span-2">
             {selectedNotice && (
               <Content
+              darkmode={darkmode}
                 notice={notices.find(
                   (notice: any) => notice.id === selectedNotice
                 )}

@@ -11,6 +11,7 @@ import { useGetHeaderTopicsQuery } from "../../services/helperService";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import downh from "../../assets/downh.svg";
+import downd from "../../assets/downd.svg";
 import ExplorerTags from "./ExplorerTags";
 import { setShowMenu } from "../../features/counter/counterSlice";
 
@@ -151,9 +152,9 @@ const FilterTag = () => {
           // className={`fixed w-full z-50 bg-background transition-all duration-300 ${
           //   isHeaderVisible ? "top-[53px]" : "-top-[135px]"
           // }`}
-          className={`fixed w-full z-50 bg-white transition-all duration-300 top-[53px]`}
+          className={`fixed w-full z-50 bg-white dark:bg-[#161619] transition-all duration-300 top-[53px]`}
         >
-          <div className="flex  overflow-x-scroll px-3 gap-6 remove-scrollbar items-center  w-full">
+          <div className="flex  overflow-x-scroll px-3 gap-6 remove-scrollbar bg-white dark:bg-[#161619] items-center  w-full">
             {configData?.data?.movie_search_screen?.type
               ?.filter((data: any) => data?.id !== 0)
               ?.map((item: any, index: any) => (
@@ -162,8 +163,8 @@ const FilterTag = () => {
                     onClick={() => dispatch(setActiveTab(item?.id))}
                     className={`${
                       activeTab === item?.id
-                        ? "text-[16px] text-[#080808CC]"
-                        : "text-[16px] text-[#0808087A]"
+                        ? "text-[16px] text-[#080808CC] dark:text-white"
+                        : "text-[16px] text-[#0808087A] dark:text-[#FFFFFFCC]"
                     } whitespace-nowrap hover:text-[080808CC] transition-colors`}
                   >
                     {item?.name}
@@ -181,14 +182,15 @@ const FilterTag = () => {
               {/* <div className="bg-[#00000080] z-20 fixed top-0 left-0 w-full h-screen"></div> */}
               <div
                 onClick={filterTagHandler}
-                className={`mt-3 pb-3 text-[#080808CC] text-[14px] ${
+                className={`mt-3 pb-3 text-[#080808CC] dark:text-white text-[14px] ${
                   showMenu ? "hidden" : "flex"
                 } items-center justify-center gap-1 transition`}
               >
                 <span>
                   {sortName} . {classData} . {area} . {year}
                 </span>
-                <img src={downh} className="" alt="" />
+                <img src={downh} className="block dark:hidden" alt="" />
+                <img src={downd} className="hidden dark:block" alt="" />
               </div>
             </>
           ) : (

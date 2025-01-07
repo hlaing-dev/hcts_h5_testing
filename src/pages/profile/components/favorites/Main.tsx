@@ -21,6 +21,7 @@ interface MainProps {
   currentPage: any;
   isAdsLoading: any;
   isAdsFetching: any;
+  darkmode: boolean;
 }
 
 const Main: React.FC<MainProps> = ({
@@ -36,6 +37,7 @@ const Main: React.FC<MainProps> = ({
   isFetching,
   setMovies,
   onTypeClick,
+  darkmode,
 }) => {
   const navigate = useNavigate();
   const [selectedMovies, setSelectedMovies] = useState<string[]>([]);
@@ -92,11 +94,15 @@ const Main: React.FC<MainProps> = ({
   };
 
   const selectAllMovies = () => {
-    setSelectedMovies(movies?.map(x => x.movie_id) || []);
-  }
+    setSelectedMovies(movies?.map((x) => x.movie_id) || []);
+  };
 
   return (
-    <div className="bg-[#161619 bg-white pb-[50px] mt-[65px] ">
+    <div
+      className={` ${
+        darkmode ? "bg-[#161619]" : "bg-white"
+      }   pb-[50px] mt-[65px] `}
+    >
       <div className="mt-3">
         {isAdsLoading || isAdsFetching ? (
           <div className="flex bg-white justify-center items-center h-[126px]">
@@ -123,7 +129,11 @@ const Main: React.FC<MainProps> = ({
           ))}
         </div>
         {isFetching && currentPage === 1 ? (
-          <div className="flex justify-center items-center h-[60vh] bg-[#fff]">
+          <div
+            className={`flex justify-center items-center h-[60vh] ${
+              darkmode ? "bg-[#161619]" : "bg-white"
+            }`}
+          >
             <Loader />
           </div>
         ) : movies.length > 0 ? (
@@ -137,7 +147,9 @@ const Main: React.FC<MainProps> = ({
               >
                 <div className="relative transition-transform duration-500 ease-in-out transform">
                   <div
-                    className={`custom-checkbox absolute top-[2px] right-[2px] z-10 ${
+                    className={`${
+                      darkmode ? "custom-checkbox_dark" : "custom-checkbox"
+                    } absolute top-[2px] right-[2px] z-10 ${
                       isEditMode ? "block" : "hidden"
                     }`}
                   >
@@ -166,7 +178,7 @@ const Main: React.FC<MainProps> = ({
                 </div>
 
                 <div>
-                  <h1 className="fav_text truncate">{movie?.movie_name}</h1>
+                  <h1 className={`fav_text truncate ${darkmode ? "text-white" : "text-black"}`}>{movie?.movie_name}</h1>
                 </div>
               </div>
             ))}
@@ -372,23 +384,35 @@ const Main: React.FC<MainProps> = ({
         )}
 
         {isFetching && currentPage !== 1 && (
-          <div className="flex bg-white justify-center mt-8 items-center pb-8">
+          <div
+            className={`flex ${
+              darkmode ? "bg-[#161619]" : "bg-white"
+            } justify-center mt-8 items-center pb-8`}
+          >
             <Loader />
           </div>
         )}
 
         <div
-          className={`fixed z-10 bottom-0 gap-3 w-full bg-[#fff] p-6 flex justify-between items-center  transition-transform duration-300 ease-in-out ${
+          className={`fixed z-10 bottom-0 gap-3 w-full ${
+            darkmode ? "bg-[#161619]" : " bg-white"
+          } p-6 flex justify-between items-center  transition-transform duration-300 ease-in-out ${
             isEditMode ? "translate-y-0" : "translate-y-full"
           }`}
         >
           <button
-            className="w-[50%] cancel-all"
-            onClick={() => selectedMovies && selectedMovies.length === movies?.length ? setSelectedMovies([]) : selectAllMovies()}
+            className={`w-[50%]  ${
+              darkmode ? "cancel-all_dark" : "cancel-all"
+            }`}
+            onClick={() =>
+              selectedMovies && selectedMovies.length === movies?.length
+                ? setSelectedMovies([])
+                : selectAllMovies()
+            }
           >
             {selectedMovies && selectedMovies.length === movies?.length
-                  ? "全部取消"
-                  : "选择全部"}
+              ? "全部取消"
+              : "选择全部"}
           </button>
           <button
             className="delete-all w-[50%]"
@@ -402,17 +426,23 @@ const Main: React.FC<MainProps> = ({
         {/* Confirmation Modal */}
         {showConfirmation && (
           <div className="fixed inset-0 z-20 bg-black bg-opacity-80 flex justify-center items-center">
-            <div className="bg-[#fff] confirm rounded-2xl mx-10 text-center shadow-lg">
-              <h2 className="p-5">确定要删除所有历史记录吗?</h2>
+            <div
+              className={` ${
+                darkmode ? "bg-[#161619]" : "bg-white"
+              } confirm rounded-2xl mx-10 text-center shadow-lg`}
+            >
+              <h2 className={`${darkmode ? "text-white" : "text-black"} p-5`}>
+                确定要删除所有历史记录吗?
+              </h2>
               <div className="flex justify-between">
                 <button
-                  className="text-[#080808] w-[50%] p-3 border-t-[1px] border-r-[1px] border-gray-300"
+                  className={`${darkmode ? " text-white" : "text-[#080808]"} w-[50%] p-3 border-t-[1px] border-r-[1px] border-white/30`}
                   onClick={cancelDelete}
                 >
                   取消
                 </button>
                 <button
-                  className="text-[#fe58b5] w-[50%] p-3 border-t-[1px] border-gray-500"
+                  className="text-[#fe58b5] w-[50%] p-3 border-t-[1px] border-white/30"
                   onClick={confirmDelete}
                 >
                   删除全部

@@ -5,8 +5,11 @@ import "./profile.css";
 import { useGetRecordQuery } from "./services/profileApi";
 import Loader from "../search/components/Loader";
 import NewAds from "../../components/NewAds";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../search/slice/ThemeSlice";
 
 const History = () => {
+  const darkmode = useSelector(selectTheme);
   const isLoggedIn = localStorage.getItem("authToken");
   const parsedLoggedIn = isLoggedIn ? JSON.parse(isLoggedIn) : null;
   const token = parsedLoggedIn?.data?.access_token;
@@ -25,7 +28,11 @@ const History = () => {
 
   if (isLoading || isFetching) {
     return (
-      <div className="flex justify-center items-center h-screen bg-[#161616]">
+      <div
+        className={`${
+          darkmode ? "bg-[#161616]" : "bg-white"
+        } flex justify-center items-center h-screen `}
+      >
         <Loader />
       </div>
     );
@@ -33,11 +40,16 @@ const History = () => {
 
   return (
     <div>
-      <div className="fixed-bg"></div>
+      <div className={`${darkmode ? "fixed-bg_dark" : "fixed-bg"}`}></div>
       <div className="text-white">
-        <Navbar isEditMode={isEditMode} onEditClick={handleEditClick} />
+        <Navbar
+          darkmode={darkmode}
+          isEditMode={isEditMode}
+          onEditClick={handleEditClick}
+        />
         {movies?.length > 0 ? (
           <Main
+            darkmode={darkmode}
             isEditMode={isEditMode}
             setIsEditMode={setIsEditMode}
             movies={movies}

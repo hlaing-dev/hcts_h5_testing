@@ -47,8 +47,8 @@ const Movies = ({ movieData }) => {
     <div className="text-text max-md:px-3 px-10">
       <div className="">
         <div className="flex justify-between items-center px-3 text-[16px] mb-3">
-          <h1 className="uppercase text-white font-semibold flex items-center">
-            <span className="text-white font-headerFont">
+          <h1 className="uppercase font-semibold flex items-center">
+            <span className="font-headerFont">
               {movieData?.title}
             </span>
           </h1>

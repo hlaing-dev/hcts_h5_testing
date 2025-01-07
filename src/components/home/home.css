@@ -1,11 +1,11 @@
 .font-headerFont {
   /* color: var(--White-100, #fff); */
-  color: black;
   font-family: "PingFang SC";
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  @apply text-black dark:text-white;
 }
 
 .control-dots {

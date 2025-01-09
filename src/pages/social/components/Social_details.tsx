@@ -255,10 +255,10 @@ const Social_details: React.FC<any> = ({
           )}
           {post.file_type === "video" && (
             <Player
-              //   isCenterPlay={false}
+              isCenterPlay={false}
               src={post?.files[0].resourceURL}
               thumbnail={post?.files[0].thumbnail}
-              //   status={undefined}
+              status={false}
             />
           )}
         </div>

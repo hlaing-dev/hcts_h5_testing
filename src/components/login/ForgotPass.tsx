@@ -215,7 +215,7 @@ const ForgotPass: React.FC<ForgotPassProps> = ({ setForgot }) => {
                   validatePassword(password) &&
                   RevalidatePassword(confirmPassword)
                     ? "login_button text-white"
-                    : "next_button text-[#777]"
+                    : "next_button text-[#fff]"
                 } transition duration-300 ease-in-out`}
               >
                 下一步

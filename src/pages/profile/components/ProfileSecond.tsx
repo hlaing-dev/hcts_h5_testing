@@ -50,7 +50,7 @@ const ProfileSecond = ({ darkmode }: any) => {
         <Link
           to={"https://euphonious-trifle-352add.netlify.app/"}
           target="_blank"
-          className="p-first"
+          className="p-firs hidden"
         >
           <div className="flex gap-3 items-center">
             {darkmode ? <HeadphoneDark /> : <Headphone />}

@@ -17,6 +17,7 @@ import Captch from "./Captch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { showToast } from "../../pages/profile/error/ErrorSlice";
 import CloseBtn from "../../assets/svg/CloseBtn";
+import { selectTheme } from "../../pages/search/slice/ThemeSlice";
 
 interface LoginEmailProps {
   handleBack: () => void; // Accept handleBack as a prop
@@ -24,7 +25,7 @@ interface LoginEmailProps {
 
 const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
   const [key, setKey] = useState("");
-
+  const darkmode = useSelector(selectTheme);
   const dispatch = useDispatch();
   const { openCaptcha } = useSelector((state: any) => state.model);
   const [forgot, setForgot] = useState(false);
@@ -167,7 +168,23 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
                     className="p-3 cursor-pointer fixed z-[999991] right-[30px]"
                     onClick={handleClose}
                   >
-                    <CloseBtn />
+                    {darkmode ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 10 10"
+                        fill="none"
+                      >
+                        <path
+                          d="M5 3.88906L8.88906 0L10 1.11094L6.11094 5L10 8.88906L8.88906 10L5 6.11094L1.11094 10L0 8.88906L3.88906 5L0 1.11094L1.11094 0L5 3.88906Z"
+                          fill="white"
+                          fill-opacity="0.8"
+                        />
+                      </svg>
+                    ) : (
+                      <CloseBtn />
+                    )}
                   </div>
                 </div>
 
@@ -182,7 +199,7 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
                       onChange={(e) => setEmail(e.target.value)}
                       onFocus={() => setIsFocusedEmail(true)}
                       onBlur={() => setIsFocusedEmail(email !== "")}
-                      className="w-full px- py-2 bg-[#fff] input_border focus:outline-none text-black dark:bg-[#2B2B2D] dark:text-white"
+                      className="w-full px- py-2 bg-[#fff] border-b-[1px] border-b-[#777] dark:border-b-white/40 focus:outline-none text-black placeholder-[#5B5B5B] dark:bg-[#2B2B2D] dark:text-white"
                       required
                       placeholder="输入用户名"
                     />
@@ -205,7 +222,7 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
                       onChange={(e) => setPassword(e.target.value)}
                       onFocus={() => setIsFocusedPassword(true)}
                       onBlur={() => setIsFocusedPassword(password !== "")}
-                      className="w-full px- py-2 bg-[#fff] input_border focus:outline-none text-black placeholder-[#5B5B5B] dark:bg-[#2B2B2D] dark:text-white"
+                      className="w-full px- py-2 bg-[#fff] border-b-[1px] border-b-[#777] dark:border-b-white/40 focus:outline-none text-black placeholder-[#5B5B5B] dark:bg-[#2B2B2D] dark:text-white"
                       required
                       placeholder="输入登录密码"
                     />
@@ -233,7 +250,9 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
                   <div className=" flex justify-between">
                     <div
                       onClick={() => toggleVisibility(false, true)}
-                      className="text-left mt-[-10px] text-black text-sm cursor-pointer hidden"
+                      className={`text-left mt-[-10px] text-sm cursor-pointer hidden ${
+                        darkmode ? " text-white" : " text-black"
+                      }`}
                     >
                       注册账号
                     </div>

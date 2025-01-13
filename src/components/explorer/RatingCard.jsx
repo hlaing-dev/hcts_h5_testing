@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import rate from "../../assets/rate.svg";
+import rate from "../../assets/rate1.svg";
 
 const RatingCard = ({ movie, index }) => {
   return (
@@ -34,7 +34,7 @@ const RatingCard = ({ movie, index }) => {
                 <img src={rate} alt="" />
               ) : (
                 Array.from({ length: 5 - index }, (_, index) => index).map(
-                  (ri) => <img key={ri} src={rate} alt="" />
+                  (ri) => <img key={ri} src={rate} className="mx-0.5" alt="" />
                 )
               )}
             </div>

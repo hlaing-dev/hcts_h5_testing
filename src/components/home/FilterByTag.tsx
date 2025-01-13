@@ -110,7 +110,7 @@ const FilterByTag = ({
                   className={`${
                     sortData === item?.value
                       ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
+                      : "dark:px-0 px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
                   {item?.name}
@@ -133,7 +133,7 @@ const FilterByTag = ({
                   className={`${
                     classData === item
                       ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
+                      : "dark:px-0 px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
                   {item}
@@ -155,7 +155,7 @@ const FilterByTag = ({
                   className={`${
                     area === item
                       ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
+                      : "dark:px-0 px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
                   {item}
@@ -177,7 +177,7 @@ const FilterByTag = ({
                   className={`${
                     year === item
                       ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
+                      : "dark:px-0 px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
                   {item}

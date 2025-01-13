@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { setHistoryData } from "../../slice/HistorySlice";
 import { useLazyGetAutocompleteQuery } from "../../services/searchApi";
 import { selectTheme } from "../../slice/ThemeSlice";
+import { IoSearch } from "react-icons/io5";
 
 const Navbar: React.FC = () => {
   const [query, setQuery] = useState("");
@@ -106,16 +107,21 @@ const Navbar: React.FC = () => {
           </div> */}
 
           <div className="w-full">
-            <input
-              value={query}
-              type="text"
+            <div
               className={`${darkmode ? "dark-search-input" : "search-input"}`}
-              placeholder="觉醒年代"
-              onChange={(e) => setQuery(e.target.value)} // Update the query state on input change
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setTimeout(() => setIsFocused(false), 200)} // Delay to allow clicks on suggestions
-              style={{ fontSize: "16px" }} // Ensure font size is 16px or higher to prevent zoom
-            />
+            >
+              <IoSearch />
+              <input
+                value={query}
+                type="text"
+                className="bg-transparent w-full focus:outline-none"
+                placeholder="觉醒年代"
+                onChange={(e) => setQuery(e.target.value)} // Update the query state on input change
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setTimeout(() => setIsFocused(false), 200)} // Delay to allow clicks on suggestions
+                style={{ fontSize: "16px" }} // Ensure font size is 16px or higher to prevent zoom
+              />
+            </div>
           </div>
         </form>
         <div className="w-[40px]">

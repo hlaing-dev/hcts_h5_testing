@@ -29,8 +29,7 @@ export const useGetHeaderTopicsQuery = () => {
       }
 
       const response = await getconfigData(settings);
-      const data = await decryptWithAes(response);
-
+      const data = response.data ? response : await decryptWithAes(response);
       sessionStorage.setItem("headerTopics", JSON.stringify(data));
       setData(data);
     } catch (err) {
@@ -73,7 +72,7 @@ export const useGetAdsQuery = () => {
       const response = await getAdsData();
 
       if (response) {
-        const data = await decryptWithAes(response);
+        const data = response.data ? response : await decryptWithAes(response);
         sessionStorage.setItem("AdsQuery", JSON.stringify(data));
         setConfigData(data);
       }

@@ -8,6 +8,7 @@ import {
   setGraphicKey,
   setLoginOpen,
   setOCapKey,
+  setOpenSecQues,
   setOtpOpen,
   setSignupOpen,
 } from "../../features/login/ModelSlice";
@@ -26,8 +27,17 @@ const Captch: React.FC<{
   key: string;
   setKey: (key: string) => void;
   password: string;
+  setShowQuestion?: any;
   isLogin: boolean;
-}> = ({ username, password, isLogin, setIsVisible, key, setKey }) => {
+}> = ({
+  username,
+  password,
+  isLogin,
+  setIsVisible,
+  key,
+  setKey,
+  setShowQuestion,
+}) => {
   const dispatch = useDispatch();
   const [captchaCode, setCaptchaCode] = useState("");
   const [captchaImage, setCaptchaImage] = useState<string | null>(null);
@@ -35,7 +45,7 @@ const Captch: React.FC<{
   const [error, setError] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const navigate = useNavigate();
-  const [panding,setPanding] = useState(false)
+  const [panding, setPanding] = useState(false);
 
   // Fetch captcha when the component loads
   useEffect(() => {
@@ -70,7 +80,7 @@ const Captch: React.FC<{
 
   // Handle login after verifying the captcha
   const handleLogin = async () => {
-    setPanding(true)
+    setPanding(true);
     try {
       // Call login from userService with captcha verification
       const loginResponse = await login(
@@ -98,7 +108,7 @@ const Captch: React.FC<{
       dispatch(showToast({ message: Errmessage, type: "error" }));
       dispatch(setCaptchaOpen(false));
     }
-    setPanding(false)
+    setPanding(false);
   };
 
   const closeAllModals = () => {
@@ -110,15 +120,15 @@ const Captch: React.FC<{
   };
 
   const handleOtp = async () => {
-    setPanding(true)
+    setPanding(true);
     try {
       const data = await check_captchaRegister(captchaCode, keyStatus);
+      // console.log(data);
       if (!data.code) {
-        setKey(data);
-        dispatch(setGraphicKey(data))
+        // setKey(data);
+        dispatch(setGraphicKey(data));
+        // setIsVisible(false);
         dispatch(setCaptchaOpen(false));
-        dispatch(setOtpOpen(true));
-        // console.log(data);
       } else {
         dispatch(showToast({ message: "图形验证码错误", type: "error" }));
       }
@@ -126,7 +136,7 @@ const Captch: React.FC<{
       const Errmessage = error.response.data.msg;
       console.log("err", Errmessage);
     }
-    setPanding(false)
+    setPanding(false);
     // dispatch(setCapCode(captchaCode));
     // dispatch(setOCapKey(keyStatus));
     // dispatch(setCaptchaOpen(false));
@@ -140,7 +150,7 @@ const Captch: React.FC<{
 
   return (
     <div className="fixed inset-0 z-[999998] bg-black/50 backdrop-blur-[12px] w-screen h-screen flex justify-center items-center">
-      {panding && <Loader /> }
+      {panding && <Loader />}
       {captchaImage && (
         <div className="bg-[#1C1B20] w-[320px] h-[170px] p-[20px]">
           <div className="flex justify-center items-center pb-[16px] relative">

@@ -250,7 +250,7 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
                   <div className=" flex justify-between">
                     <div
                       onClick={() => toggleVisibility(false, true)}
-                      className={`text-left mt-[-10px] text-sm cursor-pointer hidden ${
+                      className={`text-left mt-[-10px] text-sm cursor-pointer ${
                         darkmode ? " text-white" : " text-black"
                       }`}
                     >

@@ -25,17 +25,24 @@ interface CaptProp {
   email: string;
   password: string;
   confirmPassword: string;
+  setShowCapt: any;
+  setGraphicKey: any;
 }
 
-const Capt: React.FC<CaptProp> = ({ email, password, confirmPassword }) => {
+const Capt: React.FC<CaptProp> = ({
+  email,
+  password,
+  confirmPassword,
+  setShowCapt,
+  setGraphicKey,
+}) => {
   const [confirmCaptchaForgot] = useConfirmCaptchaForgotMutation();
   const [showVerify, setShowVerify] = useState<boolean>(false);
   const [panding, setPanding] = useState(false);
-  const [graphicKey, setGraphicKey] = useState<string | null>(null);
-  const { data: tokenData } = useGetTokenForgotQuery(
-    { email, graphicKey: graphicKey || "" },
-    { skip: !graphicKey }
-  );
+  // const { data: tokenData } = useGetTokenForgotQuery(
+  //   { email, graphicKey: graphicKey || "" },
+  //   { skip: !graphicKey }
+  // );
   const dispatch = useDispatch();
   const [captchaCode, setCaptchaCode] = useState("");
   const [accessToken, setToken] = useState("");
@@ -45,41 +52,11 @@ const Capt: React.FC<CaptProp> = ({ email, password, confirmPassword }) => {
   const [error, setError] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const navigate = useNavigate();
-
+  // console.log("this is mf");
   // Fetch captcha when the component loads
   useEffect(() => {
     fetchCaptcha();
   }, []);
-
-  useEffect(() => {
-    getToken();
-  }, [graphicKey]);
-
-  const getToken = async () => {
-    if (graphicKey) {
-      try {
-        setPanding(true);
-        const result: any = await getTokenPass({ email, graphicKey });
-        // console.log(result);
-        const { data } = result;
-        const { email : mail, phone, session_token } = data;
-          if (mail) {
-          setIsemail("email");
-        } else {
-          setIsemail("phone");
-        }
-        setToken(session_token);
-        setShowVerify(true);
-        // dispatch(setCaptchaOpen(false))
-        console.log(data);
-      } catch (error: any) {
-        const Errormsg = error.response?.data?.msg;
-        dispatch(setCaptchaOpen(false));
-        dispatch(showToast({ message: Errormsg, type: "error" }));
-      }
-    }
-    setPanding(false);
-  };
 
   // Update button state based on captcha input
   useEffect(() => {
@@ -101,34 +78,19 @@ const Capt: React.FC<CaptProp> = ({ email, password, confirmPassword }) => {
 
   const handleSubmit = async () => {
     try {
-      // const { data } = await confirmCaptchaForgot({ captchaCode, keyStatus });
       const data = await check_captchaRegister(captchaCode, keyStatus);
 
       // console.log(data);
       if (!data.code) {
         setGraphicKey(data);
+        setShowCapt(false)
       } else {
         dispatch(showToast({ message: "图形验证码错误", type: "error" }));
       }
-      // console.log(tokenData)
 
-      // if (tokenData) {
-      //   const { data } = tokenData;
-      //   const { email, phone, session_token } = data;
-      //   if (email) {
-      //     setIsemail("email");
-      //   } else {
-      //     setIsemail("phone");
-      //   }
-      //   setToken(session_token);
-      //   setShowVerify(true);
-      // } else if (!tokenData && graphicKey) {
-      //   // console.log("user not exist");
-      //   dispatch(setCaptchaOpen(false));
-      //   dispatch(showToast({ message: "找不到用户", type: "error" }));
-      // }
+      // console.log(data);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -153,7 +115,7 @@ const Capt: React.FC<CaptProp> = ({ email, password, confirmPassword }) => {
                 核实
               </h1>
               <img
-                onClick={() => dispatch(setCaptchaOpen(false))}
+                onClick={() => setShowCapt(false)}
                 className="p-1 bg-white absolute right-0"
                 src={capClose}
                 alt="Close"

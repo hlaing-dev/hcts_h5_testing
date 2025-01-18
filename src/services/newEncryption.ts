@@ -68,9 +68,10 @@ export function decryptWithAes(data: string): object | null {
   try {
     // Decode the encrypted data (if URL-safe base64 encoding was used)
     const encryptedData = data.replace(/-/g, "+").replace(/_/g, "/"); // Convert URL-safe base64 to standard base64
-
+    console.log(encryptedData)
     // Decrypt the data
     const decrypted = CryptoJS.AES.decrypt(
+      // data,
       encryptedData,
       CryptoJS.enc.Utf8.parse(process.env.REACT_APP_AES_KEY || ""),
       {
@@ -109,7 +110,7 @@ function convertUrlToFormData(url: string): Record<string, any> {
 
 function createSecureUrl(base: string, formData: Record<string, any>): string {
   const publicKey = process.env.REACT_APP_PUBLIC_KEY;
-  
+
   if (!publicKey) {
     throw new Error("Public key is not defined");
   }
@@ -123,15 +124,22 @@ function createSecureUrl(base: string, formData: Record<string, any>): string {
 }
 
 export function convertToSecureUrl(apiUrl: string): string {
+  const isPro = process.env.REACT_APP_IS_PRODUCTION;
+  // if (isPro == "true") {
   const [base, query] = apiUrl.split("?", 2); // Split URL into base and query string
   const formData = query
     ? convertUrlToFormData(query)
     : { timestamp: new Date().getTime() };
 
   return createSecureUrl(base, formData);
+  // } else {
+  //   return apiUrl;
+  // }
 }
 
 export function convertToSecurePayload(formData: any): any {
+  const isPro = process.env.REACT_APP_IS_PRODUCTION;
+  // if (!isPro) return formData;
   const publicKey = process.env.REACT_APP_PUBLIC_KEY;
 
   if (!publicKey) {

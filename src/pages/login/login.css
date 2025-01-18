@@ -28,6 +28,11 @@
   border-radius: 0%;
 }
 
+.input_border_dark {
+  border-bottom: 0.5px solid #888;
+  border-radius: 0%;
+}
+
 .next_button {
   border-radius: var(--Height-And-Sizes-80, 80px);
   background: #fe58b5;
@@ -45,4 +50,16 @@
 .new_css_button {
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.12);
+}
+
+.custom_select_ques {
+  border-radius: 7.861px;
+  border: 0.983px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.custom_select_ques_dark {
+  border-radius: 7.861px;
+  border: 0.983px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.04);
 }

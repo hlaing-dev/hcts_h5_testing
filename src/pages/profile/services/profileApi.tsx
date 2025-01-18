@@ -50,7 +50,7 @@ export const profileApi = createApi({
         // Use fetchBaseQuery directly for this endpoint with custom responseHandler
         const result = await fetchBaseQuery({
           url: convertToSecureUrl(`/user/info`),
-          responseHandler: "text", // Only this endpoint will use raw text
+          // responseHandler: "text", // Only this endpoint will use raw text
         });
 
         if (result.error) {
@@ -59,7 +59,8 @@ export const profileApi = createApi({
 
         try {
           // Decrypt the response
-          const decryptedData = decryptWithAes(result.data as string);
+          // const decryptedData = decryptWithAes(result.data as string);
+          const decryptedData = result.data 
           if (!decryptedData) {
             throw new Error("Decryption failed for user info");
           }

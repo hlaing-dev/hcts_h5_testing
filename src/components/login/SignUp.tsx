@@ -33,6 +33,7 @@ const SignUp: React.FC<SignUpProps> = ({ handleBack }) => {
   const previousPathname = useRef(currentLocation.pathname);
 
   useEffect(() => {
+    handleShowSignUpEmail()
     if (previousPathname.current !== currentLocation.pathname) {
       setIsVisible(false);
       closeAllModals();
@@ -75,7 +76,7 @@ const SignUp: React.FC<SignUpProps> = ({ handleBack }) => {
   };
 
   const handleBack2 = () => {
-    setIsVisible(true); // Show the login component
+    setIsVisible(false); // Show the login component
     setEmailVisible(false); // Hide the LoginEmail component
     setPhoneVisible(false); // Hide the LoginEmail component
   };
@@ -100,13 +101,13 @@ const SignUp: React.FC<SignUpProps> = ({ handleBack }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center overflow-hidden">
-      {isEmailVisible && <SignEmail handleBack2={handleBack2} />}
-      {isPhoneVisible && <SignPhone handleBack2={handleBack2} />}
+    <div className="min-h-screen bg-white dark:bg-white flex items-center justify-center overflow-hidden">
+      {isEmailVisible && <SignEmail handleBack2={handleBack} />}
+      {/* {isPhoneVisible && <SignPhone handleBack2={handleBack2} />} */}
       <AnimatePresence>
         {isVisible && (
           <motion.div
-            className="login_box fixed h-[480px]  bottom-0 z-[99999] w-screen max-w-m"
+            className="login_box fixed hidden h-[480px]  bottom-0 z-[99999] w-screen max-w-m"
             initial="hidden"
             animate="visible"
             exit="exit"

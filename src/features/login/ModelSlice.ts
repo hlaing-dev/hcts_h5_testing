@@ -11,12 +11,14 @@ interface model {
   openSignUpEmailModel: boolean;
   openSignUpPhoneModel: boolean;
   social_id: string;
-  openUserNameForm : boolean,
-  panding : number
-  GraphicKey : string
+  openUserNameForm: boolean;
+  panding: number;
+  GraphicKey: string;
+  openSecQues: boolean;
 }
 
 const initialState: model = {
+  openSecQues: false,
   openAuthModel: false,
   openLoginModel: false,
   openSignupModel: false,
@@ -28,8 +30,8 @@ const initialState: model = {
   openSignUpPhoneModel: false,
   openUserNameForm: false,
   social_id: "",
-  panding : 0,
-  GraphicKey : ''
+  panding: 0,
+  GraphicKey: "",
 };
 
 export const modelSlice = createSlice({
@@ -75,10 +77,13 @@ export const modelSlice = createSlice({
     setGraphicKey: (state, action) => {
       state.GraphicKey = action.payload;
     },
-    setPanding: (state, action) => {            //no need
-    state.panding = action.payload;
+    setPanding: (state, action) => {
+      state.panding = action.payload;
     },
-  }
+    setOpenSecQues: (state, action) => {
+      state.openSecQues = action.payload;
+    },
+  },
 });
 
 export const {
@@ -94,7 +99,8 @@ export const {
   setOpenUserNameForm,
   setSocial_id,
   setGraphicKey,
-  setPanding
+  setPanding,
+  setOpenSecQues
 } = modelSlice.actions;
 
 export default modelSlice.reducer;

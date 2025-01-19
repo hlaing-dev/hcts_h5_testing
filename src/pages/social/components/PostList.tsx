@@ -884,7 +884,7 @@ const PostList = ({
   };
   // console.log(data);
   return (
-    <div className="bg-gray-300 dark:bg-[#161619]">
+    <div className="bg-gray-300 dark:bg-black pt-0.5">
       {/* {showDetail && (
         <Social_details
           followStatus={followStatus}
@@ -903,7 +903,7 @@ const PostList = ({
       {/* {!showDetail && (
 
       )} */}
-      <>
+      <div >
         {data.map((post: any, index: number) => (
           <div
             key={index}
@@ -1308,7 +1308,7 @@ const PostList = ({
         >
           <></>
         </InfiniteScroll>
-      </>
+      </div>
     </div>
   );
 };

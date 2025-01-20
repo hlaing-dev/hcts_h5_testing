@@ -66,7 +66,7 @@ const App: React.FC = () => {
   const { openAuthModel, openLoginModel, openSignupModel, panding } =
     useSelector((state: any) => state.model);
   const { data, isLoading } = useGetAdsQuery();
-  
+
   useEffect(() => {
     // Initialize the theme listener
     const cleanup = initializeThemeListener(dispatch);
@@ -74,7 +74,7 @@ const App: React.FC = () => {
     // Cleanup on component unmount
     return cleanup;
   }, [dispatch]);
-  
+
   const location = useLocation();
   // const isLoggedIn = localStorage.getItem("authToken"); // Check if the user is authenticated
 
@@ -135,6 +135,10 @@ const App: React.FC = () => {
       }
     }
   }, [location.pathname]);
+
+  const { hideMode } = JSON.parse(
+    localStorage.getItem("movieAppSettings") || "{}"
+  );
 
   useEffect(() => {
     const hasSeenLanding = sessionStorage.getItem("hasSeenLanding");
@@ -203,7 +207,12 @@ const App: React.FC = () => {
                     <Route path="/search_overlay" element={<Search />} />
 
                     <Route path="/explorer" element={<Explorer />} />
-                    <Route path="/social" element={<Social />} />
+                    {/* Conditional rendering of the Social component */}
+                    {!hideMode && location.pathname === "/social" ? (
+                      <Route path="/social" element={<Social />} />
+                    ) : (
+                      <Route path="/social" element={<div />} />
+                    )}
                     <Route path="/short" element={<Short />} />
                     <Route path="/explorer/:id" element={<Detail />} />
                     <Route path="/profile" element={<Profile />} />

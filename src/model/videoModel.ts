@@ -16,6 +16,7 @@ export interface Episode {
     is_collect: boolean;
     content: string;
     cover: string;
+    hot: string;
     id: string;
     type_name: string;
     tags: { name: string }[];

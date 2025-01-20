@@ -283,6 +283,10 @@ const Player = ({
   const [isPlaying, setIsPlaying] = useState(false); // Track if the current player is playing
   const activePlayerRef = useRef<HTMLDivElement | null>(null); // Track the currently active player
 
+  const { autoMode } = JSON.parse(
+    localStorage.getItem("movieAppSettings") || "{}"
+  );
+
   useEffect(() => {
     if (playerContainerRef.current) {
       // Lozad lazy-load observer
@@ -330,8 +334,10 @@ const Player = ({
               // Play the new center video
               activePlayerRef.current = videoContainer;
               if (artPlayerInstanceRef.current && isCenterPlay) {
-                artPlayerInstanceRef.current.play();
-                setIsPlaying(true);
+                if (autoMode) {
+                  artPlayerInstanceRef.current.play();
+                  setIsPlaying(true);
+                }
               }
             }
           } else {

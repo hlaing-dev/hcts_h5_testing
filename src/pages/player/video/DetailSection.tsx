@@ -7,7 +7,7 @@ import star1 from "../../../assets/star.png";
 import info1 from "../../../assets/info.png";
 import shareLink from "../../../assets/shareLink1.png";
 import selectedStar from "../../../assets/selectedStar1.png";
-import rate from "../../../assets/rate.svg";
+import rate from "../../../assets/rate2.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
@@ -266,9 +266,17 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                 <div className="left-section flex items-center flex-wrap space-x-2 w-[80%] overflow-x-auto text-[14px]">
                   {/* <span className="rating flex items-center"> */}
                   <span className="flames">
+                    {movieDetail?.popularity_score > 0 ? 
+                    <>
                     {Array.of(movieDetail?.popularity_score)?.map((item) => (
                       <img src={rate} key={item} alt="" />
                     ))}
+                    </> :
+                    <>
+                    <img src={rate} key="0" alt="" />
+                    {movieDetail?.hot}
+                    </>
+                  }
                   </span>
                   {/* </span> */}
                   <span>{movieDetail.year}</span>
@@ -350,7 +358,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
               </button>
             </div>
             {/* Warning Message */}
-            <div className="warning rounded-md text-white text-center bg-[#FE58B5]">
+            <div className="warning rounded-md text-white text-center">
               <div className="warning-content rounded-md">
                 <span className="warning-text text-white flex">
                   <img src={PlayerText} alt="" />    好事不独享，点击分享给好友一起体验！
@@ -416,7 +424,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                 {movieDetail.name || ""}
               </h2>
               <div className="flex items-center text-sm text-gray-500 mb-4">
-                <span className="text-orange-500 flex items-center">
+                <span className="text-pink-300 flex items-center">
                   <img src={rate} alt="" />
                   {movieDetail.popularity_score || 0}
                 </span>

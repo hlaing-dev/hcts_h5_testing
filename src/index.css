@@ -295,14 +295,13 @@ input[type="range"]::-moz-range-thumb {
   display: flex;
   overflow: hidden;
   padding: 10px;
-  /* background-color: #0000001a; */
   border-radius: 10px;
-  /* color: black; */
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
   position: relative;
-  /* @apply bg-[#0000001a] text-black dark:bg-[#1F1F22] dark:text-white; */
+  background: url('assets/theme-bg1.svg');
+  background-size: cover;
 }
 
 .warning-content {

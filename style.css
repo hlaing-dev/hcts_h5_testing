@@ -66,6 +66,8 @@ body {
 .warning {
     font-size: 0.8em;
     /* background-color: #111; */
+    background: linear-gradient(221.68deg, #FF6CBF 3.82%, #FE58B5 48.71%, #FE58B5 93.61%);
+    background-image: url('./src/assets/adsTextBg.svg');
     padding: 10px;
     border-radius: 5px;
     color: #ffcc00;

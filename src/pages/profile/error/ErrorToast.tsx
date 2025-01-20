@@ -2,7 +2,8 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { hideToast } from "./ErrorSlice";
-import logo from "../../../assets/logo.svg";
+import logo from "../../../assets/logo2.svg";
+
 
 const ErrorToast: React.FC = () => {
   const dispatch = useDispatch();

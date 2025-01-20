@@ -392,11 +392,11 @@ const SecQues: React.FC<SecQuesProps> = ({
                 </div>
                 {/* decs */}
                 <div
-                  className={` mt-[-20px] text-[14px] font-[500] leading-[20px] text-white `}
+                  className={` mt-[-20px] text-[12px] font-[500] leading-[20px] text-[#888] `}
                 >
-                  <p>8-25个字符</p>
+                  {/* <p>8-25个字符</p> */}
                   <p>
-                    如果您忘记密码，这些问题将帮助您重设密码。请选择只有您才能回答的问题
+                  如果您忘记密码，这些问题将帮助您重设密码。请选择只有您才能回答的问题
                   </p>{" "}
                   {/* <p>letters, numbers.</p> */}
                 </div>

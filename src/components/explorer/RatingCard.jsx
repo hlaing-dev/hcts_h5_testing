@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import rate from "../../assets/rate1.svg";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../../pages/search/slice/ThemeSlice";
 
 const RatingCard = ({ movie, index }) => {
+  const darkmode = useSelector(selectTheme);
+
   return (
     <div className="flex gap-3 items-center text-black dark:text-white">
       <Link to={`/player/${movie?.id}`} className="relative">
@@ -40,12 +44,18 @@ const RatingCard = ({ movie, index }) => {
             </div>
           </div>
           <div className="flex gap-1">
-            <p className="px-2 py-[2px] text-[12px] bg-[#00000014] rounded-md">
+            <p
+              className={`px-2 py-[2px] text-[12px] ${
+                darkmode ? "dark_tag_bg" : "white_tag_bg"
+              }`}
+            >
               {movie?.year}
             </p>
             {movie?.tags?.map((tag) => (
               <p
-                className="px-2 py-[2px] text-[12px] bg-[#00000014] rounded-md"
+                className={`px-2 py-[2px] text-[12px] ${
+                  darkmode ? "dark_tag_bg" : "white_tag_bg"
+                }`}
                 key={tag?.id}
               >
                 {tag?.name}

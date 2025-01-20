@@ -29,8 +29,6 @@ const MovieCard = ({
   const darkmode = useSelector(selectTheme);
   // const [darkmode, setDarkMode] = useState(true);
 
-  console.log("darkmode", darkmode);
-
   useEffect(() => {
     if (openAuthModel) {
       document.body.classList.add("no-scroll-auth"); // Disable scrolling

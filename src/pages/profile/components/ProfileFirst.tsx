@@ -163,9 +163,7 @@ const ProfileFirst = ({ darkmode }: any) => {
               观看历史
             </div>
           </div>
-          <div>
-            {darkmode ? <RightDark /> : <Right />}
-          </div>
+          <div>{darkmode ? <RightDark /> : <Right />}</div>
         </a>
 
         {/* Horizontal Scrolling Movie List */}
@@ -237,12 +235,10 @@ const ProfileFirst = ({ darkmode }: any) => {
             <div
               className={`${darkmode ? "profile-text_dark" : "profile-text"}`}
             >
-              观看历史
+              我的收藏
             </div>
           </div>
-          <div>
-            {darkmode ? <RightDark /> : <Right />}
-          </div>
+          <div>{darkmode ? <RightDark /> : <Right />}</div>
         </a>
 
         {/* Horizontal Scrolling Movie List */}

@@ -109,8 +109,8 @@ const SignEmail: React.FC<SignEmailProps> = ({ handleBack2 }) => {
       console.log(data);
       setQuestion(data.list);
       setSession_token(data.session_token);
-      setShowQuestion(true)
-      setIsVisible(false)
+      setShowQuestion(true);
+      setIsVisible(false);
     } catch (error: any) {
       if (error) {
         const msg = error.response.data.msg;
@@ -214,12 +214,6 @@ const SignEmail: React.FC<SignEmailProps> = ({ handleBack2 }) => {
               <div className="flex flex-col justify-center items-center gap-[16px]">
                 <motion.p className="w-[60px] h-[4px] drag_line mt-[8px] cursor-pointer bg-gray-400"></motion.p>
                 <div className="flex justify-between items-center w-full pb-[20px]">
-                  {/* <img
-                    className="p-3 cursor-pointer"
-                    src={back}
-                    alt="Back"
-                    onClick={handleBack2}
-                  /> */}
                   <div className="p-3 cursor-pointer" onClick={handleBack2}>
                     {darkmode ? (
                       <svg
@@ -238,21 +232,26 @@ const SignEmail: React.FC<SignEmailProps> = ({ handleBack2 }) => {
                       <BackBtn />
                     )}
                   </div>
-                  <h2
-                    className={`text-[18px] font-[600] leading-[20px] ${
-                      darkmode ? " text-white" : "text-black"
-                    }`}
-                  >
-                    {/* 使用邮箱注册 */}
-                    注册
-                  </h2>
+                  <div className=" w-full flex justify-center mr-2">
+                    <h2
+                      className={`text-[18px] font-[600] leading-[20px] ${
+                        darkmode ? " text-white" : "text-black"
+                      }`}
+                    >
+                      {/* 使用邮箱注册 */}
+                      注册
+                    </h2>
+                  </div>
                   {/* <img
                     className="close_btn p-3 cursor-pointer"
                     src={close}
                     alt="Close"
                     onClick={handleClose}
                   /> */}
-                  <div className="p-3 cursor-pointer" onClick={handleClose}>
+                  <div
+                    className="p-3 cursor-pointer new_close_btn "
+                    onClick={handleClose}
+                  >
                     {darkmode ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -375,7 +374,7 @@ const SignEmail: React.FC<SignEmailProps> = ({ handleBack2 }) => {
                   {/* decs */}
                   <div
                     className={` mt-[-20px] text-[14px] font-[500] leading-[20px] ${
-                      validatePassword(password)
+                      validatePassword(password) && validatePassword(email)
                         ? " text-[#00A048]"
                         : "text-[#888]"
                     }  `}
@@ -386,11 +385,11 @@ const SignEmail: React.FC<SignEmailProps> = ({ handleBack2 }) => {
                   </div>
 
                   <button
-                    disabled={!validatePassword(password)}
+                    disabled={!validatePassword(password) && validatePassword(email)}
                     type="submit"
                     className={`w-full text-[14px] text-white font-[600] leading-[22px]  mt-[20px] py-[10px] px-[16px] rounded-[80px] ${
-                      validatePassword(password)
-                        ? "next_button "
+                      !validatePassword(password) && validatePassword(email)
+                        ? `${darkmode ? "login_button" : "login_button_white"}`
                         : "next_button"
                     } transition duration-300 ease-in-out`}
                   >

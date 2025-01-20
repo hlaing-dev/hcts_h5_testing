@@ -300,7 +300,7 @@ input[type="range"]::-moz-range-thumb {
   width: 100%;
   box-sizing: border-box;
   position: relative;
-  background: url('assets/theme-bg1.svg');
+  background: url("assets/theme-bg1.svg");
   background-size: cover;
 }
 
@@ -441,4 +441,14 @@ input[type="radio"]:checked {
   z-index: 9999;
   margin-top: 23%;
   margin-left: 40%;
+}
+
+.dark_tag_bg {
+  border-radius: 4px;
+  background: var(--White-10, rgba(255, 255, 255, 0.1));
+}
+
+.white_tag_bg {
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.08);
 }

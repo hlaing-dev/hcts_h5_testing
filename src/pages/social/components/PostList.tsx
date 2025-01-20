@@ -903,7 +903,7 @@ const PostList = ({
       {/* {!showDetail && (
 
       )} */}
-      <div >
+      <div>
         {data.map((post: any, index: number) => (
           <div
             key={index}

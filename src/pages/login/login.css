@@ -14,8 +14,13 @@
 
 .login_button {
   border-radius: var(--Height-And-Sizes-80, 80px);
-  border: 1px solid #ffabda;
-  background: #fe58b5;
+  /* border: 1px solid #ffabda; */
+  background: #393939;
+}
+
+.login_button_white {
+  border-radius: var(--Height-And-Sizes-80, 80px);
+background: #FFABDA;
 }
 
 .close_btn {
@@ -62,4 +67,9 @@
   border-radius: 7.861px;
   border: 0.983px solid rgba(0, 0, 0, 0.08);
   background: rgba(0, 0, 0, 0.04);
+}
+
+.new_close_btn {
+  border-radius: 1000px;
+  background: rgba(255, 255, 255, 0.04);
 }

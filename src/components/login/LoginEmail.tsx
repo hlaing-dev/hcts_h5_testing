@@ -268,7 +268,7 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ handleBack }) => {
                     disabled={!validatePassword(password)}
                     type="submit"
                     className={`w-full text-[14px] font-[600] leading-[22px]  mt-[20px] py-[10px] px-[16px] rounded-[80px]  ${
-                      validatePassword(password)
+                      !validatePassword(password)
                         ? "login_button text-white"
                         : "next_button text-[#fff]"
                     } transition duration-300 ease-in-out`}

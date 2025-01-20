@@ -325,3 +325,20 @@
 .art-notice {
   display: none !important;
 }
+
+.bg-audio {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.bg-audio-white {
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar1 {
+  border-radius: 5px;
+  fill: var(--White-100, #fff);
+  filter: drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.25));
+}

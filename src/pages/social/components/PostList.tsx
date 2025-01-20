@@ -587,6 +587,7 @@ import Player from "./Player";
 import Social_details from "./Social_details";
 import { useNavigate } from "react-router";
 import { selectTheme } from "../../../pages/search/slice/ThemeSlice";
+import AudioPlayer from "./AudioPlayer";
 
 const PostList = ({
   data,
@@ -616,6 +617,7 @@ const PostList = ({
   const [followStatus, setFollowStatus] = useState<{ [key: string]: boolean }>(
     {}
   );
+  const [activePlayer, setActivePlayer] = useState<any>(null); // Track the active player
   const [likeStatus, setLikeStatus] = useState<{
     [key: string]: { liked: boolean; count: number };
   }>({});
@@ -744,7 +746,6 @@ const PostList = ({
         post_id: postId,
         is_like: !currentStatus.liked,
       }).unwrap();
-      console.log(currentStatus.count);
       if (currentStatus.count === "99+") {
         setLikeStatus((prev) => ({
           ...prev,
@@ -1089,6 +1090,14 @@ const PostList = ({
                 src={post?.files[0].resourceURL}
                 thumbnail={post?.files[0].thumbnail}
                 status={post?.type === "ads" ? true : false}
+              />
+            )}
+            {post.file_type === "audio" && (
+              <AudioPlayer
+                src={post?.files[0]?.resourceURL}
+                index={index}
+                setActivePlayer={setActivePlayer}
+                activePlayer={activePlayer}
               />
             )}
             {post?.type === "post" || !post?.type ? (

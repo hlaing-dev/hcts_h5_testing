@@ -81,7 +81,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
       <div
-        className="bg-sourceBack dark:bg-[#161619cc] backdrop-blur-md w-full max-w-md rounded-t-xl p-4"
+        className="bg-sourceBack dark:bg-[#161619] backdrop-blur-xl w-full max-w-md rounded-t-xl p-4"
         ref={modalRef}
         style={{ height: `${lowerDivHeight}px` }}
       >

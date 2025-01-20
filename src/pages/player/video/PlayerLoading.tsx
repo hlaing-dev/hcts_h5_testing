@@ -1,5 +1,5 @@
 import "./LoadingStyle.css";
-import Logo from "../../../assets/playerLoading.svg";
+import Logo from "../../../assets/loadingPlayer.svg";
 
 const PlayerLoading: React.FC<any> = ({onBack}) => {
   return (

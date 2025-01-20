@@ -30,7 +30,7 @@ interface SecQuesProps {
   setShowQuestion: any;
   question: any;
   setQuestion: any;
-  session_token : any
+  session_token: any;
 }
 
 const SecQues: React.FC<SecQuesProps> = ({
@@ -40,7 +40,7 @@ const SecQues: React.FC<SecQuesProps> = ({
   setShowQuestion,
   question,
   setQuestion,
-  session_token
+  session_token,
 }) => {
   const { GraphicKey } = useSelector((state: any) => state.model);
   const [showValue, setShowValue] = useState(false);
@@ -74,7 +74,6 @@ const SecQues: React.FC<SecQuesProps> = ({
     { id: 3, name: "Your graduation day" },
     { id: 4, name: "Your favorite song" },
   ];
- 
 
   // useEffect(() => {
   //   getqq();
@@ -106,8 +105,8 @@ const SecQues: React.FC<SecQuesProps> = ({
       password: Userpassword,
       answer: password,
       question_id: questionID,
-      // captcha: GraphicKey,
-      session_token : session_token
+
+      session_token: session_token,
     };
     setPanding(true);
     try {
@@ -396,7 +395,7 @@ const SecQues: React.FC<SecQuesProps> = ({
                 >
                   {/* <p>8-25个字符</p> */}
                   <p>
-                  如果您忘记密码，这些问题将帮助您重设密码。请选择只有您才能回答的问题
+                    如果您忘记密码，这些问题将帮助您重设密码。请选择只有您才能回答的问题
                   </p>{" "}
                   {/* <p>letters, numbers.</p> */}
                 </div>

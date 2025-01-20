@@ -75,16 +75,16 @@ export const login = async (
     // console.log(captchaResult);
 
     const captchaResponse = await captchaResult.data;
-    // let newCap: { data?: any } = decryptWithAes(captchaResponse) || {};
+    let newCap: { data?: any } = decryptWithAes(captchaResponse) || {};
 
-    // if (!newCap.data) {
-    //   throw new Error("Captcha verification failed");
-    // }
+    if (!newCap.data) {
+      throw new Error("Captcha verification failed");
+    }
 
     const formData = {
       username,
       password,
-      captcha: captchaResponse.data.key,
+      captcha: newCap.data.key,
       timestamp: new Date().getTime(),
     };
 
@@ -130,12 +130,8 @@ export const login = async (
     // console.log(resultText)
 
     // Step 5: Handle the response (decrypt if needed)
-    return resultText;
-    // if (!dataIsEncrypt) {
-    //   return JSON.parse(resultText);
-    // } else {
-    //   return decryptWithAes(resultText);
-    // }
+    // return resultText;
+    return decryptWithAes(resultText);
   } catch (err) {
     // console.error("Error during login:", err);
     throw err;
@@ -161,18 +157,27 @@ export const getQuestion = async (username: string, captcha: any) => {
   }
 };
 
-export const registerWithUsername = async (formData: any) => {
+export const registerWithUsername = async ({
+  username,
+  password,
+  answer,
+  question_id,
+  session_token,
+}: any) => {
   try {
     const gg = convertToSecurePayload({
-      formData,
+      username,
+      password,
+      answer,
+      question_id,
+      session_token,
     });
-    console.log(formData);
     const { data } = await axios.post(
       `${process.env.REACT_APP_API_URL}/user/register/username`,
-      formData
+      gg
     );
-    // return decryptWithAes(data);
-    return data;
+    return decryptWithAes(data);
+    // return data;
   } catch (error) {
     throw error;
   }
@@ -291,15 +296,21 @@ export const get_ques_forgot = async (username: string, captcha: any) => {
   }
 };
 
-export const check_answer_forgot = async (formData: any) => {
+export const check_answer_forgot = async ({
+  question_id,
+  answer,
+  username,
+}: any) => {
   try {
     const gg = convertToSecurePayload({
-      formData,
+      question_id,
+      answer,
+      username,
     });
     // console.log(formData);
     const { data } = await axios.post(
       `${process.env.REACT_APP_API_URL}/user/security/check/answer`,
-      formData
+      gg
     );
     // return decryptWithAes(data);
     return data;
@@ -308,15 +319,15 @@ export const check_answer_forgot = async (formData: any) => {
   }
 };
 
-export const reset_pass_forgot = async (formData: any) => {
+export const reset_pass_forgot = async ({password,repassword,session_token,captcha}: any) => {
   try {
     const gg = convertToSecurePayload({
-      formData,
+      password,repassword,session_token,captcha
     });
     // console.log(formData);
     const { data } = await axios.post(
       `${process.env.REACT_APP_API_URL}/user/forget/password`,
-      formData
+      gg
     );
     // return decryptWithAes(data);
     return data;

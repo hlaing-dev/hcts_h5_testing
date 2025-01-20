@@ -68,7 +68,7 @@ export function decryptWithAes(data: string): object | null {
   try {
     // Decode the encrypted data (if URL-safe base64 encoding was used)
     const encryptedData = data.replace(/-/g, "+").replace(/_/g, "/"); // Convert URL-safe base64 to standard base64
-    console.log(encryptedData)
+    // console.log(encryptedData)
     // Decrypt the data
     const decrypted = CryptoJS.AES.decrypt(
       // data,

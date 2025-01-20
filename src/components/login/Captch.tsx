@@ -83,7 +83,7 @@ const Captch: React.FC<{
     setPanding(true);
     try {
       // Call login from userService with captcha verification
-      const loginResponse = await login(
+      const loginResponse : any = await login(
         username,
         password,
         captchaCode,

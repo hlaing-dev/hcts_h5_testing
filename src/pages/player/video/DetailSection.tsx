@@ -125,28 +125,28 @@ const DetailSection: React.FC<DetailSectionProps> = ({
   const copyToClipboard = async (text: string) => {
     try {
       handleCopy();
-      sendEventToNative(text);
+      // sendEventToNative(text);
       // Attempt to use the Clipboard API (works in most modern browsers)
-      if ("clipboard" in navigator) {
+      if ('clipboard' in navigator) {
         await navigator.clipboard.writeText(text);
       } else {
-        const input = document.createElement("input");
-        input.setAttribute("value", text); // Set the value to the text we want to copy
-        input.setAttribute("readonly", ""); // Make it readonly so user can't modify it
-        input.style.position = "absolute"; // Ensure it doesn't affect layout
-        input.style.opacity = "0"; // Make it invisible
-        input.style.pointerEvents = "none"; // Disable interaction
-        input.style.zIndex = "-9999"; // Position it off-screen
+        const input = document.createElement('input');
+        input.setAttribute('value', text); // Set the value to the text we want to copy
+        input.setAttribute('readonly', '');  // Make it readonly so user can't modify it
+        input.style.position = 'absolute';  // Ensure it doesn't affect layout
+        input.style.opacity = '0';          // Make it invisible
+        input.style.pointerEvents = 'none'; // Disable interaction
+        input.style.zIndex = '-9999';       // Position it off-screen
 
-        document.body.appendChild(input); // Append it to the body
-        input.select(); // Select the text
-        document.execCommand("copy"); // Copy the selected text to clipboard
+        document.body.appendChild(input);  // Append it to the body
+        input.select();  // Select the text
+        document.execCommand('copy');  // Copy the selected text to clipboard
         document.body.removeChild(input); // Remove the input from the DOM
       }
     } catch (error) {
       console.error("Clipboard copy failed", error);
     }
-  };
+  }
 
   const sendEventToNative = (text: string) => {
     if (
@@ -163,38 +163,54 @@ const DetailSection: React.FC<DetailSectionProps> = ({
 
   const handleShare = async () => {
     setIsLoading(true);
-    const cookieKey = "shareContent";
-
+    const cookieKey = 'shareContent';
+    
     try {
       // Check if the cookie exists
       const cachedContent = Cookies.get(cookieKey);
       if (cachedContent) {
-        copyToClipboard(JSON.parse(cachedContent).data.content);
+        copyToClipboard(JSON.parse(cachedContent).data.link);
+        sendShareEventToNative(JSON.parse(cachedContent).data.link);
         return;
       }
-
+  
       // Call the API if no cached content is found
       const response = await axios.get(
         convertToSecureUrl(`${process.env.REACT_APP_API_URL}/user/get_share`),
         {
           headers: {
             "Content-Type": "application/json",
-          },
+          }
         }
       );
-
+  
       const data = await response.data;
       const result: any = await decryptWithAes(data);
-
+  
       if (data && result) {
         // Save to cookie with a 2-hour expiry
         Cookies.set(cookieKey, JSON.stringify(result), { expires: 1 / 12 }); // 1/12 day = 2 hours
-        copyToClipboard(result?.data.content);
+        sendShareEventToNative(result?.data.link);
+        copyToClipboard(result?.data.link);
       }
     } catch (error) {
       console.error("Error fetching share content:", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+  
+  const sendShareEventToNative = (value: any) => {
+    // copyToClipboard("https://d1svxjht0opoc5.cloudfront.net/kkoor4.pdf");
+    if (
+      (window as any).webkit &&
+      (window as any).webkit.messageHandlers &&
+      (window as any).webkit.messageHandlers.jsBridge
+    ) {
+      (window as any).webkit.messageHandlers.jsBridge.postMessage({
+        eventName: "socialMediaShare",
+        value: value,
+      });
     }
   };
 

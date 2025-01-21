@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { setPanding } from "../features/login/ModelSlice";
 import { useGetAdsQuery } from "../services/helperService";
-import land from "../assets/login/land.png";
+import land from "../assets/trainSplash.svg";
 
 import ad1 from "../assets/login/ad1.png";
 import { Link } from "react-router-dom";
@@ -19,6 +19,7 @@ const Landing: React.FC<any> = ({ data }) => {
   useEffect(() => {
     if (data?.data) {
       const cur = data?.data["start"];
+      console.log('cur is=>', cur);
       if(cur && cur.length > 0) {
         setCc(cur[0])
         setImage(cur[0]?.data?.image)

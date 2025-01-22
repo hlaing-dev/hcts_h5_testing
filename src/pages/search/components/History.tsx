@@ -16,7 +16,7 @@ const History = () => {
   const navigate = useNavigate();
 
   if (historys.length === 0) {
-    return <div className="mt-12"></div>;
+    return <div className="-mt-2"></div>;
   }
 
   const handleDelete = () => {

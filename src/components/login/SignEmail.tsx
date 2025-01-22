@@ -388,7 +388,7 @@ const SignEmail: React.FC<SignEmailProps> = ({ handleBack2 }) => {
                     disabled={!validatePassword(password) && validatePassword(email)}
                     type="submit"
                     className={`w-full text-[14px] text-white font-[600] leading-[22px]  mt-[20px] py-[10px] px-[16px] rounded-[80px] ${
-                      !validatePassword(password) && validatePassword(email)
+                      !validatePassword(password) && !validatePassword(email)
                         ? `${darkmode ? "login_button" : "login_button_white"}`
                         : "next_button"
                     } transition duration-300 ease-in-out`}

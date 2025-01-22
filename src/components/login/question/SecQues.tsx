@@ -94,7 +94,7 @@ const SecQues: React.FC<SecQuesProps> = ({
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const validationError = password.length < 6;
+    const validationError = password.length < 2;
 
     if (validationError || selectedValue == "选择问题") {
       dispatch(showToast({ message: "请回答安全问题", type: "error" }));

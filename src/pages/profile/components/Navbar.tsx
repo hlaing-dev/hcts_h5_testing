@@ -5,7 +5,7 @@ import { BiSolidBell } from "react-icons/bi";
 
 const Navbar = ({ darkmode }: any) => {
   return (
-    <div className="flex justify-between p- items-center relative py-[50px]">
+    <div className="flex justify-between p- items-center relative pt-[50px py-[30px]">
       <div></div>
       <div className="flex gap-2 items-center absolute z-[99] right-[10px]">
         <Link to={"/notifications"} className="p-2">

@@ -36,8 +36,8 @@ const ExplorerTags = ({
                 }}
                               className={`${
                   sort === item?.value
-                    ? "tab-bg text-white px-4 py-1 text-xs"
-                    : "bg-[#00000014] px-4 dark:px-0 py-1 text-xs text-[#000] dark:text-white"
+                    ? "tab-bg text-white px-4 py-1 text-[14px]"
+                    : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                 } whitespace-nowrap py-1 rounded-full transition-colors`}
               >
                 {item?.name}
@@ -64,11 +64,11 @@ const ExplorerTags = ({
                                    className={`${
                     classData
                       ? classData === item
-                        ? "tab-bg text-white px-4 py-1 text-xs"
-                        : "bg-[#00000014] px-4 dark:px-0 py-1 text-xs text-[#000] dark:text-white"
+                        ? "tab-bg text-white px-4 py-1 text-[14px]"
+                        : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                       : activeClass === index
-                      ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "bg-[#00000014] px-4 dark:px-0 py-1 text-xs text-[#000] dark:text-white"
+                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
                   {item}
@@ -95,11 +95,11 @@ const ExplorerTags = ({
                                     className={`${
                     area
                       ? area === item
-                        ? "tab-bg text-white px-4 py-1 text-xs"
-                        : "bg-[#00000014] px-4 dark:px-0 py-1 text-xs text-[#000] dark:text-white"
+                        ? "tab-bg text-white px-4 py-1 text-[14px]"
+                        : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                       : activeArea === index
-                      ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "bg-[#00000014] px-4 dark:px-0 py-1 text-xs text-[#000] dark:text-white"
+                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
                   {item}
@@ -126,11 +126,11 @@ const ExplorerTags = ({
  className={`${
                     year
                       ? year === item
-                        ? "tab-bg text-white px-4 py-1 text-xs"
-                        : "bg-[#00000014] px-4 dark:px-0 py-1 text-xs text-[#000] dark:text-white"
+                        ? "tab-bg text-white px-4 py-1 text-[14px]"
+                        : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                       : activeYear === index
-                      ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "bg-[#00000014] px-4 dark:px-0 py-1 text-xs text-[#000] dark:text-white"
+                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
                   {item}

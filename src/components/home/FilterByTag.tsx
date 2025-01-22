@@ -109,8 +109,8 @@ const FilterByTag = ({
                   }}
                   className={`${
                     sortData === item?.value
-                      ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "dark:px-0 px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
+                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      : "dark:px-0 px-4 py-1 text-[14px] text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
                   {item?.name}
@@ -132,8 +132,8 @@ const FilterByTag = ({
                   onClick={() => dispatch(setClass(item))}
                   className={`${
                     classData === item
-                      ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "dark:px-0 px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
+                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      : "dark:px-0 px-4 py-1 text-[14px] text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
                   {item}
@@ -154,8 +154,8 @@ const FilterByTag = ({
                   onClick={() => dispatch(setArea(item))}
                   className={`${
                     area === item
-                      ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "dark:px-0 px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
+                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      : "dark:px-0 px-4 py-1 text-[14px] text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
                   {item}
@@ -176,8 +176,8 @@ const FilterByTag = ({
                   onClick={() => dispatch(setYear(item))}
                   className={`${
                     year === item
-                      ? "tab-bg text-white px-4 py-1 text-xs"
-                      : "dark:px-0 px-4 py-1 text-xs text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
+                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      : "dark:px-0 px-4 py-1 text-[14px] text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
                   {item}

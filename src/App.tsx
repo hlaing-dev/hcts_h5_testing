@@ -67,6 +67,22 @@ const App: React.FC = () => {
     useSelector((state: any) => state.model);
   const { data, isLoading } = useGetAdsQuery();
 
+  const sendNativeEvent = (message: string) => {
+      if (
+        (window as any).webkit &&
+        (window as any).webkit.messageHandlers &&
+        (window as any).webkit.messageHandlers.jsBridge
+      ) {
+        (window as any).webkit.messageHandlers.jsBridge.postMessage(
+          message
+        );
+    }
+  };
+
+  useEffect(()=>{
+    sendNativeEvent('hctsh5');
+  },[]);
+
   useEffect(() => {
     // Initialize the theme listener
     const cleanup = initializeThemeListener(dispatch);

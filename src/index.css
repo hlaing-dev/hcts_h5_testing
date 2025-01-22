@@ -15,7 +15,7 @@ body {
     sans-serif, "Inter";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #dfdfdfc0;
+  /* background: #dfdfdfc0; */
   /* filter: blur(10px); */
   background-repeat: no-repeat;
   background-size: contain;

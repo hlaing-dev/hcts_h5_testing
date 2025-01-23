@@ -166,11 +166,16 @@ input[type="range"]::-moz-range-thumb {
   border-color: #fe58b5 !important;
 } */
 .gradient-bg-home2 {
-  @apply bg-gradient-to-b from-[#fff9fc]  to-[#fff9fc] dark:to-[#58402E] dark:from-[#763459];
+  background: linear-gradient(to right, #58402E, #763459)
 }
-
+.gradient-bg-home2-light {
+  background: linear-gradient(to right, #fff9fc, #fff9fc)
+}
 .gradient-bg-home {
-  background: linear-gradient(to right, #5a2947, #58402E)
+  background: linear-gradient(to right, #763459, #58402E)
+}
+.gradient-bg-home-light {
+  background: linear-gradient(to right, #fe58b5, #ff9153)
 }
 .dark-gradient {
   background: linear-gradient(to right, #58402e, #58402e);

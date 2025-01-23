@@ -10,12 +10,14 @@ import {
   setShowFilterTag,
 } from "../../src/features/counter/counterSlice";
 import FilterByTag from "./home/FilterByTag";
+import { selectTheme } from "../../src/pages/search/slice/ThemeSlice";
 
 const Header: FC = () => {
   const { data } = useGetHeaderTopicsQuery();
   // const [isShowMenu, setIsShowMenu] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State to track header visibility
+  const darkmode = useSelector(selectTheme);
 
   const configData = data?.data?.index_top_nav;
   const activeTab = useSelector((state: any) => state.home.activeTab);
@@ -65,14 +67,15 @@ const Header: FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollY]);
-
+  
   return (
     <header
       // className={`w-full z-[99999] fixed  gradient-bg-home pt-4 pb-2 transition-all duration-300 ${
       //   isHeaderVisible ? "top-0" : "-top-[135px]"
       // }`}
       className={`w-full z-[99999] fixed  ${
-        showFilterTag ? "gradient-bg-home2" : "gradient-bg-home"
+        // darkmode ? showFilterTag ? "gradient-bg-home2" : "gradient-bg-home-light"
+        darkmode ?  'gradient-bg-home' : (showFilterTag ? "gradient-bg-home2-light" : 'gradient-bg-home-light')
       } pt-4 pb-2 transition-all duration-300 top-0`}
     >
       <div className="flex items-center px-3 gap-3">

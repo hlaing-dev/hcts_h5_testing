@@ -169,8 +169,10 @@ const DetailSection: React.FC<DetailSectionProps> = ({
       // Check if the cookie exists
       const cachedContent = Cookies.get(cookieKey);
       if (cachedContent) {
-        copyToClipboard(JSON.parse(cachedContent).data.link);
-        sendShareEventToNative(JSON.parse(cachedContent).data.link);
+        console.log('cachedContent is=>', cachedContent);
+        copyToClipboard(JSON.parse(cachedContent).data.content);
+        // sendShareEventToNative(JSON.parse(cachedContent).data.link);
+        sendShareDetailEventToNative(JSON.parse(cachedContent).data.content)
         return;
       }
   
@@ -190,8 +192,9 @@ const DetailSection: React.FC<DetailSectionProps> = ({
       if (data && result) {
         // Save to cookie with a 2-hour expiry
         Cookies.set(cookieKey, JSON.stringify(result), { expires: 1 / 12 }); // 1/12 day = 2 hours
-        sendShareEventToNative(result?.data.link);
-        copyToClipboard(result?.data.link);
+        // sendShareEventToNative(result?.data.link);
+        sendShareDetailEventToNative(result?.data.content);
+        copyToClipboard(result?.data.content);
       }
     } catch (error) {
       console.error("Error fetching share content:", error);
@@ -209,6 +212,19 @@ const DetailSection: React.FC<DetailSectionProps> = ({
     ) {
       (window as any).webkit.messageHandlers.jsBridge.postMessage({
         eventName: "socialMediaShare",
+        value: value,
+      });
+    }
+  };
+
+  const sendShareDetailEventToNative = (value: any) => {
+    if (
+      (window as any).webkit &&
+      (window as any).webkit.messageHandlers &&
+      (window as any).webkit.messageHandlers.jsBridge
+    ) {
+      (window as any).webkit.messageHandlers.jsBridge.postMessage({
+        eventName: "movieDetailShare",
         value: value,
       });
     }
@@ -374,7 +390,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
               </button>
             </div>
             {/* Warning Message */}
-            <div className="warning rounded-md text-white text-center">
+            <div className="warning rounded-md text-white text-center" onClick={()=> handleShare()}>
               <div className="warning-content rounded-md">
                 <span className="warning-text text-white flex">
                   <img src={PlayerText} alt="" />    好事不独享，点击分享给好友一起体验！

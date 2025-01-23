@@ -353,10 +353,9 @@ const DetailPage: React.FC = () => {
             </div>
             <div
               className="relative flex px-2 justify-between items-center bg-[#fff] dark:bg-[#161619] pb-[10px] bprder-2 border-white dark:border-black"
-              // style={{
-              //   paddingBottom: "10px",
-              //   borderBottom: "2px solid #fff",
-              // }}
+              style={{
+                display: "none",
+              }}
             >
               <div className="flex">
                 <div

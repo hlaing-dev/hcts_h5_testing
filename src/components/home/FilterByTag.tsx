@@ -10,6 +10,7 @@ import {
 import withFilterTag from "./withFilterTag";
 import { setShowFilterTag } from "../../features/counter/counterSlice";
 import { useGetHeaderTopicsQuery } from "../../services/helperService";
+import { selectTheme } from "../../../src/pages/search/slice/ThemeSlice";
 
 const FilterByTag = ({
   secondDivRef,
@@ -29,6 +30,7 @@ const FilterByTag = ({
   const filteredTags: any = configData?.data?.movie_screen?.filter?.filter(
     (data: any) => data?.id === activeTab
   );
+  const darkmode = useSelector(selectTheme);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -109,7 +111,7 @@ const FilterByTag = ({
                   }}
                   className={`${
                     sortData === item?.value
-                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                       : "dark:px-0 px-4 py-1 text-[14px] text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
@@ -132,7 +134,7 @@ const FilterByTag = ({
                   onClick={() => dispatch(setClass(item))}
                   className={`${
                     classData === item
-                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                       : "dark:px-0 px-4 py-1 text-[14px] text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
@@ -154,7 +156,7 @@ const FilterByTag = ({
                   onClick={() => dispatch(setArea(item))}
                   className={`${
                     area === item
-                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                       : "dark:px-0 px-4 py-1 text-[14px] text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >
@@ -176,7 +178,7 @@ const FilterByTag = ({
                   onClick={() => dispatch(setYear(item))}
                   className={`${
                     year === item
-                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                       : "dark:px-0 px-4 py-1 text-[14px] text-[#000] bg-[#00000014] dark:bg-transparent dark:text-white"
                   } whitespace-nowrap py-1 rounded-full  transition-colors`}
                 >

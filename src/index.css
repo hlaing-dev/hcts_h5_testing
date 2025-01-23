@@ -181,9 +181,12 @@ input[type="range"]::-moz-range-thumb {
   background: linear-gradient(to right, #58402e, #58402e);
 }
 .tab-bg {
-  @apply bg-gradient-to-r from-[#fe58b5] to-[#ff9153]  dark:to-[#FFFFFF29] dark:from-[#FFFFFF29];
+  background: linear-gradient(to right, #FFFFFF29, #FFFFFF29);
+  /* @apply bg-gradient-to-r from-[#fe58b5] to-[#ff9153]  dark:to-[#FFFFFF29] dark:from-[#FFFFFF29]; */
 }
-
+.tab-bg-light {
+  background: linear-gradient(to right, #fe58b5, #ff9153);
+}
 .home-tab-bg {
   @apply bg-gradient-to-r from-[#fff] to-[#fff]  dark:to-[#58402E] dark:from-[#763459];
 }

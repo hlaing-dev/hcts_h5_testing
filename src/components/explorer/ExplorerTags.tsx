@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../../../src/pages/search/slice/ThemeSlice";
 
 const ExplorerTags = ({
   configData,
@@ -23,6 +25,8 @@ const ExplorerTags = ({
   setYear,
   activeYear,
 }: any) => {
+  const darkmode = useSelector(selectTheme);
+
   return (
     <>
       <div className="flex overflow-x-scroll px-3 gap-5 remove-scrollbar items-center">
@@ -36,7 +40,7 @@ const ExplorerTags = ({
                 }}
                               className={`${
                   sort === item?.value
-                    ? "tab-bg text-white px-4 py-1 text-[14px]"
+                    ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                     : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                 } whitespace-nowrap py-1 rounded-full transition-colors`}
               >
@@ -64,10 +68,10 @@ const ExplorerTags = ({
                                    className={`${
                     classData
                       ? classData === item
-                        ? "tab-bg text-white px-4 py-1 text-[14px]"
+                        ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                         : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                       : activeClass === index
-                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                       : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
@@ -95,10 +99,10 @@ const ExplorerTags = ({
                                     className={`${
                     area
                       ? area === item
-                        ? "tab-bg text-white px-4 py-1 text-[14px]"
+                        ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                         : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                       : activeArea === index
-                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                       : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >
@@ -126,10 +130,10 @@ const ExplorerTags = ({
  className={`${
                     year
                       ? year === item
-                        ? "tab-bg text-white px-4 py-1 text-[14px]"
+                        ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                         : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                       : activeYear === index
-                      ? "tab-bg text-white px-4 py-1 text-[14px]"
+                      ? `${darkmode ? 'tab-bg' : 'tab-bg-light'} text-white px-4 py-1 text-[14px]`
                       : "bg-[#00000014] px-4 dark:px-0 py-1 text-[14px] text-[#000] dark:text-white"
                   } whitespace-nowrap py-1 rounded-full transition-colors`}
                 >

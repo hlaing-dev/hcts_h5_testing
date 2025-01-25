@@ -390,7 +390,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
               </button>
             </div>
             {/* Warning Message */}
-            <div className="warning rounded-md text-white text-center" onClick={()=> handleShare()}>
+            {/* <div className="warning rounded-md text-white text-center" onClick={()=> handleShare()}>
               <div className="warning-content rounded-md">
                 <span className="warning-text text-white flex">
                   <img src={PlayerText} alt="" />    好事不独享，点击分享给好友一起体验！
@@ -399,7 +399,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                 <img src={PlayerText} alt="" />    好事不独享，点击分享给好友一起体验！
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
         )}
 

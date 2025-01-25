@@ -314,11 +314,11 @@ input[type="range"]::-moz-range-thumb {
 .warning-content {
   display: flex;
   white-space: nowrap;
-  animation: scrollText 15s linear infinite;
+  /* animation: scrollText 15s linear infinite; */
 }
 
 .warning-text {
-  padding-right: 100px; /* Adds space between repeated text */
+  /* padding-right: 100px; */
 }
 
 .warning::before,

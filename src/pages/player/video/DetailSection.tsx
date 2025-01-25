@@ -32,6 +32,7 @@ import {
   decryptWithAes,
 } from "../../../services/newEncryption";
 import axios from "axios";
+import { useGetAdsQuery } from "../../../services/helperService";
 
 const DetailSection: React.FC<DetailSectionProps> = ({
   movieDetail,
@@ -55,6 +56,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
   const [visible, setVisible] = useState(false);
   const [lowerDivHeight, setLowerDivHeight] = useState(0);
   const modalRef = useRef<any>(null);
+  const { data } = useGetAdsQuery();
 
   const handleCopy = () => {
     setVisible(true);
@@ -283,7 +285,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
       {/* Tab content */}
       <div
         className={`dark:bg-[#161619] bg-white rounded-b-lg p-1 ${
-          activeTab === "tab-1" && "pt-4 px-4 pb-1"
+          activeTab === "tab-1" && "pt-4 px-4"
         }`}
       >
         {activeTab === "tab-1" && (
@@ -343,7 +345,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
             </div>
 
             {/* Action Buttons */}
-            <div className="actions flex justify-between mt-4">
+            <div className="actions flex justify-between mt-4 mb-4">
               <button
                 onClick={() => handleTabClick("star")}
                 className="action-btn flex flex-col items-center px-4 py-2 rounded-md"
@@ -390,16 +392,16 @@ const DetailSection: React.FC<DetailSectionProps> = ({
               </button>
             </div>
             {/* Warning Message */}
-            {/* <div className="warning rounded-md text-white text-center" onClick={()=> handleShare()}>
-              <div className="warning-content rounded-md">
+            {data?.data?.['player_episode_up']?.length <= 0 && <div className="warning rounded-md text-white text-center" onClick={()=> handleShare()}>
+              <div className="warning-content rounded-md mx-auto text-[15px]">
                 <span className="warning-text text-white flex">
-                  <img src={PlayerText} alt="" />    好事不独享，点击分享给好友一起体验！
+                  <img src={PlayerText} alt="" height={"20px"} className="mt-[4px]"/>    好事不独享，点击分享给好友一起体验！
                 </span> 
-                <span className="warning-text text-white flex">
+                {/* <span className="warning-text text-white flex">
                 <img src={PlayerText} alt="" />    好事不独享，点击分享给好友一起体验！
-                </span>
+                </span> */}
               </div>
-            </div> */}
+            </div>}
           </div>
         )}
 

@@ -283,7 +283,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
       {/* Tab content */}
       <div
         className={`dark:bg-[#161619] bg-white rounded-b-lg p-1 ${
-          activeTab === "tab-1" && "p-4"
+          activeTab === "tab-1" && "pt-4 px-4 pb-1"
         }`}
       >
         {activeTab === "tab-1" && (
@@ -343,7 +343,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
             </div>
 
             {/* Action Buttons */}
-            <div className="actions flex justify-between my-4">
+            <div className="actions flex justify-between mt-4">
               <button
                 onClick={() => handleTabClick("star")}
                 className="action-btn flex flex-col items-center px-4 py-2 rounded-md"
@@ -426,7 +426,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
             />
           </div>
         ) : (
-          <div className="mt-4">
+          <div>
             {/* {adsData && <AdsSection adsDataList={adsData?.player_episode_up} />} */}
             <NewAds section={"player_episode_up"} fromMovie={true} />
           </div>

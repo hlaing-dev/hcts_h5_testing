@@ -393,7 +393,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
             </div>
             {/* Warning Message */}
             {data?.data?.['player_episode_up']?.length <= 0 && <div className="warning rounded-md text-white text-center" onClick={()=> handleShare()}>
-              <div className="warning-content rounded-md mx-auto text-[18px]">
+              <div className="warning-content rounded-md mx-auto text-[17px]">
                 <span className="warning-text text-white flex">
                   <img src={PlayerText} alt="" height={"20px"} className="mt-[4px]"/>    好事不独享，点击分享给好友一起体验！
                 </span> 

@@ -1270,7 +1270,7 @@ const PostList = ({
                       />
                     </div>
                     <div>
-                      <div className="flex flex-col">
+                      <div className="flex flex-col dark:text-white text-black">
                         <span className="ads-title">
                           {post?.ads_info?.title}
                         </span>

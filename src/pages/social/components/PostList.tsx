@@ -1285,7 +1285,7 @@ const PostList = ({
                       target="_blank"
                       href={post?.ads_info?.jump_url}
                       className={`flex gap-2 px-2 py-1 items-center
-                    bg-[#F54100]
+                    bg-[#fe58b5]
                 rounded-[6px]`}
                     >
                       <span className="text-sm">

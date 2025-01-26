@@ -36,7 +36,7 @@ const EpisodeSelector: React.FC<EpisodeSelectorProps> = ({
             onClick={() => onEpisodeSelect(episode)}
             className={`py-2 px-4 rounded-lg focus:outline-none relative ${
               selectedEpisode?.episode_id === episode.episode_id
-                ? "bg-[#0000000F] dark:bg-[#FFFFFF0A] text-white"
+                ? "bg-[#0000000F] dark:bg-[#FFFFFF0A] text-[#fe58b5] dark:text-white"
                 : "bg-[#0000001A] dark:bg-[#FFFFFF1A] text-black dark:text-white"
             }`}
             style={{ minWidth: "100px" }} // Adjust width for uniformity

@@ -83,6 +83,14 @@ const App: React.FC = () => {
     sendNativeEvent('hctsh5');
   },[]);
 
+  useEffect(()=>{
+    if(panding) {
+      sendNativeEvent('hctsh5_ads_started');
+    } else {
+      sendNativeEvent('hctsh5_home_started');
+    }
+  },[panding]);
+  
   useEffect(() => {
     // Initialize the theme listener
     const cleanup = initializeThemeListener(dispatch);

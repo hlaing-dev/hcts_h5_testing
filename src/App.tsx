@@ -200,14 +200,14 @@ const App: React.FC = () => {
     <>
       {data?.data && (
         <>
-          {panding ? (
-            <Landing data={data} />
-          ) : (
-            <div className="flex flex-col min-h-screen">
+          {panding ? 
+            <Landing data={data} /> :
+            <></>
+          }
+            <div className={`flex flex-col min-h-screen ${panding ? 'invisible' : 'visible'}`}>
               {/* <BannerAds /> */}
               {/* Conditionally render Header */}
               {!hideHeaderFooter && !hideHeader && <Header />}
-
               <div className="flex-grow">
                 <Suspense
                   fallback={
@@ -272,7 +272,6 @@ const App: React.FC = () => {
               {openSignupModel && <SignUp handleBack={handleBack} />}
               {/* </div> */}
             </div>
-          )}
         </>
       )}
     </>

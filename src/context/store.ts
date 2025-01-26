@@ -26,7 +26,7 @@ import ThemeSlice from "../pages/search/slice/ThemeSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["history", "favorite", "user", "explore", "home", "model"], // Reducers you want to persist
+  // whitelist: ["history", "favorite", "user", "explore", "home", "model"], // Reducers you want to persist
 };
 
 // Combine all reducers

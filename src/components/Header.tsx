@@ -11,6 +11,7 @@ import {
 } from "../../src/features/counter/counterSlice";
 import FilterByTag from "./home/FilterByTag";
 import { selectTheme } from "../../src/pages/search/slice/ThemeSlice";
+import { useGetSearchRankingQuery } from "../pages/search/services/searchApi";
 
 const Header: FC = () => {
   const { data } = useGetHeaderTopicsQuery();
@@ -18,6 +19,8 @@ const Header: FC = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State to track header visibility
   const darkmode = useSelector(selectTheme);
+  const { data: rankList } = useGetSearchRankingQuery();
+  const [randomWord, setRandomWord] = useState<string | null>(null);
 
   const configData = data?.data?.index_top_nav;
   const activeTab = useSelector((state: any) => state.home.activeTab);
@@ -67,7 +70,23 @@ const Header: FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollY]);
-  
+
+  const ranks = rankList?.data;
+
+  useEffect(() => {
+    // Ensure layout adjusts properly
+    // Randomly select a word from the ranks data
+    if (ranks && ranks.length > 0) {
+      const rankList = ranks[0]?.list;
+      if (rankList && rankList.length > 0) {
+        // Randomly pick a word from the rank list
+        const randomIndex = Math.floor(Math.random() * rankList.length);
+        const randomItem = rankList[randomIndex];
+        setRandomWord(randomItem.word);
+      }
+    }
+  }, [ranks]);
+
   return (
     <header
       // className={`w-full z-[99999] fixed  gradient-bg-home pt-4 pb-2 transition-all duration-300 ${
@@ -75,14 +94,18 @@ const Header: FC = () => {
       // }`}
       className={`w-full z-[99999] fixed  ${
         // darkmode ? showFilterTag ? "gradient-bg-home2" : "gradient-bg-home-light"
-        darkmode ?  'gradient-bg-home' : (showFilterTag ? "gradient-bg-home2-light" : 'gradient-bg-home-light')
+        darkmode
+          ? "gradient-bg-home"
+          : showFilterTag
+          ? "gradient-bg-home2-light"
+          : "gradient-bg-home-light"
       } pt-4 pb-2 transition-all duration-300 top-0`}
     >
       <div className="flex items-center px-3 gap-3">
         <div className="flex-1 relative">
           <input
             onFocus={() => navigate("/search_overlay")}
-            placeholder="觉醒年代"
+            placeholder={randomWord || ""}
             type="text"
             className={`rounded-[18.138px] home-input ${
               showFilterTag

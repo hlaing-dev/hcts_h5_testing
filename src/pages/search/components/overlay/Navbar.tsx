@@ -6,7 +6,11 @@ import { useLazyGetAutocompleteQuery } from "../../services/searchApi";
 import { selectTheme } from "../../slice/ThemeSlice";
 import { IoSearch } from "react-icons/io5";
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  randomWord: any;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ randomWord }) => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]); // Store autocomplete suggestions
   const [isFocused, setIsFocused] = useState(false); // Manage input focus
@@ -115,7 +119,7 @@ const Navbar: React.FC = () => {
                 value={query}
                 type="text"
                 className="bg-transparent w-full focus:outline-none"
-                placeholder="觉醒年代"
+                placeholder={randomWord}
                 onChange={(e) => setQuery(e.target.value)} // Update the query state on input change
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setTimeout(() => setIsFocused(false), 200)} // Delay to allow clicks on suggestions

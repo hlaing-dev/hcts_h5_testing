@@ -28,6 +28,7 @@ import { setIsScrolling } from "./pages/home/slice/HomeSlice";
 import Social from "./pages/social";
 import Short from "./pages/short";
 import { initializeThemeListener } from "./pages/search/slice/ThemeSlice";
+import { useGetRecommendedMoviesQuery } from "./pages/home/services/homeApi";
 // import Menber from "./pages/share/member";
 // import Share from "./pages/share";
 
@@ -65,7 +66,8 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const { openAuthModel, openLoginModel, openSignupModel, panding } =
     useSelector((state: any) => state.model);
-  const { data, isLoading } = useGetAdsQuery();
+    const { data, refetchAds } = useGetAdsQuery();
+    const { refetch } = useGetRecommendedMoviesQuery();
 
   const sendNativeEvent = (message: string) => {
       if (
@@ -90,7 +92,7 @@ const App: React.FC = () => {
       sendNativeEvent('hctsh5_home_started');
     }
   },[panding]);
-  
+
   useEffect(() => {
     // Initialize the theme listener
     const cleanup = initializeThemeListener(dispatch);
@@ -157,6 +159,13 @@ const App: React.FC = () => {
       ) {
         sendMessageToNative("hideGradient");
       }
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      refetchAds();
+      refetch();
     }
   }, [location.pathname]);
 

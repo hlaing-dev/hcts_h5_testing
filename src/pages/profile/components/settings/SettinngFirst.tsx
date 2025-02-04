@@ -331,14 +331,14 @@ const SettingFirst = ({ darkmode }: any) => {
         <div className="p-first">
           <div className="flex gap-1 max-w-[230px] flex-col ">
             <h1 className={`${darkmode ? " text-white" : "text-black"}`}>
-              简体中文
+            深色模式
             </h1>
             <p
               className={`settings-text ${
                 darkmode ? "text-white" : "text-black"
               }`}
             >
-              开启后打开自动画中画模式{" "}
+              默认跟随系统变化{" "}
             </p>
           </div>
           <div>

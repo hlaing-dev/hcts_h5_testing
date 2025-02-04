@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import ProfileFirst from "./components/ProfileFirst";
 import ProfileSecond from "./components/ProfileSecond";
 import bg from "../home/images/pbg.png";
+import bgDark from "../../assets/share/profile/bgDark.png";
 import { selectTheme } from "../search/slice/ThemeSlice";
 import { useSelector } from "react-redux";
 
@@ -18,7 +19,11 @@ const Index = () => {
           darkmode ? "bg-[#161619]" : "bg-[#dfdfdfc0]"
         }   h-screen`}
       >
-        <img src={bg} alt="" className="fixed top-0 left-0" />
+        <img
+          src={!darkmode ? bg : bgDark}
+          alt=""
+          className="fixed w-full top-0 left-0"
+        />
         <div className="">
           <div className="">
             <Navbar darkmode={darkmode} />

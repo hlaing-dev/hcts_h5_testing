@@ -22,6 +22,8 @@ const Header: FC = () => {
   const { data: rankList } = useGetSearchRankingQuery();
   const [randomWord, setRandomWord] = useState<string | null>(null);
 
+  console.log(darkmode);
+
   const configData = data?.data?.index_top_nav;
   const activeTab = useSelector((state: any) => state.home.activeTab);
   const sortData = useSelector((state: any) => state.home.sort);

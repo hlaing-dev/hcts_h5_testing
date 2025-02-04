@@ -27,7 +27,7 @@ import { useGetAdsQuery } from "./services/helperService";
 import { setIsScrolling } from "./pages/home/slice/HomeSlice";
 import Social from "./pages/social";
 import Short from "./pages/short";
-import { initializeThemeListener } from "./pages/search/slice/ThemeSlice";
+// import { initializeThemeListener } from "./pages/search/slice/ThemeSlice";
 import { useGetRecommendedMoviesQuery } from "./pages/home/services/homeApi";
 // import Menber from "./pages/share/member";
 // import Share from "./pages/share";
@@ -66,40 +66,38 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const { openAuthModel, openLoginModel, openSignupModel, panding } =
     useSelector((state: any) => state.model);
-    const { data, refetchAds } = useGetAdsQuery();
-    const { refetch } = useGetRecommendedMoviesQuery();
-
+  const { data, refetchAds } = useGetAdsQuery();
+  const { refetch } = useGetRecommendedMoviesQuery();
+  
   const sendNativeEvent = (message: string) => {
-      if (
-        (window as any).webkit &&
-        (window as any).webkit.messageHandlers &&
-        (window as any).webkit.messageHandlers.jsBridge
-      ) {
-        (window as any).webkit.messageHandlers.jsBridge.postMessage(
-          message
-        );
+    if (
+      (window as any).webkit &&
+      (window as any).webkit.messageHandlers &&
+      (window as any).webkit.messageHandlers.jsBridge
+    ) {
+      (window as any).webkit.messageHandlers.jsBridge.postMessage(message);
     }
   };
 
-  useEffect(()=>{
-    sendNativeEvent('hctsh5');
-  },[]);
-
-  useEffect(()=>{
-    if(panding) {
-      sendNativeEvent('hctsh5_ads_started');
-    } else {
-      sendNativeEvent('hctsh5_home_started');
-    }
-  },[panding]);
+  useEffect(() => {
+    sendNativeEvent("hctsh5");
+  }, []);
 
   useEffect(() => {
-    // Initialize the theme listener
-    const cleanup = initializeThemeListener(dispatch);
+    if (panding) {
+      sendNativeEvent("hctsh5_ads_started");
+    } else {
+      sendNativeEvent("hctsh5_home_started");
+    }
+  }, [panding]);
 
-    // Cleanup on component unmount
-    return cleanup;
-  }, [dispatch]);
+  // useEffect(() => {
+  //   // Initialize the theme listener
+  //   const cleanup = initializeThemeListener(dispatch);
+
+  //   // Cleanup on component unmount
+  //   return cleanup;
+  // }, [dispatch]);
 
   const location = useLocation();
   // const isLoggedIn = localStorage.getItem("authToken"); // Check if the user is authenticated
@@ -217,78 +215,79 @@ const App: React.FC = () => {
     <>
       {data?.data && (
         <>
-          {panding ? 
-            <Landing data={data} /> :
-            <></>
-          }
-            <div className={`flex flex-col min-h-screen ${panding ? 'invisible' : 'visible'}`}>
-              {/* <BannerAds /> */}
-              {/* Conditionally render Header */}
-              {!hideHeaderFooter && !hideHeader && <Header />}
-              <div className="flex-grow">
-                <Suspense
-                  fallback={
-                    <div className="flex justify-center items-center h-screen bg-[#fff] dark:bg-black">
-                      <Loader />
-                    </div>
-                  }
-                >
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/search" element={<Main />} />
-                    <Route path="/search_overlay" element={<Search />} />
+          {panding ? <Landing data={data} /> : <></>}
+          <div
+            className={`flex flex-col min-h-screen ${
+              panding ? "invisible" : "visible"
+            }`}
+          >
+            {/* <BannerAds /> */}
+            {/* Conditionally render Header */}
+            {!hideHeaderFooter && !hideHeader && <Header />}
+            <div className="flex-grow">
+              <Suspense
+                fallback={
+                  <div className="flex justify-center items-center h-screen bg-[#fff] dark:bg-black">
+                    <Loader />
+                  </div>
+                }
+              >
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/search" element={<Main />} />
+                  <Route path="/search_overlay" element={<Search />} />
 
-                    <Route path="/explorer" element={<Explorer />} />
-                    {/* Conditional rendering of the Social component */}
-                    {!hideMode && location.pathname === "/social" ? (
-                      <Route path="/social" element={<Social />} />
-                    ) : (
-                      <Route path="/social" element={<div />} />
-                    )}
-                    <Route path="/short" element={<Short />} />
-                    <Route path="/explorer/:id" element={<Detail />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/player/:id" element={<Player />} />
-                    <Route path="/history" element={<History />} />
-                    <Route path="/favorites" element={<Favorite />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/notifications" element={<Notifications />} />
-                    <Route path="/info" element={<Info />} />
-                    <Route path="/nickname" element={<Nickname />} />
-                    <Route path="/username" element={<Username />} />
-                    <Route path="/social_callback" element={<Callback />} />
-                    <Route path="/update_email" element={<Email />} />
-                    <Route path="/update_phone" element={<Phnumber />} />
-                    <Route path="/update_password" element={<Password />} />
-                    <Route path="/bind" element={<Bind />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/share" element={<Share />} />
-                    <Route path="/invite" element={<Invite />} />
-                    <Route path="/share/member" element={<Member />} />
-                  </Routes>
-                </Suspense>
-                <ErrorToast />
-              </div>
-
-              {/* Conditionally render FooterNav */}
-              {!hideHeaderFooter && <FooterNav />}
-              {location.pathname.startsWith("/profile") && <FooterNav />}
-              {location.pathname.startsWith("/social") && <FooterNav />}
-              {location.pathname.startsWith("/short") && <FooterNav />}
-
-              {(openAuthModel || openLoginModel || openSignupModel) && (
-                <div
-                  className="fixed inset-0 bg-black/40 opacity-50 z-[99899] h-screen" // Overlay with 50% opacity
-                  onClick={closeAllModals} // Close all modals on click
-                ></div>
-              )}
-              {/* <div className=" fixed h-screen flex flex-col justify-center items-center"> */}
-              {openAuthModel && <LoginEmail handleBack={handleBack} />}
-              {/* {openLoginModel && <LoginEmail handleBack={handleBack} />} */}
-              {openSignupModel && <SignUp handleBack={handleBack} />}
-              {/* </div> */}
+                  <Route path="/explorer" element={<Explorer />} />
+                  {/* Conditional rendering of the Social component */}
+                  {!hideMode && location.pathname === "/social" ? (
+                    <Route path="/social" element={<Social />} />
+                  ) : (
+                    <Route path="/social" element={<div />} />
+                  )}
+                  <Route path="/short" element={<Short />} />
+                  <Route path="/explorer/:id" element={<Detail />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/player/:id" element={<Player />} />
+                  <Route path="/history" element={<History />} />
+                  <Route path="/favorites" element={<Favorite />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/notifications" element={<Notifications />} />
+                  <Route path="/info" element={<Info />} />
+                  <Route path="/nickname" element={<Nickname />} />
+                  <Route path="/username" element={<Username />} />
+                  <Route path="/social_callback" element={<Callback />} />
+                  <Route path="/update_email" element={<Email />} />
+                  <Route path="/update_phone" element={<Phnumber />} />
+                  <Route path="/update_password" element={<Password />} />
+                  <Route path="/bind" element={<Bind />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/share" element={<Share />} />
+                  <Route path="/invite" element={<Invite />} />
+                  <Route path="/share/member" element={<Member />} />
+                </Routes>
+              </Suspense>
+              <ErrorToast />
             </div>
+
+            {/* Conditionally render FooterNav */}
+            {!hideHeaderFooter && <FooterNav />}
+            {location.pathname.startsWith("/profile") && <FooterNav />}
+            {location.pathname.startsWith("/social") && <FooterNav />}
+            {location.pathname.startsWith("/short") && <FooterNav />}
+
+            {(openAuthModel || openLoginModel || openSignupModel) && (
+              <div
+                className="fixed inset-0 bg-black/40 opacity-50 z-[99899] h-screen" // Overlay with 50% opacity
+                onClick={closeAllModals} // Close all modals on click
+              ></div>
+            )}
+            {/* <div className=" fixed h-screen flex flex-col justify-center items-center"> */}
+            {openAuthModel && <LoginEmail handleBack={handleBack} />}
+            {/* {openLoginModel && <LoginEmail handleBack={handleBack} />} */}
+            {openSignupModel && <SignUp handleBack={handleBack} />}
+            {/* </div> */}
+          </div>
         </>
       )}
     </>

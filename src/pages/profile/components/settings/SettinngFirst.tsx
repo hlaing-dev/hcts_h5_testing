@@ -124,6 +124,8 @@
 // export default SettingFirst;
 
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setTheme } from "../../../../pages/search/slice/ThemeSlice";
 
 const SettingFirst = ({ darkmode }: any) => {
   // Retrieve initial settings from localStorage or set defaults
@@ -137,10 +139,13 @@ const SettingFirst = ({ darkmode }: any) => {
   const [pipMode, setPipMode] = useState(initialSettings.pipMode || false); // Picture-in-Picture Mode
   const [autoMode, setAutoMode] = useState(initialSettings.autoMode || false); // Picture-in-Picture Mode
   const [hideMode, setHideMode] = useState(initialSettings.hideMode || false); // Picture-in-Picture Mode
+  const [themeMode, setThemeMode] = useState(
+    initialSettings.themeMode || false
+  ); // Picture-in-Picture Mode
   // const [vibrantMode, setVibrantMode] = useState(
   //   initialSettings.vibrantMode || false
   // ); // Vibrant Mode
-
+  const dispatch = useDispatch();
   // Save the settings to localStorage whenever they change
   useEffect(() => {
     const settings = {
@@ -148,16 +153,46 @@ const SettingFirst = ({ darkmode }: any) => {
       pipMode,
       hideMode,
       autoMode,
+      themeMode,
       // vibrantMode,
     };
     localStorage.setItem("movieAppSettings", JSON.stringify(settings));
-  }, [filterToggle, pipMode, autoMode, hideMode]);
+  }, [filterToggle, pipMode, autoMode, hideMode, themeMode]);
 
   const handleFilter = () => {
     setFilterToggle((prev: any) => !prev);
     localStorage.removeItem("headerTopics");
   };
 
+  const applyTheme = (isDark: boolean) => {
+    const root = document.documentElement;
+    if (isDark) {
+      root.classList.add('dark');
+      sendEventToNative('dark');
+    } else {
+      root.classList.remove('dark');
+      sendEventToNative('light');
+    }
+  };
+
+  useEffect(()=>{
+    applyTheme(themeMode);
+  },[themeMode]);
+
+  const sendEventToNative = async (theme: string) => {
+    if (
+      (window as any).webkit &&
+      (window as any).webkit.messageHandlers &&
+      (window as any).webkit.messageHandlers.jsBridge
+    ) {
+      // Send the initial playUrl event
+      (window as any).webkit.messageHandlers.jsBridge.postMessage({
+        eventName: "themeMode",
+        value: theme,
+      });
+    }
+  }
+  
   return (
     <div className="profile-div">
       <div
@@ -286,6 +321,43 @@ const SettingFirst = ({ darkmode }: any) => {
               <div
                 className={`w-9 h-5 bg-[#606060] hover:bg-[#606060] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all ${
                   pipMode
+                    ? "peer-checked:bg-[#fe58b5] hover:peer-checked:bg-[#fe58b5]"
+                    : "peer-checked:bg-[#606060]"
+                }`}
+              ></div>
+            </label>
+          </div>
+        </div>
+        <div className="p-first">
+          <div className="flex gap-1 max-w-[230px] flex-col ">
+            <h1 className={`${darkmode ? " text-white" : "text-black"}`}>
+              简体中文
+            </h1>
+            <p
+              className={`settings-text ${
+                darkmode ? "text-white" : "text-black"
+              }`}
+            >
+              开启后打开自动画中画模式{" "}
+            </p>
+          </div>
+          <div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={themeMode}
+                onChange={() => {
+                  setThemeMode((prev: boolean) => {
+                    const newMode = !prev;
+                    dispatch(setTheme(newMode));
+                    return newMode;
+                  });
+                }}
+                className="sr-only peer"
+              />
+              <div
+                className={`w-9 h-5 bg-[#606060] hover:bg-[#606060] peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all ${
+                  themeMode
                     ? "peer-checked:bg-[#fe58b5] hover:peer-checked:bg-[#fe58b5]"
                     : "peer-checked:bg-[#606060]"
                 }`}

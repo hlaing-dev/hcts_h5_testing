@@ -331,14 +331,14 @@ const SettingFirst = ({ darkmode }: any) => {
         <div className="p-first">
           <div className="flex gap-1 max-w-[230px] flex-col ">
             <h1 className={`${darkmode ? " text-white" : "text-black"}`}>
-            深色模式
+            黑暗主题 
             </h1>
             <p
               className={`settings-text ${
                 darkmode ? "text-white" : "text-black"
               }`}
             >
-              默认跟随系统变化{" "}
+              深色调色板提供舒适的观看体验{" "}
             </p>
           </div>
           <div>

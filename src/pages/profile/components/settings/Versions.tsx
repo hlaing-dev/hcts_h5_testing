@@ -22,7 +22,7 @@ const Versions = ({ darkmode }: any) => {
                 darkmode ? " text-white" : "text-black"
               } versions-text`}
             >
-              V 1.0.0
+              V 1.0.1
             </h1>
           </div>
         </div>

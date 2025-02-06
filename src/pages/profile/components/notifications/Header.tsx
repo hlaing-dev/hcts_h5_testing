@@ -7,8 +7,8 @@ const Header = ({
   darkmode,
 }: any) => {
   return (
-    <div className="flex gap-6 noti-header items-center p-5">
-      <Link to="/profile">
+    <div className="flex gap-6 noti-header justify-center items-center p-5">
+      <Link to="/profile" className="absolute left-[20px]">
         {darkmode ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"

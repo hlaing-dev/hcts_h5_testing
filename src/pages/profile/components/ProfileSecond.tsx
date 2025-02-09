@@ -32,7 +32,7 @@ const ProfileSecond = ({ darkmode }: any) => {
           darkmode ? "profile-div-main_dark" : "profile-div-main"
         }`}
       >
-        <div onClick={handleLoginClick} className="p-first">
+        <div onClick={()=>navigate("/share")} className="p-first">
           <div className="flex gap-3 items-center">
             <div>
             {darkmode ? <ShareDark /> : <Share />}

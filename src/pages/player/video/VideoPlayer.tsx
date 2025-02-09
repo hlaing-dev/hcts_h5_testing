@@ -285,8 +285,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       {/* Back button */}
       {isControlsVisible && (
         <>
-          <div className="absolute top-0 left-0 p-4 z-50">
-            <button onClick={handleBack} className="text-white flex">
+          <div className="absolute top-0 left-0 right-0 flex justify-between items-center p-4 z-50">
+            {/* Left Section - Back Button & Movie Name */}
+            <button
+              onClick={handleBack}
+              className="text-white flex items-center flex-1 overflow-hidden gap-2 pr-4"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -299,11 +303,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
                   fill="white"
                 />
               </svg>
-              <p className="cus-elips">{selectedEpisode?.episode_name}</p>
+              <p className="cus-elips">
+                {movieDetail?.name} {selectedEpisode?.episode_name}
+              </p>
             </button>
-          </div>
-          <div className="absolute top-0 right-0 p-4 z-50">
-            <button className="text-white" onClick={handlePiP}>
+
+            {/* Right Section - PiP Button */}
+            <button className="text-white flex-shrink-0" onClick={handlePiP}>
               <img src={floatingScreen} alt="PiP" className="h-5 w-5" />
             </button>
           </div>

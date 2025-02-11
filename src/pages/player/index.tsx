@@ -346,6 +346,61 @@ const DetailPage: React.FC = () => {
     }
   };
 
+  const sendEpisodeListEventToNative = (episodeList: any) => {
+    if (
+      (window as any).webkit &&
+      (window as any).webkit.messageHandlers &&
+      (window as any).webkit.messageHandlers.jsBridge
+    ) {
+      (window as any).webkit.messageHandlers.jsBridge.postMessage({
+        eventName: "episodeList",
+        value: episodeList,
+      });
+    }
+  };
+
+  useEffect(()=>{
+    if(episodes?.length > 0) {
+      sendEpisodeListEventToNative(episodes);
+    }
+  },[episodes])
+
+  
+  useEffect(() => {
+    const handleIosEvent = (event: CustomEvent) => {
+      const index = event.detail?.index || 0;
+      setSelectedSource(Number(index));
+      const nextSource = { code: event.detail.code };
+      handleChangeSource(nextSource);
+    };
+
+    // Listen for the `iosEvent`
+    window.addEventListener("getSourceCode_iOS", handleIosEvent as EventListener);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("getSourceCode_iOS", handleIosEvent as EventListener);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleIosEvent = (event: CustomEvent) => {
+      if(event?.detail?.episode_id && episodes?.length > 0) {
+        const index = episodes.findIndex((x: Episode)=> x.episode_id == event.detail.episode_id);
+        const episode = index >= 0 ? episodes[index] : episodes[0];
+        handleEpisodeSelect(episode);
+      }
+    };
+
+    // Listen for the `iosEvent`
+    window.addEventListener("getEpisodeId_iOS", handleIosEvent as EventListener);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("getEpisodeId_iOS", handleIosEvent as EventListener);
+    };
+  }, [episodes]);
+  
   const refresh = () => {
     setIsPlayerLoading(true);
     setWholePageError(false);

@@ -23,12 +23,13 @@ import Loader from "./pages/search/components/Loader";
 import ErrorToast from "./pages/profile/error/ErrorToast";
 import Landing from "./components/Landing";
 import BannerAds from "./components/BannerAds";
-import { useGetAdsQuery } from "./services/helperService";
+import { useGetAdsQuery, useGetHeaderTopicsQuery } from "./services/helperService";
 import { setIsScrolling } from "./pages/home/slice/HomeSlice";
 import Social from "./pages/social";
 import Short from "./pages/short";
 // import { initializeThemeListener } from "./pages/search/slice/ThemeSlice";
 import { useGetRecommendedMoviesQuery } from "./pages/home/services/homeApi";
+import Announce from "./components/Announce";
 // import Menber from "./pages/share/member";
 // import Share from "./pages/share";
 
@@ -68,7 +69,9 @@ const App: React.FC = () => {
     useSelector((state: any) => state.model);
   const { data, refetchAds } = useGetAdsQuery();
   const { refetch } = useGetRecommendedMoviesQuery();
-  
+  const [showNotice, setShowNotice] = useState(false);
+  const { data: headerData } = useGetHeaderTopicsQuery();
+
   const sendNativeEvent = (message: string) => {
     if (
       (window as any).webkit &&
@@ -211,6 +214,14 @@ const App: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    const hasSeenNotice = sessionStorage.getItem("hasSeenNotice");
+    if (!hasSeenNotice) {
+      setShowNotice(true);
+      sessionStorage.setItem("hasSeenNotice", "true");
+    }
+  }, []);
+
   return (
     <>
       {data?.data && (
@@ -272,6 +283,7 @@ const App: React.FC = () => {
 
             {/* Conditionally render FooterNav */}
             {!hideHeaderFooter && <FooterNav />}
+            {showNotice && <Announce setShowNotice={setShowNotice} config={headerData} showNotice={showNotice}/>}
             {location.pathname.startsWith("/profile") && <FooterNav />}
             {location.pathname.startsWith("/social") && <FooterNav />}
             {location.pathname.startsWith("/short") && <FooterNav />}

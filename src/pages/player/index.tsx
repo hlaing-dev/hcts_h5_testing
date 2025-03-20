@@ -258,38 +258,59 @@ const DetailPage: React.FC = () => {
       (window as any).webkit.messageHandlers &&
       (window as any).webkit.messageHandlers.jsBridge
     ) {
-      // Send the initial playUrl event
-      (window as any).webkit.messageHandlers.jsBridge.postMessage({
-        eventName: "playUrl",
-        value: url,
-      });
+      // Parse a fresh URL specifically for the native player
+      if (currentEpisode) {
+        try {
+          // Get a freshly parsed URL for the native player
+          const parseData = await parsePlaybackUrl(
+            currentEpisode.episode_id?.toString() || "",
+            currentEpisode.from_code,
+            currentEpisode.play_url,
+            "1"
+          );
+          
+          // Send the freshly parsed URL to native
+          (window as any).webkit.messageHandlers.jsBridge.postMessage({
+            eventName: "playUrl",
+            value: parseData?.data?.play_url || url,
+          });
+        } catch (error) {
+          console.error("Error parsing playback URL for native player:", error);
+          // Fallback to sending the original URL if parsing fails
+          (window as any).webkit.messageHandlers.jsBridge.postMessage({
+            eventName: "playUrl",
+            value: url,
+          });
+        }
+      } else {
+        // If no currentEpisode, just send the url as is
+        (window as any).webkit.messageHandlers.jsBridge.postMessage({
+          eventName: "playUrl",
+          value: url,
+        });
+      }
   
       // Check if the next episode exists and is ready to play
       const nextEpisode = episodes?.[currentEpisodeNumber + 1];
       
       if (nextEpisode) {
-        if (!nextEpisode.ready_to_play) {
-          try {
-            // Parse the playback URL if the episode is not ready to play
-            const parseData = await parsePlaybackUrl(
-              nextEpisode.episode_id,
-              nextEpisode.from_code,
-              nextEpisode.play_url,
-              '1'
-            );
-            
-            // Update the play_url with the parsed value
-            nextEpisode.play_url = parseData?.data?.play_url;
-          } catch (error) {
-            console.error("Error parsing playback URL for next episode:", error);
-          }
+        try {
+          // Always parse a fresh URL for the next episode for native player
+          const parseData = await parsePlaybackUrl(
+            nextEpisode.episode_id?.toString() || "",
+            nextEpisode.from_code,
+            nextEpisode.play_url,
+            "1"
+          );
+          
+          // Send the freshly parsed next episode URL to native
+          (window as any).webkit.messageHandlers.jsBridge.postMessage({
+            eventName: "playUrlForNextEpisode",
+            value: parseData?.data?.play_url,
+          });
+        } catch (error) {
+          console.error("Error parsing playback URL for next episode:", error);
         }
-  
-        // Send the next episode details to the native bridge
-        (window as any).webkit.messageHandlers.jsBridge.postMessage({
-          eventName: "playUrlForNextEpisode",
-          value: nextEpisode.play_url,
-        });
       }
     } else {
       console.warn("JS Bridge is not available in the current environment.");

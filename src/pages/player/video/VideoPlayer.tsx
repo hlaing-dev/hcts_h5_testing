@@ -203,6 +203,20 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     };
   }, [videoUrl, resumeTime]);
 
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden && playerRef.current) {
+        playerRef.current.pause();
+      }
+    };
+  
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+  
   // Define the event handler
   const sendNativeEvent = (message: string) => {
       if (

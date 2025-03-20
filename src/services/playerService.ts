@@ -150,3 +150,20 @@ export const parsePlaybackUrl = async (
     throw error;
   }
 };
+
+export const getNotiData = async (settings: any) => {
+  try {
+    const response: any = await api.get(convertToSecureUrl("/notice_v2/list"), {
+      headers: {
+        "X-Client-Version": 3098,
+        "X-Client-Setting": JSON.stringify({
+          "pure-mode": settings?.filterToggle ? 1 : 0,
+        }),
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Notification data:", error);
+    throw error;
+  }
+};

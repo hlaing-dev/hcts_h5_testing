@@ -793,7 +793,7 @@ const PostList = ({
           {post.description.substring(0, 80)}
           <button
             onClick={() => toggleDescription(post.post_id)}
-            className="text-[#FFFFFF99]"
+            className="text-[#000000CC] dark:text-[#FFFFFFCC] ml-1"
           >
             ...展开
           </button>
@@ -806,9 +806,9 @@ const PostList = ({
         {post.description.length > 80 && (
           <button
             onClick={() => toggleDescription(post.post_id)}
-            className="text-[#FFFFFF99]"
+            className="text-[#000000CC] dark:text-[#FFFFFFCC] ml-1"
           >
-            显示较少
+            收起
           </button>
         )}
       </>

@@ -139,7 +139,7 @@ const DetailPage: React.FC = () => {
                 mvData.play_url,
                 "1"
               );
-              mvData.play_url = parseData?.data?.play_url;
+              mvData.parseUrl = parseData?.data?.play_url;
             }
             setCurrentEpisode(mvData);
             setCurrentEpisodeNumber(episodeIndex);
@@ -165,7 +165,7 @@ const DetailPage: React.FC = () => {
                 mvData.play_url,
                 "1"
               );
-              mvData.play_url = await parseData?.data?.play_url;
+              mvData.parseUrl = await parseData?.data?.play_url;
               setCurrentEpisode(mvData);
               setResumeTime(0);
             } catch (err) {
@@ -259,7 +259,7 @@ const DetailPage: React.FC = () => {
       (window as any).webkit.messageHandlers.jsBridge
     ) {
       // Parse a fresh URL specifically for the native player
-      if (currentEpisode) {
+      if (currentEpisode && !currentEpisode.ready_to_play) {
         try {
           // Get a freshly parsed URL for the native player
           const parseData = await parsePlaybackUrl(
@@ -293,7 +293,7 @@ const DetailPage: React.FC = () => {
       // Check if the next episode exists and is ready to play
       const nextEpisode = episodes?.[currentEpisodeNumber + 1];
       
-      if (nextEpisode) {
+      if (nextEpisode && !nextEpisode.ready_to_play) {
         try {
           // Always parse a fresh URL for the next episode for native player
           const parseData = await parsePlaybackUrl(
@@ -311,6 +311,12 @@ const DetailPage: React.FC = () => {
         } catch (error) {
           console.error("Error parsing playback URL for next episode:", error);
         }
+      } else {
+        // If no currentEpisode, just send the url as is
+        (window as any).webkit.messageHandlers.jsBridge.postMessage({
+          eventName: "playUrl",
+          value: url,
+        });
       }
     } else {
       console.warn("JS Bridge is not available in the current environment.");
@@ -345,7 +351,7 @@ const DetailPage: React.FC = () => {
             data.play_url,
             "1"
           );
-          mvData.play_url = response?.data?.play_url;
+          mvData.parseUrl = response?.data?.play_url;
         }
         if (currentEpisodeNumber > -1) {
           if (res.data?.length > currentEpisodeNumber) {
@@ -453,7 +459,7 @@ const DetailPage: React.FC = () => {
                   <VideoPlayer
                     key={currentEpisode?.episode_id}
                     videoUrl={
-                      !isPlayerLoading ? currentEpisode?.play_url || "" : ""
+                      !isPlayerLoading ? currentEpisode?.parseUrl || currentEpisode?.play_url || "" : ""
                     }
                     onBack={navigateBackFunction}
                     movieDetail={movieDetail}

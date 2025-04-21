@@ -425,8 +425,8 @@ const DetailSection: React.FC<DetailSectionProps> = ({
               lowerDivHeight={lowerDivHeight}
               setCommentCount={setCommentCount}
               commentCount={commentCount}
-              comments={comments}
-              setComments={setComments}
+              // comments={comments}
+              // setComments={setComments}
               hasMore={hasMore}
               setHasMore={setHasMore}
             />

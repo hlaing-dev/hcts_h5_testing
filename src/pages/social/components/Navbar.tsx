@@ -199,27 +199,60 @@ const Navbar = () => {
   const selectedMenuPath = social_menu?.[activeTab]?.path;
   const queryOptions = { page, path: selectedMenuPath };
 
-  const { data: postsData, refetch: postRefetch, isFetching: postsFetching, isLoading: postsLoading } =
-    useGetPostsQuery(queryOptions, { skip: activeTab !== 2 });
-  const { data: recommandData, refetch: recommandRefetch, isFetching: recommandFetching, isLoading: recommandLoading } =
-    useGetRecommandPostsQuery(queryOptions, { skip: activeTab !== 1 });
-  const { data: followData, refetch: followRefetch, isFetching: followFetching, isLoading: followLoading } =
-    useGetFollowPostsQuery(queryOptions, { skip: activeTab !== 0 });
-  const { data: audioData, refetch: audioRefetch, isFetching: audioFetching, isLoading: audioLoading } =
-    useGetAudioPostsQuery(queryOptions, { skip: activeTab !== 3 });
+  const {
+    data: postsData,
+    refetch: postRefetch,
+    isFetching: postsFetching,
+    isLoading: postsLoading,
+  } = useGetPostsQuery(queryOptions, { skip: activeTab !== 2 });
+  const {
+    data: recommandData,
+    refetch: recommandRefetch,
+    isFetching: recommandFetching,
+    isLoading: recommandLoading,
+  } = useGetRecommandPostsQuery(queryOptions, { skip: activeTab !== 1 });
+  const {
+    data: followData,
+    refetch: followRefetch,
+    isFetching: followFetching,
+    isLoading: followLoading,
+  } = useGetFollowPostsQuery(queryOptions, { skip: activeTab !== 0 });
+  const {
+    data: audioData,
+    refetch: audioRefetch,
+    isFetching: audioFetching,
+    isLoading: audioLoading,
+  } = useGetAudioPostsQuery(queryOptions, { skip: activeTab !== 3 });
 
   useEffect(() => {
     const currentData =
-      activeTab === 2 ? postsData : activeTab === 1 ? recommandData : activeTab === 0 ? followData : audioData;
+      activeTab === 2
+        ? postsData
+        : activeTab === 1
+        ? recommandData
+        : activeTab === 0
+        ? followData
+        : audioData;
 
     if (currentData?.data?.list) {
-      setDataList((prev) => (page === 1 ? currentData.data.list : [...prev, ...currentData.data.list]));
-      setHasMore(currentData.data.page * currentData.data.pageSize < currentData.data.total);
+      setDataList((prev) =>
+        page === 1 ? currentData.data.list : [...prev, ...currentData.data.list]
+      );
+      setHasMore(
+        currentData.data.page * currentData.data.pageSize <
+          currentData.data.total
+      );
     }
   }, [postsData, recommandData, followData, audioData, activeTab]);
 
   const fetchMoreData = () => {
-    if (!postsFetching && !recommandFetching && !followFetching && !audioFetching && hasMore) {
+    if (
+      !postsFetching &&
+      !recommandFetching &&
+      !followFetching &&
+      !audioFetching &&
+      hasMore
+    ) {
       setPage((prevPage) => prevPage + 1);
     }
   };
@@ -284,23 +317,27 @@ const Navbar = () => {
           <Loader />
         </div>
       ) : ( */}
-        <PullToRefresh
-          pullingContent={<div></div>}
-          refreshingContent={
-            <div className="flex justify-center py-2 mt-2 text-center">
-              <Loader />
-            </div>
+      <PullToRefresh
+        pullingContent={<div></div>}
+        refreshingContent={
+          <div className="flex justify-center py-2 mt-2 text-center">
+            <Loader />
+          </div>
+        }
+        onRefresh={handleRefresh}
+        isPullable={!showDetail}
+      >
+        <PostList
+          setShowDetail={setShowDetail}
+          showDetail={showDetail}
+          data={dataList}
+          loading={
+            postsLoading || recommandLoading || followLoading || audioLoading
           }
-          onRefresh={handleRefresh}
-          isPullable={!showDetail}
-        >
-          <PostList
-            data={dataList}
-            loading={postsLoading || recommandLoading || followLoading || audioLoading}
-            hasMore={hasMore}
-            fetchMoreData={fetchMoreData}
-          />
-        </PullToRefresh>
+          hasMore={hasMore}
+          fetchMoreData={fetchMoreData}
+        />
+      </PullToRefresh>
       {/* )} */}
     </div>
   );

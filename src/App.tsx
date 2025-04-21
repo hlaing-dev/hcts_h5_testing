@@ -23,12 +23,16 @@ import Loader from "./pages/search/components/Loader";
 import ErrorToast from "./pages/profile/error/ErrorToast";
 import Landing from "./components/Landing";
 import BannerAds from "./components/BannerAds";
-import { useGetAdsQuery, useGetHeaderTopicsQuery } from "./services/helperService";
+import {
+  useGetAdsQuery,
+  useGetHeaderTopicsQuery,
+} from "./services/helperService";
 import { setIsScrolling } from "./pages/home/slice/HomeSlice";
 import Social from "./pages/social";
 import Short from "./pages/short";
 // import { initializeThemeListener } from "./pages/search/slice/ThemeSlice";
 import { useGetRecommendedMoviesQuery } from "./pages/home/services/homeApi";
+import land2 from "./assets/login/land2.png";
 import Announce from "./components/Announce";
 // import Menber from "./pages/share/member";
 // import Share from "./pages/share";
@@ -65,12 +69,55 @@ const Member = React.lazy(() => import("./pages/share/member"));
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const { openAuthModel, openLoginModel, openSignupModel, panding } =
-    useSelector((state: any) => state.model);
+  const {
+    openAuthModel,
+    openLoginModel,
+    openSignupModel,
+    panding,
+    isShowingDetails,
+  } = useSelector((state: any) => state.model);
   const { data, refetchAds } = useGetAdsQuery();
   const { refetch } = useGetRecommendedMoviesQuery();
   const [showNotice, setShowNotice] = useState(false);
   const { data: headerData } = useGetHeaderTopicsQuery();
+
+  const [preloadedImage, setPreloadedImage] = useState<string | null>(null);
+  // Preload landing image
+  useEffect(() => {
+    if (data?.data) {
+      const startAds = data?.data["start"];
+      if (startAds && startAds.length > 0 && startAds[0]?.data?.image) {
+        // Immediately start fetching the image as a blob
+        fetch(startAds[0]?.data?.image)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.blob();
+          })
+          .then((blob) => {
+            const url = URL.createObjectURL(blob);
+            setPreloadedImage(url);
+
+            // Also preload the image in browser cache
+            const img = new Image();
+            img.src = url;
+          })
+          .catch((err) => {
+            console.error("Failed to preload image:", err);
+            // Continue without preloaded image
+          });
+      }
+    }
+
+    // Clean up any blob URLs when component unmounts
+    return () => {
+      if (preloadedImage) {
+        URL.revokeObjectURL(preloadedImage);
+      }
+    };
+  }, [data]);
+  // console.log(isShowingDetails)
 
   const sendNativeEvent = (message: string) => {
     if (
@@ -222,11 +269,21 @@ const App: React.FC = () => {
     }
   }, []);
 
+  if (!data?.data) {
+    return (
+      <img className="h-screen w-screen object-cover" src={land2} alt="" />
+    );
+  }
+
   return (
     <>
       {data?.data && (
         <>
-          {panding ? <Landing data={data} /> : <></>}
+          {panding ? (
+            <Landing data={data} preloadedImage={preloadedImage} />
+          ) : (
+            <></>
+          )}
           <div
             className={`flex flex-col min-h-screen ${
               panding ? "invisible" : "visible"
@@ -283,9 +340,18 @@ const App: React.FC = () => {
 
             {/* Conditionally render FooterNav */}
             {!hideHeaderFooter && <FooterNav />}
-            {showNotice && <Announce setShowNotice={setShowNotice} config={headerData} showNotice={showNotice}/>}
+            {showNotice && (
+              <Announce
+                setShowNotice={setShowNotice}
+                config={headerData}
+                showNotice={showNotice}
+              />
+            )}
             {location.pathname.startsWith("/profile") && <FooterNav />}
-            {location.pathname.startsWith("/social") && <FooterNav />}
+            {/* {location.pathname.startsWith("/social") && <FooterNav />} */}
+            {location.pathname.startsWith("/social") && !isShowingDetails && (
+              <FooterNav />
+            )}
             {location.pathname.startsWith("/short") && <FooterNav />}
 
             {(openAuthModel || openLoginModel || openSignupModel) && (

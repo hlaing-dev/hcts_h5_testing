@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ProfileImg from "../../../assets/share/user.svg";
 import NoData from "../../../assets/nodata.svg";
+import NodataWhiteBg from "../../../assets/nodataForWhiteBg.svg";
 import OptionIcon from "../../../assets/option.svg";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,14 +25,15 @@ import {
   decryptWithAes,
 } from "../../../services/newEncryption";
 import { fetchCommentData } from "../../../services/playerService";
+import { selectTheme } from "../../../pages/search/slice/ThemeSlice";
 
 const CommentComponent: React.FC<CommentProps> = ({
   movieId,
   lowerDivHeight,
   setCommentCount,
   commentCount,
-  comments,
-  setComments,
+  // comments,
+  // setComments,
   hasMore,
   setHasMore
 }) => {
@@ -50,6 +52,9 @@ const CommentComponent: React.FC<CommentProps> = ({
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteParams, setDeleteParams] = useState<any>(null);
   const [numberOfRow, setNumberOfRow] = useState<number>(1);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const darkmode = useSelector(selectTheme);
+
   const user = userData?.data;
   console.log("user is=>", user);
   const dispatch = useDispatch();
@@ -306,7 +311,7 @@ const CommentComponent: React.FC<CommentProps> = ({
                 <Loader />
               </div>
             }
-            className="comment-section flex flex-col rounded-md p-3"
+            className="comment-section flex flex-col rounded-md p-3 bg-white dark:bg-transparent"
             height={lowerDivHeight - 140}
           >
             {comments.map((comment: any) => (
@@ -328,7 +333,7 @@ const CommentComponent: React.FC<CommentProps> = ({
                     alt={comment.user?.nickname}
                     className="w-8 h-8 rounded-full mr-2 mt-3"
                   />
-                  <span className="username text-commentIcon font-bold">
+                  <span className="username font-bold dark:text-[#ffffff99]">
                     {comment.user?.nickname}
                   </span>
                   <img
@@ -338,11 +343,11 @@ const CommentComponent: React.FC<CommentProps> = ({
                   />
                 </div>
                 <div style={{ marginLeft: "46px", marginTop: "-8px" }}>
-                  <div className={`comment-text text-gray-300 mb-1 ${comment.status === 0 ? 'italic' : ''}`}>
+                  <div className={`comment-text text-gray-300 dark:text-gray-300 text-gray-700 mb-1 ${comment.status === 0 ? 'italic' : ''}`}>
                     {comment.content}
                   </div>
                   <div className="comment-actions flex items-center justify-start gap-4 mt-2">
-                    <span className="time text-gray-500 text-sm">
+                    <span className="time text-gray-500 dark:text-gray-500 text-gray-600 text-sm">
                       {
                         new Date(comment.create_time * 1000)
                           ?.toISOString()
@@ -406,11 +411,11 @@ const CommentComponent: React.FC<CommentProps> = ({
                             <div
                               style={{ marginLeft: "46px", marginTop: "-8px" }}
                             >
-                              <div className={`comment-text text-gray-300 mb-1 ${comment.status === 0 ? 'italic' : ''}`}>
+                              <div className={`comment-text text-gray-300 dark:text-gray-300 text-gray-700 mb-1 ${comment.status === 0 ? 'italic' : ''}`}>
                                 {reply.content}
                               </div>
                               <div className="comment-actions flex items-center justify-start gap-4 mt-2">
-                                <span className="time text-gray-500 text-sm">
+                                <span className="time text-gray-500 dark:text-gray-500 text-gray-600 text-sm">
                                   {
                                     new Date(reply.create_time * 1000)
                                       ?.toISOString()
@@ -509,7 +514,7 @@ const CommentComponent: React.FC<CommentProps> = ({
             className="flex justify-center items-center text-center comment-btn"
             style={{ height: lowerDivHeight, width: "100%" }}
           >
-            <img src={NoData} alt="nodata" width={120} />
+            <img src={ darkmode ? NoData : NodataWhiteBg } alt="nodata" width={120} />
           </div>
         )}
       </div>
@@ -539,7 +544,7 @@ const CommentComponent: React.FC<CommentProps> = ({
                 setNumberOfRow(newNumberOfRows > 1 ? newNumberOfRows : 1);
               }
             }}
-            className="flex-grow bg-source text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-grow bg-source dark:bg-source bg-white text-gray-900 dark:text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder={"确认过眼神，你是发言人！"}
             rows={numberOfRow} // Dynamically adjust the rows
           />
@@ -563,7 +568,7 @@ const CommentComponent: React.FC<CommentProps> = ({
           <button
             onClick={() => dispatch(setAuthModel(true))}
             className="text-white w-full px-4 py-3 mx-2 rounded-md"
-            style={{ background: "#f54000" }}
+            style={{ background: "rgb(254, 88, 181)" }}
           >
             登录后发布评论
           </button>

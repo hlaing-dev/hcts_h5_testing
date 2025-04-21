@@ -15,6 +15,7 @@ interface model {
   panding: number;
   GraphicKey: string;
   openSecQues: boolean;
+  isShowingDetails: boolean;
 }
 
 const initialState: model = {
@@ -32,6 +33,7 @@ const initialState: model = {
   social_id: "",
   panding: 0,
   GraphicKey: "",
+  isShowingDetails: false,
 };
 
 export const modelSlice = createSlice({
@@ -83,6 +85,9 @@ export const modelSlice = createSlice({
     setOpenSecQues: (state, action) => {
       state.openSecQues = action.payload;
     },
+    setShowingDetail: (state, action) => {
+      state.isShowingDetails = action.payload;
+    },
   },
 });
 
@@ -100,7 +105,8 @@ export const {
   setSocial_id,
   setGraphicKey,
   setPanding,
-  setOpenSecQues
+  setOpenSecQues,
+  setShowingDetail
 } = modelSlice.actions;
 
 export default modelSlice.reducer;

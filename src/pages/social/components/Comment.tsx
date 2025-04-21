@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { CiHeart } from "react-icons/ci";
 import {
   useGetCommentListQuery,
   useLikeCommentMutation,
@@ -14,7 +15,13 @@ import { showToast } from "../../../pages/profile/error/ErrorSlice";
 import { setAuthModel } from "../../../features/login/ModelSlice";
 import Reply from "./Reply";
 
-const Comment: React.FC<any> = ({ list, isFetching, post_id, setList }) => {
+const Comment: React.FC<any> = ({
+  list,
+  isFetching,
+  post_id,
+  setList,
+  darkmode,
+}) => {
   const [panding, setpanding] = useState(false);
   const [likeCmt, { isLoading: isLikeloading }] = useLikeCommentMutation();
   const [postCmt, { isLoading: cmtLoading }] = usePostCommentMutation();
@@ -99,7 +106,6 @@ const Comment: React.FC<any> = ({ list, isFetching, post_id, setList }) => {
     }
     setCurId(id);
   };
-
   const handleReplyCmt = async () => {
     if (content.length !== 0 && curId) {
       console.log(curId, content);
@@ -156,20 +162,20 @@ const Comment: React.FC<any> = ({ list, isFetching, post_id, setList }) => {
     setContent("");
   };
   return (
-    <div className="py-[12px] bg-[#161619]">
+    <div className="py-[12px] bg-[#161619 bg-gray-300 dark:bg-black">
       {panding && (
-        <div className="absolute top-0 left-0 z-[9999909] w-screen h-screen bg-bla flex justify-center items-center">
+        <div className="absolute top-0 left-0 z-[9999909] w-screen h-screen bg-gray-300 dark:bg-black flex justify-center items-center">
           <div className=" w-[100px] h-[100px] bg-black/70 rounded-lg flex justify-center items-center">
             <div className="w-5 h-5 border-[3px] border-t-orange-600 border-r-orange-500 border-b-transparent border-l-transparent rounded-full animate-spin"></div>
           </div>
         </div>
       )}
 
-      <h1 className="text-white text-[16px] font-[400]">评论</h1>
+      <h1 className="dark:text-white text-black text-[16px] font-[400]">评论</h1>
       {list?.length === 0 && !isFetching ? (
         <div className="w-full flex flex-col justify-center items-center py-[40px] gap-[10px]">
           <img src={nc} alt="No Comments" />
-          <span>还没有评论</span>
+          <span className=" text-black dark:text-white">还没有评论</span>
         </div>
       ) : (
         <>
@@ -248,7 +254,7 @@ const Comment: React.FC<any> = ({ list, isFetching, post_id, setList }) => {
                 <div className="w-full flex flex-col gap-[8px]">
                   <div className="flex justify-between items-center">
                     <div className="flex justify-center items-center gap-[5px]">
-                      <span className="text-[14px] font-[400] leading-[16px] text-white/60">
+                      <span className="text-[14px] font-[400] leading-[16px] text-black/60 dark:text-white/60">
                         {cmt.user.nickname}
                       </span>
                       {cmt?.user?.level && (
@@ -259,54 +265,87 @@ const Comment: React.FC<any> = ({ list, isFetching, post_id, setList }) => {
                         />
                       )}
                     </div>
-                    <div className="text-[14px] font-[400] text-white/60">
+                    <div className="text-[14px] font-[400] dark:text-white/60 text-black">
                       {cmt.create_time}
                     </div>
                   </div>
-                  <h1 className="text-white text-[14px] font-[400] leading-[20px]">
+                  <h1 className="dark:text-white text-black text-[14px] font-[400] leading-[20px]">
                     {cmt.content}
                   </h1>
                   <div className="flex justify-between items-center">
                     <button
                       onClick={() => replyhandler(cmt.id)}
-                      className="px-[12px] py-[8px] bg-[#2B2B2B] rounded-[100px] text-white text-[12px] font-[400]"
+                      className="px-[12px] py-[8px] dark:bg-[#2B2B2B] bg-[#888] rounded-[100px] text-white text-[12px] font-[400]"
                     >
                       回复
                     </button>
-                    <p
-                      onClick={() =>
-                        handleLikeChange(cmt.id, likeStatus[cmt.id])
-                      }
-                      className="text-white/40 text-[12px] font-[400] leading-[14px] flex justify-center items-center gap-[2px]"
-                    >
-                      {likeStatus[cmt.id]?.liked ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="18"
-                          height="17"
-                          viewBox="0 0 18 17"
-                          fill="none"
-                        >
-                          <path
-                            d="M12.044 0.697327C15.2682 0.697327 17.3346 3.28274 17.3346 6.76233C17.3346 9.46253 14.8913 12.4363 10.0773 15.7777C9.76122 15.9967 9.38583 16.114 9.0013 16.114C8.61677 16.114 8.24139 15.9967 7.92526 15.7777C3.1113 12.4363 0.667969 9.46253 0.667969 6.76233C0.667969 3.28274 2.73443 0.697327 5.95859 0.697327C7.12297 0.697327 7.91276 1.1042 9.0013 2.02733C10.0901 1.10441 10.8796 0.697327 12.044 0.697327Z"
-                            fill="#FF0051"
+                    {!darkmode ? (
+                      <p
+                        onClick={() =>
+                          handleLikeChange(cmt.id, likeStatus[cmt.id])
+                        }
+                        className="dark:text-white/40 text-black text-[12px] font-[400] leading-[14px] flex justify-center items-center gap-[2px]"
+                      >
+                       
+                        {likeStatus[cmt.id]?.liked ? (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="17"
+                            viewBox="0 0 18 17"
+                            fill="none"
+                          >
+                            <path
+                              d="M12.044 0.697327C15.2682 0.697327 17.3346 3.28274 17.3346 6.76233C17.3346 9.46253 14.8913 12.4363 10.0773 15.7777C9.76122 15.9967 9.38583 16.114 9.0013 16.114C8.61677 16.114 8.24139 15.9967 7.92526 15.7777C3.1113 12.4363 0.667969 9.46253 0.667969 6.76233C0.667969 3.28274 2.73443 0.697327 5.95859 0.697327C7.12297 0.697327 7.91276 1.1042 9.0013 2.02733C10.0901 1.10441 10.8796 0.697327 12.044 0.697327Z"
+                              fill="#FF0051"
+                            />
+                          </svg>
+                        ) : (
+                          // <img
+                          //   className="w-[20px]  h-[20px]"
+                          //   src={heartt}
+                          //   alt=""
+                          // />
+                          <CiHeart className=" w-[20px] h-[20px]" />
+                        )}
+                        {likeStatus[cmt.id]?.count}万
+                      </p>
+                    ) : (
+                      <p
+                        onClick={() =>
+                          handleLikeChange(cmt.id, likeStatus[cmt.id])
+                        }
+                        className="dark:text-white/40 text-black text-[12px] font-[400] leading-[14px] flex justify-center items-center gap-[2px]"
+                      >
+                        {likeStatus[cmt.id]?.liked ? (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="17"
+                            viewBox="0 0 18 17"
+                            fill="none"
+                          >
+                            <path
+                              d="M12.044 0.697327C15.2682 0.697327 17.3346 3.28274 17.3346 6.76233C17.3346 9.46253 14.8913 12.4363 10.0773 15.7777C9.76122 15.9967 9.38583 16.114 9.0013 16.114C8.61677 16.114 8.24139 15.9967 7.92526 15.7777C3.1113 12.4363 0.667969 9.46253 0.667969 6.76233C0.667969 3.28274 2.73443 0.697327 5.95859 0.697327C7.12297 0.697327 7.91276 1.1042 9.0013 2.02733C10.0901 1.10441 10.8796 0.697327 12.044 0.697327Z"
+                              fill="#FF0051"
+                            />
+                          </svg>
+                        ) : (
+                          <img
+                            className="w-[20px]  h-[20px]"
+                            src={heartt}
+                            alt=""
                           />
-                        </svg>
-                      ) : (
-                        <img
-                          className="w-[20px]  h-[20px]"
-                          src={heartt}
-                          alt=""
-                        />
-                      )}
-                      {likeStatus[cmt.id]?.count}万
-                    </p>
+                        )}
+                        {likeStatus[cmt.id]?.count}万
+                      </p>
+                    )}
                   </div>
                   {cmt.replies.replies_count !== 0 && (
                     <div className="">
                       <span
                         onClick={() => toggleReplyVisibility(cmt.id)}
-                        className={`text-white/50 ${
+                        className={`dark:text-white/50 text-black/50 ${
                           showReplies[cmt.id] ? "hidden" : "block"
                         }`}
                       >
@@ -331,14 +370,14 @@ const Comment: React.FC<any> = ({ list, isFetching, post_id, setList }) => {
       )}
       {/* ment mal :) */}
       {token ? (
-        <div className=" fixed py-[12px] flex justify-center bottom-0 left-0 bg-[#1F1F21] w-screen z-[999992]">
+        <div className=" fixed py-[12px] flex justify-center bottom-0 left-0 bg-[#E4E4E4] dark:bg-[#1F1F21] w-screen z-[999992]">
           <div className=" mr-[10px] grid grid-cols-4 w-full px-[20px]">
             <input
               ref={inputRef}
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="请输入内容"
-              className=" focus:outline-none text-white py-[12px] px-[16px] col-span-3 bg-white/10 w-full rounded-[100px]"
+              className=" focus:outline-none text-black dark:text-white py-[12px] px-[16px] col-span-3 bg-black/5 dark:bg-white/10 w-full rounded-[100px]"
               type="text"
             />
             {isRp ? (
@@ -362,7 +401,7 @@ const Comment: React.FC<any> = ({ list, isFetching, post_id, setList }) => {
         <div className=" fixed py-[12px] flex justify-center bottom-0 left-0 w-full z-[999992]">
           <button
             onClick={() => dispatch(setAuthModel(true))}
-            className=" m-[20px] py-[16px] rounded-[10px] bg-[#F54100] w-full"
+            className=" m-[20px] py-[16px] rounded-[10px] bg-[#FE58B5] text-white w-full"
           >
             登录发表评论
           </button>

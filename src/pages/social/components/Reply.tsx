@@ -88,18 +88,18 @@ const Reply: React.FC<ReplyProps> = ({
           <div className="w-full flex flex-col gap-[8px]">
             <div className="flex justify-between items-center">
               <div className="flex justify-center items-center gap-[5px]">
-                <span className="text-[14px] font-[400] leading-[16px] text-white/60">
+                <span className="text-[14px] font-[400] leading-[16px] text-black/60 dark:text-white/60">
                   {tt.user.nickname}
                 </span>
                 {tt?.user?.level && (
                   <img src={tt?.user?.level} alt="" className="h-6 w-auto" />
                 )}
               </div>
-              <div className="text-[14px] font-[400] text-white/60">
+              <div className="text-[14px] font-[400] dark:text-white/60 text-black/60">
                 {tt.create_time}
               </div>
             </div>
-            <h1 className="text-white text-[14px] font-[400] leading-[20px]">
+            <h1 className="dark:text-white text-black text-[14px] font-[400] leading-[20px]">
               {tt.content}
             </h1>
             <div className="flex justify-between items-center">

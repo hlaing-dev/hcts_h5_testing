@@ -263,126 +263,301 @@
 //       )} */
 // }
 
+// import React, { useEffect, useRef, useState } from "react";
+// import Artplayer from "artplayer";
+// import lozad from "lozad";
+
+// const Player = ({
+//   src,
+//   thumbnail,
+//   status,
+//   isCenterPlay,
+// }: {
+//   src: any;
+//   thumbnail: any;
+//   status: any;
+//   isCenterPlay: boolean;
+// }) => {
+//   const playerContainerRef = useRef<HTMLDivElement>(null);
+//   const artPlayerInstanceRef = useRef<Artplayer | null>(null);
+//   const [isPlaying, setIsPlaying] = useState(false); // Track if the current player is playing
+//   const activePlayerRef = useRef<HTMLDivElement | null>(null); // Track the currently active player
+
+//   const { autoMode } = JSON.parse(
+//     localStorage.getItem("movieAppSettings") || "{}"
+//   );
+
+//   useEffect(() => {
+//     if (playerContainerRef.current) {
+//       // Lozad lazy-load observer
+//       let observer = lozad(playerContainerRef.current, {
+//         rootMargin: "200px 0px",
+//         threshold: 0.1,
+//         loaded: function (el) {
+//           Artplayer.MOBILE_DBCLICK_PLAY = false;
+//           Artplayer.MOBILE_CLICK_PLAY = false;
+
+//           if (!artPlayerInstanceRef.current) {
+//             artPlayerInstanceRef.current = new Artplayer({
+//               container: el as HTMLDivElement,
+//               url: src,
+//               poster: thumbnail,
+//               volume: 0.5,
+//               muted: false,
+//               autoplay: false, // Autoplay is off, as we control it manually
+//               aspectRatio: true,
+//               miniProgressBar: true,
+//               fastForward: true,
+//               fullscreen: true,
+//               theme: "#FE58B5",
+//             });
+//           }
+//         },
+//       });
+
+//       observer.observe();
+
+//       // IntersectionObserver to handle auto-play/pause based on visibility
+//       const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+//         entries.forEach((entry) => {
+//           const isCenterVisible = entry.intersectionRatio >= 1; // Center visibility threshold (75%)
+//           const videoContainer = entry.target as HTMLDivElement;
+
+//           if (isCenterVisible) {
+//             if (activePlayerRef.current !== videoContainer) {
+//               // Pause the currently active video
+//               if (artPlayerInstanceRef.current && activePlayerRef.current) {
+//                 artPlayerInstanceRef.current.pause();
+//                 setIsPlaying(false);
+//               }
+
+//               // Play the new center video
+//               activePlayerRef.current = videoContainer;
+//               if (artPlayerInstanceRef.current && isCenterPlay) {
+//                 if (autoMode) {
+//                   artPlayerInstanceRef.current.play();
+//                   setIsPlaying(true);
+//                 }
+//               }
+//             }
+//           } else {
+//             // Pause if the video is not visible
+//             if (
+//               artPlayerInstanceRef.current &&
+//               activePlayerRef.current === videoContainer
+//             ) {
+//               artPlayerInstanceRef.current.pause();
+//               setIsPlaying(false);
+//               activePlayerRef.current = null;
+//             }
+//           }
+//         });
+//       };
+
+//       const intersectionObserver = new IntersectionObserver(
+//         handleIntersection,
+//         {
+//           root: null, // Default is the viewport
+//           rootMargin: "0px",
+//           threshold: [1], // Trigger when 75% of the element is visible
+//         }
+//       );
+
+//       intersectionObserver.observe(playerContainerRef.current);
+
+//       // Cleanup on component unmount
+//       return () => {
+//         if (artPlayerInstanceRef.current) {
+//           artPlayerInstanceRef.current.destroy();
+//           artPlayerInstanceRef.current = null;
+//         }
+
+//         intersectionObserver.disconnect();
+//       };
+//     }
+//   }, [src, thumbnail]);
+
+//   return (
+//     <div className={`social-player ${status ? "hide-controls" : ""}`}>
+//       <div
+//         ref={playerContainerRef}
+//         className="relative artplayer-app w-full h-[250px] md:h-[350px] lg:h-[400px] xl:h-[400px]"
+//       ></div>
+//     </div>
+//   );
+// };
+
+// export default Player;
+
 import React, { useEffect, useRef, useState } from "react";
 import Artplayer from "artplayer";
-import lozad from "lozad";
+import Loader from "../../../pages/search/components/Loader";
 
 const Player = ({
   src,
   thumbnail,
   status,
   isCenterPlay,
+  videoData,
 }: {
-  src: any;
-  thumbnail: any;
-  status: any;
+  src: string;
+  thumbnail: string;
+  status: boolean;
   isCenterPlay: boolean;
+  videoData: any;
 }) => {
   const playerContainerRef = useRef<HTMLDivElement>(null);
   const artPlayerInstanceRef = useRef<Artplayer | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false); // Track if the current player is playing
-  const activePlayerRef = useRef<HTMLDivElement | null>(null); // Track the currently active player
+  const [loading, setLoading] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [error, setError] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
+  // Get autoMode setting from localStorage
   const { autoMode } = JSON.parse(
-    localStorage.getItem("movieAppSettings") || "{}"
+    localStorage.getItem("movieAppSettings") || '{"autoMode":false}'
   );
 
-  useEffect(() => {
-    if (playerContainerRef.current) {
-      // Lozad lazy-load observer
-      let observer = lozad(playerContainerRef.current, {
-        rootMargin: "200px 0px",
-        threshold: 0.1,
-        loaded: function (el) {
-          Artplayer.MOBILE_DBCLICK_PLAY = false;
-          Artplayer.MOBILE_CLICK_PLAY = false;
-
-          if (!artPlayerInstanceRef.current) {
-            artPlayerInstanceRef.current = new Artplayer({
-              container: el as HTMLDivElement,
-              url: src,
-              poster: thumbnail,
-              volume: 0.5,
-              muted: false,
-              autoplay: false, // Autoplay is off, as we control it manually
-              aspectRatio: true,
-              miniProgressBar: true,
-              fastForward: true,
-              fullscreen: true,
-              theme: "#FE58B5",
-            });
-          }
-        },
-      });
-
-      observer.observe();
-
-      // IntersectionObserver to handle auto-play/pause based on visibility
-      const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-        entries.forEach((entry) => {
-          const isCenterVisible = entry.intersectionRatio >= 1; // Center visibility threshold (75%)
-          const videoContainer = entry.target as HTMLDivElement;
-
-          if (isCenterVisible) {
-            if (activePlayerRef.current !== videoContainer) {
-              // Pause the currently active video
-              if (artPlayerInstanceRef.current && activePlayerRef.current) {
-                artPlayerInstanceRef.current.pause();
-                setIsPlaying(false);
-              }
-
-              // Play the new center video
-              activePlayerRef.current = videoContainer;
-              if (artPlayerInstanceRef.current && isCenterPlay) {
-                if (autoMode) {
-                  artPlayerInstanceRef.current.play();
-                  setIsPlaying(true);
-                }
-              }
-            }
-          } else {
-            // Pause if the video is not visible
-            if (
-              artPlayerInstanceRef.current &&
-              activePlayerRef.current === videoContainer
-            ) {
-              artPlayerInstanceRef.current.pause();
-              setIsPlaying(false);
-              activePlayerRef.current = null;
-            }
-          }
-        });
-      };
-
-      const intersectionObserver = new IntersectionObserver(
-        handleIntersection,
-        {
-          root: null, // Default is the viewport
-          rootMargin: "0px",
-          threshold: [1], // Trigger when 75% of the element is visible
-        }
-      );
-
-      intersectionObserver.observe(playerContainerRef.current);
-
-      // Cleanup on component unmount
-      return () => {
-        if (artPlayerInstanceRef.current) {
-          artPlayerInstanceRef.current.destroy();
-          artPlayerInstanceRef.current = null;
-        }
-
-        intersectionObserver.disconnect();
-      };
+  const destroyPlayer = () => {
+    // Destroy Artplayer instance
+    if (artPlayerInstanceRef.current) {
+      artPlayerInstanceRef.current.destroy();
+      artPlayerInstanceRef.current = null;
+      setIsPlaying(false);
     }
-  }, [src, thumbnail]);
+  };
+
+  const initializePlayer = () => {
+    Artplayer.MOBILE_DBCLICK_PLAY = false;
+    Artplayer.MOBILE_CLICK_PLAY = false;
+
+    artPlayerInstanceRef.current = new Artplayer({
+      container: playerContainerRef.current!,
+      url: src,
+      poster: thumbnail,
+      volume: 0.5,
+      muted: false,
+      autoplay: false,
+      aspectRatio: true,
+      miniProgressBar: true,
+      fastForward: true,
+      fullscreen: true,
+      theme: "#FE58B5",
+
+      customType: {
+        mp4: function (video: HTMLVideoElement, url: string) {
+          // Configure video element
+
+          if (videoData.current.length > 1) {
+            videoData.current[0].pause();
+            videoData.current[0].removeAttribute("src");
+            videoData.current[0].load(); // Reset the video element
+            videoData.current.splice(0, 1); // Remove the first video element
+          }
+
+          videoData?.current?.push(video);
+
+          const loadVideo = async () => {
+            video.src = url;
+          };
+
+          // Start loading process
+          loadVideo().catch(console.error);
+
+          return () => {
+            if (video) {
+              video.pause();
+              video.removeAttribute("src");
+              video.load();
+            }
+          };
+        },
+      },
+    });
+
+    artPlayerInstanceRef.current.on("play", () => setIsPlaying(true));
+    artPlayerInstanceRef.current.on("pause", () => setIsPlaying(false));
+    artPlayerInstanceRef.current.on("error", () => {
+      setError(true);
+    });
+  };
+
+  useEffect(() => {
+    if (!playerContainerRef.current) return;
+
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Initialize player if not exists
+          if (!artPlayerInstanceRef.current) {
+            initializePlayer();
+          }
+
+          // Handle play if this is the center video
+          if (artPlayerInstanceRef.current && autoMode && !isPlaying) {
+            artPlayerInstanceRef.current.play().catch(() => setError(true));
+          }
+        } else {
+          // Destroy player when not intersecting
+          destroyPlayer();
+        }
+      });
+    };
+
+    // Initialize IntersectionObserver
+    observerRef.current = new IntersectionObserver(handleIntersection, {
+      root: null,
+      rootMargin: "200px 0px",
+      threshold: 0.5,
+    });
+
+    observerRef.current.observe(playerContainerRef.current);
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+      destroyPlayer();
+    };
+  }, [src, thumbnail, autoMode]);
+
+  const handleRetry = () => {
+    setError(false);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      if (playerContainerRef.current && !artPlayerInstanceRef.current) {
+        initializePlayer();
+      }
+    }, 500);
+  };
 
   return (
     <div className={`social-player ${status ? "hide-controls" : ""}`}>
-      <div
-        ref={playerContainerRef}
-        className="relative artplayer-app w-full h-[250px] md:h-[350px] lg:h-[400px] xl:h-[400px]"
-      ></div>
+      {loading && (
+        <div className="loading-message flex justify-center items-center text-center bg-black w-full h-[250px] md:h-[350px] lg:h-[400px] xl:h-[400px]">
+          <Loader />
+        </div>
+      )}
+      {error && (
+        <div className="error-message flex justify-center items-center text-center bg-black w-full h-[250px] md:h-[350px] lg:h-[400px] xl:h-[400px]">
+          <div>
+            <p className="text-white">出了点小问题，请稍后重试</p>
+            <button
+              onClick={handleRetry}
+              className="p-1 px-4 text-[14px] rounded-full bg-[#F54100] mt-2"
+            >
+              重试
+            </button>
+          </div>
+        </div>
+      )}
+      {!loading && !error && (
+        <div
+          ref={playerContainerRef}
+          className="relative artplayer-app w-full h-[250px] md:h-[350px] lg:h-[400px] xl:h-[400px]"
+        ></div>
+      )}
     </div>
   );
 };

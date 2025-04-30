@@ -75,6 +75,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
+    "@types/lodash": "^4.17.16",
     "@types/lozad": "^1.16.4",
     "@types/video-react": "^0.15.8",
     "@types/video.js": "^7.3.58",

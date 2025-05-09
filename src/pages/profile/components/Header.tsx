@@ -15,7 +15,11 @@ const Header = ({ darkmode }: any) => {
   const parsedLoggedIn = isLoggedIn ? JSON.parse(isLoggedIn) : null;
   const token = parsedLoggedIn?.data?.access_token;
 
-  const { data: userData, error } = useGetUserQuery(undefined, {
+  const {
+    data: userData,
+    error,
+    isFetching,
+  } = useGetUserQuery(undefined, {
     skip: !token,
   });
 
@@ -29,10 +33,12 @@ const Header = ({ darkmode }: any) => {
 
   return (
     <div className="profile-header">
-      {user ? (
+      {user && !isFetching ? (
         <Link
           to={"/info"}
-          className={` w-full justify-between ${darkmode ? "profile-card_dark" : "profile-card"}`}
+          className={` w-full justify-between ${
+            darkmode ? "profile-card_dark" : "profile-card"
+          }`}
         >
           <div className="flex gap-4 items-center">
             <div className="profile-p">
@@ -113,7 +119,13 @@ const Header = ({ darkmode }: any) => {
               )}
             </div>
             <div className="flex flex-col gap-0">
-              <h1 className={`${darkmode ? "text-white" : "text-black"} font-[600] leading-[22px]`}>{user?.nickname}</h1>
+              <h1
+                className={`${
+                  darkmode ? "text-white" : "text-black"
+                } font-[600] leading-[22px]`}
+              >
+                {user?.nickname}
+              </h1>
               <div className="flex gap-2 mt-1 items-center">
                 {user?.level && (
                   <img src={user?.level} className="w-[80px] h-[30px]" />
@@ -143,7 +155,9 @@ const Header = ({ darkmode }: any) => {
       ) : (
         <div
           onClick={handleLoginClick}
-          className={`flex gap-4 bg-red-4 w-full  cursor-pointer ${darkmode ? "profile-card_dark" : "profile-card"}`}
+          className={`flex gap-4 bg-red-4 w-full  cursor-pointer ${
+            darkmode ? "profile-card_dark" : "profile-card"
+          }`}
         >
           <div className="profile-p">
             <svg
@@ -209,7 +223,9 @@ const Header = ({ darkmode }: any) => {
             </svg>
           </div>
           <div className="flex gap-2 items-center">
-            <h1 className={`${darkmode ? "text-white" : "text-black"}`}>点击登录</h1>
+            <h1 className={`${darkmode ? "text-white" : "text-black"}`}>
+              点击登录
+            </h1>
             <Right />
           </div>
         </div>

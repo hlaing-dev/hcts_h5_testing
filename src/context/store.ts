@@ -21,6 +21,8 @@ import ShareApi from "../features/share/ShareApi";
 import AdsApi from "../features/share/AdsApi";
 import { socialApi } from "../pages/social/services/socialApi";
 import ThemeSlice from "../pages/search/slice/ThemeSlice";
+import movieSlice from "./movieSlice";
+import homeMovieSlice from "./homeMovieSlice";
 
 // Define persist config
 const persistConfig = {
@@ -41,6 +43,8 @@ const rootReducer = combineReducers({
   user: UserSlice,
   home: HomeSlice,
   explore: ExploreSlice,
+  movie: movieSlice,
+  homemovie: homeMovieSlice,
 
   [searchApi.reducerPath]: searchApi.reducer,
   [socialApi.reducerPath]: socialApi.reducer,

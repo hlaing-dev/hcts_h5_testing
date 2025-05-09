@@ -34,6 +34,8 @@ import Short from "./pages/short";
 import { useGetRecommendedMoviesQuery } from "./pages/home/services/homeApi";
 import land2 from "./assets/login/land2.png";
 import Announce from "./components/Announce";
+import UpdateNotification from "./components/UpdateNotification";
+
 // import Menber from "./pages/share/member";
 // import Share from "./pages/share";
 
@@ -82,6 +84,8 @@ const App: React.FC = () => {
   const { data: headerData } = useGetHeaderTopicsQuery();
 
   const [preloadedImage, setPreloadedImage] = useState<string | null>(null);
+  const [showUpdateNotification, setShowUpdateNotification] = useState(false);
+
   // Preload landing image
   useEffect(() => {
     if (data?.data) {
@@ -132,6 +136,15 @@ const App: React.FC = () => {
   useEffect(() => {
     sendNativeEvent("hctsh5");
   }, []);
+
+  useEffect(() => {
+    if (!panding) {
+      const hasSeenUpdateNotification = sessionStorage.getItem("hasSeenUpdateNotification");
+      if (!hasSeenUpdateNotification) {
+        setShowUpdateNotification(true);
+      }
+    }
+  }, [panding]);
 
   useEffect(() => {
     if (panding) {
@@ -275,6 +288,28 @@ const App: React.FC = () => {
     );
   }
 
+  const handleUpdateClick = () => {
+    const link = headerData?.data?.about?.filter((item: any) => item.text === "官网下载")[0]?.link;
+    // Handle update action here
+    window.open(link, '_blank');
+    // Or any other update logic
+    setShowUpdateNotification(false);
+    sessionStorage.setItem("hasSeenUpdateNotification", "true");
+  };
+
+  const handleCloseUpdateNotification = () => {
+    setShowUpdateNotification(false);
+    sessionStorage.setItem("hasSeenUpdateNotification", "true");
+  };
+
+  function isWebView() {
+    return (
+      (window as any).webkit &&
+      (window as any).webkit.messageHandlers &&
+      (window as any).webkit.messageHandlers.jsBridge
+    );
+  }
+
   return (
     <>
       {data?.data && (
@@ -347,6 +382,14 @@ const App: React.FC = () => {
                 showNotice={showNotice}
               />
             )}
+            {showUpdateNotification && !showNotice && !isWebView() && (
+                <div className="fixed bottom-20 left-0 right-0 z-[9999] flex justify-center">
+                  <UpdateNotification 
+                    onUpdate={handleUpdateClick} 
+                    onClose={handleCloseUpdateNotification}
+                  />
+                </div>
+              )}
             {location.pathname.startsWith("/profile") && <FooterNav />}
             {/* {location.pathname.startsWith("/social") && <FooterNav />} */}
             {location.pathname.startsWith("/social") && !isShowingDetails && (

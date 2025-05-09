@@ -22,8 +22,6 @@ const Header: FC = () => {
   const { data: rankList } = useGetSearchRankingQuery();
   const [randomWord, setRandomWord] = useState<string | null>(null);
 
-  console.log(darkmode);
-
   const configData = data?.data?.index_top_nav;
   const activeTab = useSelector((state: any) => state.home.activeTab);
   const sortData = useSelector((state: any) => state.home.sort);
@@ -50,28 +48,28 @@ const Header: FC = () => {
 
   useEffect(() => {
     dispatch(setShowFilterTag(false));
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, [classData, area, year, activeTab, sortData, sortName]);
 
-  // Scroll event listener to detect scroll direction
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > lastScrollY && window.scrollY > 100) {
-        // Scrolling down, hide the header
-        setIsHeaderVisible(false);
-      } else if (window.scrollY < lastScrollY) {
-        // Scrolling up, show the header
-        setIsHeaderVisible(true);
-      }
-      setLastScrollY(window.scrollY);
-    };
+  // // Scroll event listener to detect scroll direction
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > lastScrollY && window.scrollY > 100) {
+  //       // Scrolling down, hide the header
+  //       setIsHeaderVisible(false);
+  //     } else if (window.scrollY < lastScrollY) {
+  //       // Scrolling up, show the header
+  //       setIsHeaderVisible(true);
+  //     }
+  //     setLastScrollY(window.scrollY);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [lastScrollY]);
 
   const ranks = rankList?.data;
 

@@ -113,10 +113,17 @@ const FilterTag = () => {
 
   useEffect(() => {
     setShow(false);
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, [classData, area, year, activeTab, sort, sortName]);
 
+  const isInitialLoad = useRef(true);
   useEffect(() => {
+    if (isInitialLoad.current) {
+      isInitialLoad.current = false;
+      return;
+    }
+
+    // Only run this when activeTab changes after initial load
     dispatch(setSort("by_default"));
     dispatch(setSortName("综合"));
     dispatch(setClass("类型"));

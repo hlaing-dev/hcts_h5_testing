@@ -20,9 +20,9 @@ body {
   background-repeat: no-repeat;
   background-size: contain;
 }
-html {
+/* html {
   scroll-behavior: smooth;
-}
+} */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -166,22 +166,22 @@ input[type="range"]::-moz-range-thumb {
   border-color: #fe58b5 !important;
 } */
 .gradient-bg-home2 {
-  background: linear-gradient(to right, #58402E, #763459)
+  background: linear-gradient(to right, #58402e, #763459);
 }
 .gradient-bg-home2-light {
-  background: linear-gradient(to right, #fff9fc, #fff9fc)
+  background: linear-gradient(to right, #fff9fc, #fff9fc);
 }
 .gradient-bg-home {
-  background: linear-gradient(to right, #763459, #58402E)
+  background: linear-gradient(to right, #763459, #58402e);
 }
 .gradient-bg-home-light {
-  background: linear-gradient(to right, #fe58b5, #ff9153)
+  background: linear-gradient(to right, #fe58b5, #ff9153);
 }
 .dark-gradient {
   background: linear-gradient(to right, #58402e, #58402e);
 }
 .tab-bg {
-  background: linear-gradient(to right, #FFFFFF29, #FFFFFF29);
+  background: linear-gradient(to right, #ffffff29, #ffffff29);
   /* @apply bg-gradient-to-r from-[#fe58b5] to-[#ff9153]  dark:to-[#FFFFFF29] dark:from-[#FFFFFF29]; */
 }
 .tab-bg-light {

@@ -16,8 +16,7 @@ import { useGetSearchRankingQuery } from "../pages/search/services/searchApi";
 const Header: FC = () => {
   const { data } = useGetHeaderTopicsQuery();
   // const [isShowMenu, setIsShowMenu] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State to track header visibility
+
   const darkmode = useSelector(selectTheme);
   const { data: rankList } = useGetSearchRankingQuery();
   const [randomWord, setRandomWord] = useState<string | null>(null);
@@ -50,26 +49,6 @@ const Header: FC = () => {
     dispatch(setShowFilterTag(false));
     // window.scrollTo(0, 0);
   }, [classData, area, year, activeTab, sortData, sortName]);
-
-  // // Scroll event listener to detect scroll direction
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > lastScrollY && window.scrollY > 100) {
-  //       // Scrolling down, hide the header
-  //       setIsHeaderVisible(false);
-  //     } else if (window.scrollY < lastScrollY) {
-  //       // Scrolling up, show the header
-  //       setIsHeaderVisible(true);
-  //     }
-  //     setLastScrollY(window.scrollY);
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [lastScrollY]);
 
   const ranks = rankList?.data;
 

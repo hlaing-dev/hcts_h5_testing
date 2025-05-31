@@ -12,11 +12,13 @@ import {
   setAuthModel,
   setCaptchaOpen,
   setLoginOpen,
+  setOtpOpen,
   setSignupOpen,
 } from "../../features/login/ModelSlice";
 import { showToast } from "../../pages/profile/error/ErrorSlice";
 import { useLocation } from "react-router-dom";
-import BackBtn from "../../assets/svg/BackBtn";
+import { getOtp } from "../../services/userService";
+import { selectTheme } from "../../pages/search/slice/ThemeSlice";
 import CloseBtn from "../../assets/svg/CloseBtn";
 
 interface SignPhoneProps {
@@ -27,7 +29,9 @@ const SignPhone: React.FC<SignPhoneProps> = ({ handleBack2 }) => {
   const [key, setKey] = useState("");
 
   const dispatch = useDispatch();
-  const { openCaptcha, openOtp } = useSelector((state: any) => state.model);
+  const { openCaptcha, openOtp, GraphicKey } = useSelector(
+    (state: any) => state.model
+  );
   const [showOtp, setShowOtp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [phone, setPhone] = useState("");
@@ -36,6 +40,9 @@ const SignPhone: React.FC<SignPhoneProps> = ({ handleBack2 }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isFocusedEmail, setIsFocusedEmail] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+  const [box, setBox] = useState(false);
+  const darkmode = useSelector(selectTheme);
+
   const show = () => {
     setShowPassword(!showPassword);
   };
@@ -61,7 +68,7 @@ const SignPhone: React.FC<SignPhoneProps> = ({ handleBack2 }) => {
 
   // Password validation function
   const validatePassword = (password: string) => {
-    const lengthValid = password.length >= 8 && password.length <= 25;
+    const lengthValid = password.length >= 6 && password.length <= 25;
     const containsLetters = /[a-zA-Z]/.test(password);
     const containsNumbers = /\d/.test(password);
     return lengthValid && containsLetters && containsNumbers;
@@ -110,14 +117,37 @@ const SignPhone: React.FC<SignPhoneProps> = ({ handleBack2 }) => {
     setIsVisible(false);
   };
 
+  useEffect(() => {
+    const fetchOtp = async () => {
+      try {
+        if (phone) {
+          await getOtp(GraphicKey, phone, "phone");
+          setBox(true);
+          dispatch(setOtpOpen(false));
+        }
+      } catch (error: any) {
+        // console.error("Error fetching OTP:", error);
+        const msg = error.response.data.msg;
+        dispatch(showToast({ message: msg, type: "error" }));
+        dispatch(setOtpOpen(false));
+
+        // Show error message to the user, e.g., using state or toast notification
+      }
+    };
+
+    if (openOtp) {
+      fetchOtp();
+    }
+  }, [openOtp]);
+
   return (
     <div className="min-h-screen flex items-center justify-center overflow-hidden">
-      {openOtp && (
+      {box && (
         <Opt
-          key={key}
           setIsVisible={setIsVisible}
           phone={phone}
           password={password}
+          setBox={setBox}
         />
       )}
       {openCaptcha && (
@@ -133,7 +163,7 @@ const SignPhone: React.FC<SignPhoneProps> = ({ handleBack2 }) => {
       <AnimatePresence>
         {isVisible && (
           <motion.div
-            className="login_box h-[480px] fixed bottom-0 z-[99999] w-screen py-4 px-[20px] bg-gray-800 rounded-t-2xl"
+            className="bg-[#fff] login_box dark:bg-[#2B2B2D] h-[480px] fixed bottom-0 z-[99999] w-screen py-4 px-[20px] rounded-t-2xl"
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -146,30 +176,42 @@ const SignPhone: React.FC<SignPhoneProps> = ({ handleBack2 }) => {
             <div className="flex flex-col justify-center items-center gap-[16px]">
               <motion.p className="w-[60px] h-[4px] drag_line mt-[12px] cursor-pointer bg-gray-400"></motion.p>
               <div className="flex justify-between items-center w-full pb-[20px]">
+                <img
+                  className={`${
+                    darkmode ? "" : "w-[30px] bg-gray-300 rounded-full"
+                  } p-[6px]  cursor-pointer `}
+                  src={back}
+                  alt="Back"
+                  onClick={handleBack2}
+                />
                 {/* <img
                   className="p-3 cursor-pointer"
                   src={back}
                   alt="Back"
                   onClick={handleBack2}
                 /> */}
-                <div className="p-3 cursor-pointer" onClick={handleBack2}>
-                  <BackBtn />
-                </div>
-                <h2 className="text-[18px] font-[600] leading-[20px] text-black">
+                <h2 className="text-[18px] font-[600] leading-[20px] text-black dark:text-white">
                   使用手机号码注册
                 </h2>
-                <div
-                  className="p-3 cursor-pointer"
-                  onClick={handleClose}
-                >
-                  <CloseBtn />
+                <div onClick={handleClose} className=" p-3">
+                  {darkmode ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 3.88906L8.88906 0L10 1.11094L6.11094 5L10 8.88906L8.88906 10L5 6.11094L1.11094 10L0 8.88906L3.88906 5L0 1.11094L1.11094 0L5 3.88906Z"
+                        fill="white"
+                        fill-opacity="0.8"
+                      />
+                    </svg>
+                  ) : (
+                    <CloseBtn />
+                  )}
                 </div>
-                {/* <img
-                  className="close_btn p-3 cursor-pointer"
-                  src={close}
-                  alt="Close"
-                  onClick={handleClose}
-                /> */}
               </div>
 
               <form
@@ -183,7 +225,7 @@ const SignPhone: React.FC<SignPhoneProps> = ({ handleBack2 }) => {
                     onChange={(e) => setPhone(e.target.value)}
                     onFocus={() => setIsFocusedEmail(true)}
                     onBlur={() => setIsFocusedEmail(phone !== "")}
-                    className="w-full px- py-2 bg-[#fff] input_border focus:outline-none text-black placeholder-[#5B5B5B]"
+                    className="w-full px- py-2 bg-transparent dark:bg-[#2B2B2D] input_border focus:outline-none text-black dark:text-white placeholder-[#5B5B5B]"
                     required
                     placeholder="请输入您的电话号码"
                   />
@@ -206,9 +248,11 @@ const SignPhone: React.FC<SignPhoneProps> = ({ handleBack2 }) => {
                     onChange={(e) => setPassword(e.target.value)}
                     onFocus={() => setIsFocusedPassword(true)}
                     onBlur={() => setIsFocusedPassword(password !== "")}
-                    className="w-full px- py-2 bg-[#fff] input_border focus:outline-none text-black placeholder-[#5B5B5B]"
+                    className="w-full px- py-2 bg-transparent dark:bg-[#2B2B2D] input_border focus:outline-none text-black dark:text-white placeholder-[#5B5B5B]"
                     required
                     placeholder="设置您的密码"
+                    minLength={8}
+                    maxLength={25}
                   />
                   {/* <label
                     htmlFor="password"
@@ -239,7 +283,7 @@ const SignPhone: React.FC<SignPhoneProps> = ({ handleBack2 }) => {
                       : "text-[#888]"
                   }  `}
                 >
-                  <p>8-25个字符</p>
+                  <p>6-25个字符</p>
                   <p>必须是以下两者中的至少两种组合：字母，数字</p>{" "}
                   {/* <p>letters, numbers.</p> */}
                 </div>
@@ -248,9 +292,9 @@ const SignPhone: React.FC<SignPhoneProps> = ({ handleBack2 }) => {
                   disabled={!validatePassword(password)}
                   type="submit"
                   className={`w-full text-[14px] font-[600] leading-[22px]  mt-[20px] py-[10px] px-[16px] rounded-[80px]  ${
-                    validatePassword(password)
+                    !validatePassword(password)
                       ? "login_button text-white"
-                      : "next_button text-[#777]"
+                      : "next_button text-white"
                   } transition duration-300 ease-in-out`}
                 >
                   注册

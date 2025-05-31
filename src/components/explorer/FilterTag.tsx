@@ -17,42 +17,60 @@ import { setShowMenu } from "../../features/counter/counterSlice";
 
 const FilterTag = () => {
   const location = useLocation();
-  // const []
   const selectedClassRef = useRef<any>(null);
   const selectedYearRef = useRef<any>(null);
   const selectedAreaRef = useRef<any>(null);
   const [activeClass, setActiveClass] = useState(0);
   const [activeArea, setActiveArea] = useState(0);
   const [activeYear, setActiveYear] = useState(0);
-  // const [showMenu, setShowMenu] = useState(false);
+  const [isReady, setIsReady] = useState(false); // New state to control rendering
+
   const activeTab = useSelector((state: any) => state?.explore?.activeTab);
   const showMenu = useSelector((state: any) => state?.counter?.showMenu);
   const sort = useSelector((state: any) => state?.explore?.sort);
   const sortName = useSelector((state: any) => state?.explore?.sortName);
-  // console.log(sort, "sort");
   const classData = useSelector((state: any) => state?.explore?.class);
   const area = useSelector((state: any) => state?.explore?.area);
   const year = useSelector((state: any) => state?.explore?.year);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State to track header visibility
-  const { data: configData } = useGetHeaderTopicsQuery();
-  const filteredTags = configData?.data?.movie_screen?.filter?.filter(
-    (data: any) => {
-      if (data?.id == activeTab) {
-        return data;
-      }
-    }
-  );
-  const dispatch = useDispatch();
 
+  const { data: configData } = useGetHeaderTopicsQuery();
+  const dispatch = useDispatch();
   const filterTagRef = useRef<any>(null);
-  // console.log(filterTagRef?.current.getBoundingClientRect())
   const [show, setShow] = useState(false);
+
+  // Wait for initial data to load before rendering
+  useEffect(() => {
+    if (configData) {
+      setIsReady(true);
+    }
+  }, [configData]);
+
   const filterTagHandler = () => {
     dispatch(setShowMenu(true));
     setShow(true);
-    // window.scrollTo(0, 0);
   };
+
+  useEffect(() => {
+    setShow(false);
+    // window.scrollTo(0, 0);
+  }, [classData, area, year, activeTab, sort, sortName]);
+
+  const isInitialLoad = useRef(true);
+
+  useEffect(() => {
+    if (isInitialLoad.current) {
+      isInitialLoad.current = false;
+      return;
+    }
+
+    // Only run this when activeTab changes after initial load
+    dispatch(setSort("by_default"));
+    dispatch(setSortName("综合"));
+    dispatch(setClass("类型"));
+    dispatch(setArea("地区"));
+    dispatch(setYear("年份"));
+  }, [activeTab]);
+
   useEffect(() => {
     const handleScroll = () => {
       if (filterTagRef.current) {
@@ -107,50 +125,19 @@ const FilterTag = () => {
     }
   }, [area]);
 
-  useEffect(() => {
-    // if (!show) setShowMenu(!showMenu);
-  }, [show]);
+  if (!isReady) {
+    return (
+      <div className="flex flex-col gap-3 py-5">
+        {/* Render a placeholder with the exact same dimensions */}
+        <div className="fixed w-full z-50 bg-white dark:bg-[#161619] top-[53px] h-[50px]"></div>
+        <div className="mt-5 flex flex-col gap-3 pb-5 pt-2 h-[180px] bg-white dark:bg-[#161619]"></div>
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    setShow(false);
-    // window.scrollTo(0, 0);
-  }, [classData, area, year, activeTab, sort, sortName]);
-
-  const isInitialLoad = useRef(true);
-  useEffect(() => {
-    if (isInitialLoad.current) {
-      isInitialLoad.current = false;
-      return;
-    }
-
-    // Only run this when activeTab changes after initial load
-    dispatch(setSort("by_default"));
-    dispatch(setSortName("综合"));
-    dispatch(setClass("类型"));
-    dispatch(setArea("地区"));
-    dispatch(setYear("年份"));
-  }, [activeTab]);
-
-  // console.log(show)
-  // Scroll event listener to detect scroll direction
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > lastScrollY && window.scrollY > 100) {
-        // Scrolling down, hide the header
-        setIsHeaderVisible(false);
-      } else if (window.scrollY < lastScrollY) {
-        // Scrolling up, show the header
-        setIsHeaderVisible(true);
-      }
-      setLastScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
+  const filteredTags = configData?.data?.movie_screen?.filter?.filter(
+    (data: any) => data?.id == activeTab
+  );
 
   return (
     <>

@@ -8,7 +8,7 @@ import CloseBtn from "../../../assets/svg/CloseBtn";
 import eye from "../../../assets/login/eye.svg";
 import eyeClose from "../../../assets/login/eyeClose.svg";
 import selectDark1 from "../../../assets/login/selectDark1.svg";
-import selectDark2 from "../../../assets/login/selectDark2.svg";
+import selectDark2 from "../../../assets/login/selectDark1.svg";
 import {
   setAuthModel,
   setLoginOpen,

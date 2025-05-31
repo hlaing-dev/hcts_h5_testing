@@ -64,7 +64,7 @@ const MovieCard = ({
       <div className="text-container">
         <div className="movie-info">
           <h2
-            className={`text-[12px] ${
+            className={`text-[14px] ${
               isSlider ? "w-[105px]" : ""
             } mt-[.14rem] leading-[18px] font-confortFont font-[400] text-black dark:text-white truncate`}
           >

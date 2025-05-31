@@ -1,10 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ImageWithPlaceholder from "../../pages/search/components/ImgPlaceholder";
 import { useGetRecordQuery } from "../../pages/profile/services/profileApi";
 import "./home.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Right from "../../assets/svg/Right";
+import RightDark from "../../assets/svg/Right";
+import { selectTheme } from "../../pages/search/slice/ThemeSlice";
 
 const ContinueWatching = () => {
+  const darkmode = useSelector(selectTheme);
+  const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("authToken");
   const parsedLoggedIn = isLoggedIn ? JSON.parse(isLoggedIn) : null;
   const token = parsedLoggedIn?.data?.access_token;
@@ -42,7 +47,15 @@ const ContinueWatching = () => {
       {/* Horizontal Scrolling Movie List */}
       {token && movies?.length !== 0 && (
         <div className="max-md:px-3 px-10">
-          {latestMovies?.length > 0 && <h1 className="text-white font-headerFont">继续观看</h1>}
+          {latestMovies?.length > 0 && (
+            // <h1 className="text-white font-headerFont">继续观看</h1>
+            <div className=" flex justify-between items-center">
+              <h1 className="text-white font-headerFont">继续观看</h1>
+              <div onClick={() => navigate("/history")} className="">
+                {darkmode ? <RightDark /> : <Right />}
+              </div>
+            </div>
+          )}
           <div className="flex overflow-x-scroll whitespace-nowrap scrollbar-hide gap-4 mt-5">
             {latestMovies?.map((movie: any) => (
               <Link

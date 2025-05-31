@@ -4,13 +4,12 @@ import Ads from "../../../search/components/Ads";
 import Loader from "../../../search/components/Loader";
 import ImageWithPlaceholder from "../../../search/components/ImgPlaceholder";
 import { useDeleteCollectMutation } from "../../services/profileApi"; // Import delete mutation
-import NewAds from "../../../../components/NewAds";
 
 interface MainProps {
   isEditMode: boolean;
   setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
   movies: any[];
-  advert: any;
+
   isLoading: boolean;
   isFetching: boolean;
   setMovies: any;
@@ -19,21 +18,19 @@ interface MainProps {
   setcurrentType: any;
   onTypeClick: any;
   currentPage: any;
-  isAdsLoading: any;
-  isAdsFetching: any;
+
   darkmode: boolean;
 }
 
 const Main: React.FC<MainProps> = ({
   currentType,
-  isAdsLoading,
-  isAdsFetching,
+
   currentPage,
   types,
   isEditMode,
   setIsEditMode,
   movies,
-  advert,
+
   isFetching,
   setMovies,
   onTypeClick,
@@ -101,21 +98,25 @@ const Main: React.FC<MainProps> = ({
     <div
       className={` ${
         darkmode ? "bg-[#161619]" : "bg-white"
-      }   pb-[50px] mt-[65px] `}
+      }   pb-[50px] mt-[20px] `}
     >
       <div className="mt-3">
-        {isAdsLoading || isAdsFetching ? (
-          <div className="flex bg-white justify-center items-center h-[126px]">
+        {/* {isAdsLoading || isAdsFetching ? (
+          <div
+            className={`flex ${
+              darkmode ? "bg-[#161619]" : "bg-white"
+            }    justify-center items-center h-[126px]`}
+          >
             <Loader />
           </div>
         ) : (
           <>
-            {/* <Ads advert={advert} /> */}
+
             <NewAds section="collect_up" />
           </>
-        )}
+        )} */}
 
-        <div className="flex items-center gap-2 mt-7 px-3 overflow-x-scroll max-w-full whitespace-nowrap scrollbar-hide">
+        <div className="flex items-center gap-2 mt-0 pt-4 px-3 overflow-x-scroll max-w-full whitespace-nowrap scrollbar-hide">
           {types?.map((type: any, index: number) => (
             <button
               key={index}
@@ -178,7 +179,13 @@ const Main: React.FC<MainProps> = ({
                 </div>
 
                 <div>
-                  <h1 className={`fav_text truncate ${darkmode ? "text-white" : "text-black"}`}>{movie?.movie_name}</h1>
+                  <h1
+                    className={`fav_text truncate ${
+                      darkmode ? "text-white" : "text-black"
+                    }`}
+                  >
+                    {movie?.movie_name}
+                  </h1>
                 </div>
               </div>
             ))}
@@ -436,7 +443,9 @@ const Main: React.FC<MainProps> = ({
               </h2>
               <div className="flex justify-between">
                 <button
-                  className={`${darkmode ? " text-white" : "text-[#080808]"} w-[50%] p-3 border-t-[1px] border-r-[1px] border-white/30`}
+                  className={`${
+                    darkmode ? " text-white" : "text-[#080808]"
+                  } w-[50%] p-3 border-t-[1px] border-r-[1px] border-white/30`}
                   onClick={cancelDelete}
                 >
                   取消

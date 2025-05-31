@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import share from "../../../assets/share.svg";
 import share1 from "../../../assets/share1.svg";
 import star from "../../../assets/star1.png";
@@ -55,7 +55,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
   const { refetch } = useGetListQuery({ page: 1, type_id: 0 });
   const [showFeedbackModal, setShowFeedbackModal] = useState(false); // For triggering modal
   const [visible, setVisible] = useState(false);
-  const [lowerDivHeight, setLowerDivHeight] = useState(0);
+
   const modalRef = useRef<any>(null);
   const { data } = useGetAdsQuery();
 
@@ -64,9 +64,11 @@ const DetailSection: React.FC<DetailSectionProps> = ({
     setTimeout(() => setVisible(false), 2000); // Hide after 2 seconds
   };
 
-  const handleDetailClick = () => {
-    setShowModal(true);
-  };
+  // const handleDetailClick = () => {
+  //   setShowModal(true);
+  // };
+
+  console.log("renderr");
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -135,8 +137,8 @@ const DetailSection: React.FC<DetailSectionProps> = ({
 
   const copyToClipboard = async (text: string) => {
     try {
-      if(isWebView()) {
-        sendEventToNative(text  );
+      if (isWebView()) {
+        sendEventToNative(text);
       }
       handleCopy();
       copy(text);
@@ -160,8 +162,8 @@ const DetailSection: React.FC<DetailSectionProps> = ({
 
   const handleShare = async () => {
     setIsLoading(true);
-    const cookieKey = 'shareContent';
-    
+    const cookieKey = "shareContent";
+
     try {
       // Check if the cookie exists
       const cachedContent = Cookies.get(cookieKey);
@@ -170,20 +172,20 @@ const DetailSection: React.FC<DetailSectionProps> = ({
         sendShareEventToNative(JSON.parse(cachedContent).data.content);
         return;
       }
-  
+
       // Call the API if no cached content is found
       const response = await axios.get(
         convertToSecureUrl(`${process.env.REACT_APP_API_URL}/user/get_share`),
         {
           headers: {
             "Content-Type": "application/json",
-          }
+          },
         }
       );
-  
+
       const data = await response.data;
       const result: any = await decryptWithAes(data);
-  
+
       if (data && result) {
         // Save to cookie with a 2-hour expiry
         Cookies.set(cookieKey, JSON.stringify(result), { expires: 1 / 12 }); // 1/12 day = 2 hours
@@ -196,7 +198,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
       setIsLoading(false);
     }
   };
-  
+
   const sendShareEventToNative = (value: any) => {
     // copyToClipboard("https://d1svxjht0opoc5.cloudfront.net/kkoor4.pdf");
     if (
@@ -231,24 +233,65 @@ const DetailSection: React.FC<DetailSectionProps> = ({
     return remainingHeight;
   };
 
+  const lowerDivHeightRef = useRef(customHeight());
+
+  // This won't trigger re-renders
+  const updateHeight = useCallback(() => {
+    const newHeight = customHeight();
+    lowerDivHeightRef.current = newHeight;
+
+    // Directly apply to modal if it's open
+    if (modalRef.current && showModal) {
+      modalRef.current.style.height = `${newHeight}px`;
+    }
+  }, [showModal]);
+
   useEffect(() => {
-    const updateHeight = () => {
-      setLowerDivHeight(customHeight());
+    // Initial height calculation
+    updateHeight();
+
+    // Throttled resize handler
+    let ticking = false;
+    const handleResize = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateHeight();
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    updateHeight(); // Set initial height
-    window.addEventListener("resize", updateHeight); // Update height on window resize
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, [updateHeight]);
 
-    return () => {
-      window.removeEventListener("resize", updateHeight); // Cleanup event listener
-    };
-  }, []);
+  const handleDetailClick = () => {
+    setShowModal(true);
+    // Apply current height directly
+    if (modalRef.current) {
+      modalRef.current.style.height = `${lowerDivHeightRef.current}px`;
+    }
+  };
 
-  useEffect(() => {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 200);
-  }, []);
+  // useEffect(() => {
+  //   const updateHeight = () => {
+  //     setLowerDivHeight(customHeight());
+  //   };
+
+  //   updateHeight(); // Set initial height
+  //   window.addEventListener("resize", updateHeight); // Update height on window resize
+
+  //   return () => {
+  //     window.removeEventListener("resize", updateHeight); // Cleanup event listener
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     window.scrollTo(0, 0);
+  //   }, 200);
+  // }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -262,13 +305,13 @@ const DetailSection: React.FC<DetailSectionProps> = ({
     };
   }, [modalRef]);
 
-  useEffect(() => {
-    if (activeTab === "tab-1") {
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 200);
-    }
-  }, [activeTab]);
+  // useEffect(() => {
+  //   if (activeTab === "tab-1") {
+  //     setTimeout(() => {
+  //       window.scrollTo(0, 0);
+  //     }, 200);
+  //   }
+  // }, [activeTab]);
 
   return (
     <div className="flex flex-col w-full dark:bg-[#161619] bg-white">
@@ -277,14 +320,14 @@ const DetailSection: React.FC<DetailSectionProps> = ({
       {/* Tab content */}
       <div
         className={`dark:bg-[#161619] bg-white rounded-b-lg p-1 ${
-          activeTab === "tab-1" && "pt-4 px-4"
+          activeTab === "tab-1" && "pt-2 px-4"
         }`}
       >
         {activeTab === "tab-1" && (
           <div id="tab-1" className="block">
             {/* Movie Title and Info */}
             <div className="movie-info mb-4 flex-auto overflow-x-scroll">
-              <h2 className="text-[16px] font-semibold text-black dark:text-white">
+              <h2 className="text-[18px] font-semibold text-black dark:text-white">
                 {movieDetail.name || "暂无标题"}
               </h2>
               <div className="info text-black/40 dark:text-[#FFFFFF66] text-sm flex justify-between items-start overflow-x-auto space-x-2 mt-2">
@@ -292,17 +335,20 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                 <div className="left-section flex items-center flex-wrap space-x-2 w-[80%] overflow-x-auto text-[14px]">
                   {/* <span className="rating flex items-center"> */}
                   <span className="flames">
-                    {movieDetail?.popularity_score > 0 ? 
-                    <>
-                    {Array.of(movieDetail?.popularity_score)?.map((item) => (
-                      <img src={rate} key={item} alt="" />
-                    ))}
-                    </> :
-                    <>
-                    <img src={rate} key="0" alt="" />
-                    {movieDetail?.hot}
-                    </>
-                  }
+                    {movieDetail?.popularity_score > 0 ? (
+                      <>
+                        {Array.of(movieDetail?.popularity_score)?.map(
+                          (item) => (
+                            <img src={rate} key={item} alt="" />
+                          )
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <img src={rate} key="0" alt="" />
+                        {movieDetail?.hot}
+                      </>
+                    )}
                   </span>
                   {/* </span> */}
                   <span>{movieDetail.year}</span>
@@ -376,28 +422,38 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                 onClick={() => handleShare()}
                 className="action-btn flex flex-col items-center px-4 py-2 rounded-md"
               >
-                <img src={share} alt="" className="h-7 mb-2 block dark:hidden" />
-                <img src={share1} alt="" className="h-7 mb-2 hidden dark:block" />
+                <img
+                  src={share}
+                  alt=""
+                  className="h-7 mb-2 block dark:hidden"
+                />
+                <img
+                  src={share1}
+                  alt=""
+                  className="h-7 mb-2 hidden dark:block"
+                />
                 <span className="text-black/40 dark:text-[#FFFFFF66] text-[14px]">
                   分享
                 </span>
               </button>
             </div>
             {/* Warning Message */}
-            {data?.data?.['player_episode_up']?.length <= 0 && <div className="warning rounded-md text-white text-center" onClick={()=> handleShare()}>
-              <div className="warning-content rounded-md mx-auto text-[17px] flex items-center">
-                <span className="warning-text text-white flex items-center">
-                <img 
-                 src={PlayerText} 
-                 alt="" 
-                 className="mt-2"/>
-                好事不独享，点击分享给好友一起体验！
-                </span> 
-                {/* <span className="warning-text text-white flex">
+            {data?.data?.["player_episode_up"]?.length <= 0 && (
+              <div
+                className="warning rounded-md text-white text-center"
+                onClick={() => handleShare()}
+              >
+                <div className="warning-content rounded-md mx-auto text-[17px] flex items-center">
+                  <span className="warning-text text-white flex items-center">
+                    <img src={PlayerText} alt="" className="mt-2" />
+                    好事不独享，点击分享给好友一起体验！
+                  </span>
+                  {/* <span className="warning-text text-white flex">
                 <img src={PlayerText} alt="" />    好事不独享，点击分享给好友一起体验！
                 </span> */}
+                </div>
               </div>
-            </div>}
+            )}
           </div>
         )}
 
@@ -414,7 +470,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
             {/* Comment section or other content */}
             <CommentComponent
               movieId={id}
-              lowerDivHeight={lowerDivHeight}
+              lowerDivHeight={lowerDivHeightRef.current}
               setCommentCount={setCommentCount}
               commentCount={commentCount}
               // comments={comments}
@@ -437,7 +493,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
           <div
             ref={modalRef}
             className="dark:bg-[#161619] bg-white backdrop-blur-md w-full max-w-md bottom-0 rounded-lg p-6 text-black dark:text-white overflow-y-auto"
-            style={{ height: `${lowerDivHeight}px` }}
+            style={{ height: `${lowerDivHeightRef.current}px` }}
           >
             {/* Modal Header */}
             <div className="flex justify-between items-center mb-4">
@@ -523,7 +579,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
           onClose={handleFeedbackModel}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
-          height={`${lowerDivHeight}px`}
+          height={`${lowerDivHeightRef.current}px`}
         />
       )}
     </div>

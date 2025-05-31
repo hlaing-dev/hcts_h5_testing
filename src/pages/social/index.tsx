@@ -10,7 +10,7 @@ const Social = () => {
     dispatch(setShowingDetail(false))
   },[])
   return (
-    <div className="bg-white dark:bg-[#161619]">
+    <div className="bg-white dark:bg-[#161619] min-h-screen">
       <Navbar />
     </div>
   );

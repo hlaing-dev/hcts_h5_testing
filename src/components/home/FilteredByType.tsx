@@ -361,9 +361,12 @@ import { setPage2 } from "../../context/homeMovieSlice";
 import { appendMovieData } from "../../context/homeMovieSlice";
 
 import { setMovieData } from "../../context/homeMovieSlice";
+import { selectTheme } from "../../pages/search/slice/ThemeSlice";
 
 const FilteredByType = () => {
   const activeTab = useSelector((state: any) => state.home.activeTab);
+  const darkmode = useSelector(selectTheme);
+
   // Get state from Redux
   const { movieData, page2 } = useSelector((state: any) => state.homemovie);
 
@@ -562,7 +565,11 @@ const FilteredByType = () => {
                 next={fetchData}
                 hasMore={hasMore}
                 endMessage={
-                  <div className="flex bg-background justify-center items-center w-full py-5">
+                  <div
+                    className={`flex ${
+                      darkmode ? "bg-[#161619]" : "bg-white"
+                    }   justify-center items-center w-full py-5`}
+                  >
                     <p style={{ textAlign: "center" }}>
                       <b>快关注你喜欢的贴子吧！</b>
                     </p>

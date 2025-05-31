@@ -3,9 +3,6 @@ import { useNavigate } from "react-router-dom";
 import ImageWithPlaceholder from "../../../search/components/ImgPlaceholder";
 import { useDeleteRecordMutation } from "../../services/profileApi";
 //import { useGetAdsQuery } from "../../../search/services/searchApi";
-import Loader from "../../../search/components/Loader";
-import NewAds from "../../../../components/NewAds";
-import { useGetAdsQuery } from "../../../../services/helperService";
 
 const Main: React.FC<any> = ({
   isEditMode,
@@ -14,7 +11,6 @@ const Main: React.FC<any> = ({
   refetch,
   darkmode,
 }) => {
-  const { data: adsData, isLoading, isFetching } = useGetAdsQuery(); // Fetch ads data from API
   const [selectedMovies, setSelectedMovies] = useState<any[]>([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [deleteRecord] = useDeleteRecordMutation(); // Use the delete mutation
@@ -45,8 +41,6 @@ const Main: React.FC<any> = ({
     setShowConfirmation(false);
   };
 
-  const advert = adsData?.data?.play_record_up?.data;
-
   // Calculate view percentage
   const calculateViewPercentage = (progress_time: number, duration: number) => {
     if (duration && progress_time) {
@@ -76,11 +70,11 @@ const Main: React.FC<any> = ({
 
   return (
     <div
-      className={`  mt-[60px] pb-[50px] ${
+      className={`  mt-[25px] pb-[50px] ${
         darkmode ? "bg-[#161619]" : "bg-white"
       }`}
     >
-      {isLoading || isFetching ? (
+      {/* {isLoading || isFetching ? (
         <div className="flex justify-center items-center h-[126px]">
           <Loader />
         </div>
@@ -88,7 +82,7 @@ const Main: React.FC<any> = ({
         <div className="py-2">
           <NewAds section="play_record_up" />
         </div>
-      )}
+      )} */}
       {movies?.map((movie: any, index: number) => {
         // Filter the movies based on the filterToggle state
         const filteredList = filterToggle
@@ -104,10 +98,16 @@ const Main: React.FC<any> = ({
 
         return (
           <div className="mt-5" key={index}>
-            <div className={`flex items-center relative justify-between bg-black/10 ${darkmode ? "my-5" : ""} px-4 py-1`}>
+            <div
+              className={`flex items-center relative justify-between bg-black/10 ${
+                darkmode ? "my-5" : ""
+              } px-4 py-1`}
+            >
               <div
                 className={`history-text w-full my-[4px py-[4px] pl-[20px] h-[30px] ${
-                  darkmode ? "text-white bg-white/5 absolute" : "text-black bg-black/1"
+                  darkmode
+                    ? "text-white bg-white/5 absolute"
+                    : "text-black bg-black/1"
                 }  left-0`}
               >
                 h{movie?.title}

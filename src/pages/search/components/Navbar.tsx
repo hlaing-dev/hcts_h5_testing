@@ -40,8 +40,7 @@ const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [suggestions, setSuggestions] = useState<any[]>([]); // Store autocomplete suggestions
   const [isFocused, setIsFocused] = useState(false); // Manage input focus
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State to track header visibility
+
   const [triggerAutocomplete, { data: autocompleteData }] =
     useLazyGetAutocompleteQuery(); // Lazy query for autocomplete
 
@@ -81,25 +80,6 @@ const Navbar: React.FC<NavbarProps> = ({
     setSuggestions([]); // Clear suggestions after click
     onSearch();
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > lastScrollY && window.scrollY > 100) {
-        // Scrolling down, hide the header
-        setIsHeaderVisible(false);
-      } else if (window.scrollY < lastScrollY) {
-        // Scrolling up, show the header
-        setIsHeaderVisible(true);
-      }
-      setLastScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
 
   return (
     <div className="relative">

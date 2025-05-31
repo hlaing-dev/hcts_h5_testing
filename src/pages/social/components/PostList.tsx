@@ -894,7 +894,7 @@ const PostList = ({
     } finally {
     }
   };
-  
+
   const copyToClipboard = async (text: string) => {
     try {
       copy(text);
@@ -1345,14 +1345,24 @@ const PostList = ({
           next={fetchMoreData}
           hasMore={hasMore}
           loader={
-            <div className="flex bg-background justify-center items-center w-full py-5">
+            <div
+              className={`flex  ${
+                darkmode ? "bg-[#161619]" : "bg-white"
+              }    justify-center items-center w-full py-5`}
+            >
               <Loader />
             </div>
           }
           endMessage={
-            <div className="flex bg-background justify-center items-center w-full py-5">
+            <div
+              className={`flex  ${
+                darkmode ? "bg-[#161619]" : "bg-white"
+              }    justify-center items-center w-full py-5`}
+            >
               <p style={{ textAlign: "center" }}>
-                <b>快关注你喜欢的贴子吧！</b>
+                <b className={`${darkmode ? "text-white" : "text-black"} `}>
+                  快关注你喜欢的贴子吧！
+                </b>
               </p>
             </div>
           }

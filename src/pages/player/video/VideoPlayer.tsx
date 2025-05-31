@@ -101,23 +101,23 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         });
 
         // Use Hls.js for HLS streams
-        // if (Hls.isSupported() && videoUrl.includes(".m3u8")) {
-        //   hls = new Hls();
-        //   hls.loadSource(videoUrl);
-        //   hls.attachMedia(art.video);
+        if (Hls.isSupported() && videoUrl.includes(".m3u8")) {
+          hls = new Hls();
+          hls.loadSource(videoUrl);
+          hls.attachMedia(art.video);
 
-        //   // Handle HLS errors
-        //   hls.on(Hls.Events.ERROR, (_, data) => {
-        //     if (data.fatal) {
-        //       console.error("HLS error:", data);
-        //       // handleVideoError(videoUrl);
-        //     }
-        //   });
-        // } else {
-        //   art.video.src = videoUrl; // For Safari and iOS
-        // }
+          // Handle HLS errors
+          hls.on(Hls.Events.ERROR, (_, data) => {
+            if (data.fatal) {
+              console.error("HLS error:", data);
+              // handleVideoError(videoUrl);
+            }
+          });
+        } else {
+          art.video.src = videoUrl; // For Safari and iOS
+        }
 
-        art.video.src = videoUrl; // For Safari and iOS
+        // art.video.src = videoUrl; // For Safari and iOS
 
         // Adjust video ratio based on the video's actual dimensions
         art.once("video:loadedmetadata", () => {
@@ -231,18 +231,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   };
 
   const handleBack = async () => {
-    if (playerRef.current) {
-      // Report progress before navigating back
-      reportProgress(playerRef.current.currentTime, playerRef.current.duration);
-      playerRef.current.pause();
-      playerRef.current.video.src = ""; // Stop video requests
-      playerRef.current.destroy();
-      playerRef.current = null;
-      const token = getToken();
-      if (token) {
-        refetch();
-      }
-    }
     onBack();
   };
 
@@ -295,7 +283,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   return (
     <div
       id="my-player"
-      className={`relative w-full bg-white ${reHeight ? "h-[40vh]" : ""}`}
+      className={`relative w-full bg-white ${reHeight ? "h-[220px]" : "h-[220px]"}`}
     >
       {/* Back button */}
       {isControlsVisible && (
@@ -333,14 +321,14 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* Video element wrapper */}
       <div
-        className={`relative w-full ${reHeight ? "h-[40vh]" : ""}`}
+        className={`relative w-full ${reHeight ? "h-[220px]" : "h-[220px]"}`}
         style={{ paddingTop: `${videoRatio * 100}%` }}
       >
         {/* Video element */}
         <div
           ref={videoElementRef}
           className={`absolute top-0 left-0 w-full ${
-            reHeight ? "h-[40vh]" : "h-full"
+            reHeight ? "h-[220px]" : "h-full"
           }`}
         ></div>
       </div>

@@ -80,7 +80,7 @@ const DetailPage: React.FC = () => {
 
   const autoPlayNextEpisode = async () => {
     const nextEpisode = currentEpisodeNumber + 1;
-    if(episodes?.length > nextEpisode) {
+    if (episodes?.length > nextEpisode) {
       setCurrentEpisode(episodes[nextEpisode]);
       setCurrentEpisodeNumber(nextEpisode);
     }
@@ -236,6 +236,12 @@ const DetailPage: React.FC = () => {
     }
   }, [movieDetail, currentEpisode]);
 
+  useEffect(() => {
+    if (activeTab === "tab-1") {
+      window.scrollTo(0, 0);
+    }
+  }, [activeTab]);
+
   const handleVideoError = (errorUrl: string) => {
     // if (errorVideoUrl !== errorUrl && errorUrl) {
     //   setErrorVideoUrl(errorUrl);
@@ -244,13 +250,12 @@ const DetailPage: React.FC = () => {
     setWholePageError(true);
   };
 
-
   useEffect(() => {
-    if(currentEpisode?.play_url) {
+    if (currentEpisode?.play_url) {
       sendMovieDetailEventToNative(movieDetail);
-      sendEventToNative(currentEpisode?.play_url)
+      sendEventToNative(currentEpisode?.play_url);
     }
-  },[currentEpisode, movieDetail]);
+  }, [currentEpisode, movieDetail]);
 
   const sendEventToNative = async (url: string) => {
     if (
@@ -268,7 +273,7 @@ const DetailPage: React.FC = () => {
             currentEpisode.play_url,
             "1"
           );
-          
+
           // Send the freshly parsed URL to native
           (window as any).webkit.messageHandlers.jsBridge.postMessage({
             eventName: "playUrl",
@@ -289,10 +294,10 @@ const DetailPage: React.FC = () => {
           value: url,
         });
       }
-  
+
       // Check if the next episode exists and is ready to play
       const nextEpisode = episodes?.[currentEpisodeNumber + 1];
-      
+
       if (nextEpisode && !nextEpisode.ready_to_play) {
         try {
           // Always parse a fresh URL for the next episode for native player
@@ -302,7 +307,7 @@ const DetailPage: React.FC = () => {
             nextEpisode.play_url,
             "1"
           );
-          
+
           // Send the freshly parsed next episode URL to native
           (window as any).webkit.messageHandlers.jsBridge.postMessage({
             eventName: "playUrlForNextEpisode",
@@ -386,13 +391,12 @@ const DetailPage: React.FC = () => {
     }
   };
 
-  useEffect(()=>{
-    if(episodes?.length > 0) {
+  useEffect(() => {
+    if (episodes?.length > 0) {
       sendEpisodeListEventToNative(episodes);
     }
-  },[episodes])
+  }, [episodes]);
 
-  
   useEffect(() => {
     const handleIosEvent = (event: CustomEvent) => {
       const index = event.detail?.index || 0;
@@ -402,32 +406,46 @@ const DetailPage: React.FC = () => {
     };
 
     // Listen for the `iosEvent`
-    window.addEventListener("getSourceCode_iOS", handleIosEvent as EventListener);
+    window.addEventListener(
+      "getSourceCode_iOS",
+      handleIosEvent as EventListener
+    );
 
     // Cleanup the event listener when the component unmounts
     return () => {
-      window.removeEventListener("getSourceCode_iOS", handleIosEvent as EventListener);
+      window.removeEventListener(
+        "getSourceCode_iOS",
+        handleIosEvent as EventListener
+      );
     };
   }, []);
 
   useEffect(() => {
     const handleIosEvent = (event: CustomEvent) => {
-      if(event?.detail?.episode_id && episodes?.length > 0) {
-        const index = episodes.findIndex((x: Episode)=> x.episode_id == event.detail.episode_id);
+      if (event?.detail?.episode_id && episodes?.length > 0) {
+        const index = episodes.findIndex(
+          (x: Episode) => x.episode_id == event.detail.episode_id
+        );
         const episode = index >= 0 ? episodes[index] : episodes[0];
         handleEpisodeSelect(episode);
       }
     };
 
     // Listen for the `iosEvent`
-    window.addEventListener("getEpisodeId_iOS", handleIosEvent as EventListener);
+    window.addEventListener(
+      "getEpisodeId_iOS",
+      handleIosEvent as EventListener
+    );
 
     // Cleanup the event listener when the component unmounts
     return () => {
-      window.removeEventListener("getEpisodeId_iOS", handleIosEvent as EventListener);
+      window.removeEventListener(
+        "getEpisodeId_iOS",
+        handleIosEvent as EventListener
+      );
     };
   }, [episodes]);
-  
+
   const refresh = () => {
     setIsPlayerLoading(true);
     setWholePageError(false);
@@ -459,7 +477,11 @@ const DetailPage: React.FC = () => {
                   <VideoPlayer
                     key={currentEpisode?.episode_id}
                     videoUrl={
-                      !isPlayerLoading ? currentEpisode?.parseUrl || currentEpisode?.play_url || "" : ""
+                      !isPlayerLoading
+                        ? currentEpisode?.parseUrl ||
+                          currentEpisode?.play_url ||
+                          ""
+                        : ""
                     }
                     onBack={navigateBackFunction}
                     movieDetail={movieDetail}
@@ -542,10 +564,10 @@ const DetailPage: React.FC = () => {
                   selectedEpisode={currentEpisode}
                 />
 
-                <div className="mt-4 px-4">
-                  {/* {adsData && <AdsSection adsDataList={adsData?.player_recommend_up} />} */}
-                  <NewAds section={"player_recommend_up"} fromMovie={true} />
-                </div>
+                {/* <div className="mt-4 px-4"> */}
+                {/* {adsData && <AdsSection adsDataList={adsData?.player_recommend_up} />} */}
+                {/* <NewAds section={"player_recommend_up"} fromMovie={true} /> */}
+                {/* </div> */}
                 <RecommendedList
                   data={movieDetail}
                   showRecommandMovie={showRecommandMovie}

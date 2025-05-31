@@ -263,7 +263,7 @@ const Reset: React.FC<ResetProps> = ({
                 validatePassword(password) ? " text-[#00A048]" : "text-[#888]"
               }  `}
             >
-              <p>8-25个字符</p>
+              <p>6-25个字符</p>
               <p>必须是以下两者中的至少两种组合：字母，数字</p>{" "}
               {/* <p>letters, numbers.</p> */}
             </div>

@@ -9,7 +9,7 @@ const NetworkError: React.FC<any> = ({ switchNow, refresh, onBack }) => {
 
   return (
     <div
-    className="sticky top-0 z-50 flex justify-center items-center w-full min-h-[30vh]"
+    className="sticky top-0 z-50 flex justify-center items-center w-full h-[220px]"
     style={{
       // backgroundImage: `url(${noPlayImage})`,
       backgroundSize: "cover",

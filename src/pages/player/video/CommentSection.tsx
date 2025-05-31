@@ -56,7 +56,6 @@ const CommentComponent: React.FC<CommentProps> = ({
   const darkmode = useSelector(selectTheme);
 
   const user = userData?.data;
-  console.log("user is=>", user);
   const dispatch = useDispatch();
 
   useEffect(() => {

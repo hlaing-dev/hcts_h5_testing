@@ -11,17 +11,12 @@ import socialIcon from "../assets/SocialFooter.svg";
 import socialSelectedIcon from "../assets/socialSelected1.png";
 import profileIcon from "../assets/ProfileFooter.svg";
 import profileSelectedIcon from "../assets/profileSelected1.png";
-import beforePostIcon from "../assets/beforepost.png";
-import afterPostIcon from "../assets/afterpost.png";
-import beforeShortIcon from "../assets/beforeshort.png";
-import afterShortIcon from "../assets/aftershort.png";
 
 const Footer: FC = () => {
   const { t } = useTranslation();
   const location = useLocation(); // Hook to get the current URL
   const [selectedMenu, setSelectedMenu] = useState("home");
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State to track header visibility
+
   useEffect(() => {
     // Update the selected menu based on the current location path
     if (location.pathname === "/" || location.pathname === "/home") {
@@ -37,26 +32,7 @@ const Footer: FC = () => {
     }
   }, [location.pathname]);
   // Scroll event listener to detect scroll direction
-  useEffect(() => {
-    const handleScroll = () => {
-      if (location.pathname === "/social") {
-        if (window.scrollY > lastScrollY && window.scrollY > 100) {
-          // Scrolling down, hide the header
-          setIsHeaderVisible(false);
-        } else if (window.scrollY < lastScrollY) {
-          // Scrolling up, show the header
-          setIsHeaderVisible(true);
-        }
-        setLastScrollY(window.scrollY);
-      }
-    };
 
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
   const { hideMode } = JSON.parse(
     localStorage.getItem("movieAppSettings") || "{}"
   );
@@ -72,7 +48,11 @@ const Footer: FC = () => {
       // }`}
       className={`bg-[#fff] dark:bg-[#1D1D1D] fixed  transition-all duration-300 w-full shadow-lg z-[200] bottom-0`}
     >
-      <div className={`flex pt-4 justify-around items-center py-2  ${isWebClip() && 'mb-5'}`}>
+      <div
+        className={`flex pt-4 justify-around items-center py-2  ${
+          isWebClip() && "mb-5"
+        }`}
+      >
         {/* Home Icon */}
         <Link
           to="/"

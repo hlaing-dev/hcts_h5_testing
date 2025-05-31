@@ -140,7 +140,8 @@ const SettingFirst = ({ darkmode }: any) => {
   const [autoMode, setAutoMode] = useState(initialSettings.autoMode || false); // Picture-in-Picture Mode
   const [hideMode, setHideMode] = useState(initialSettings.hideMode || false); // Picture-in-Picture Mode
   const [themeMode, setThemeMode] = useState(
-    initialSettings.themeMode || false
+    // initialSettings.themeMode || false
+    initialSettings.themeMode ?? true
   ); // Picture-in-Picture Mode
   // const [vibrantMode, setVibrantMode] = useState(
   //   initialSettings.vibrantMode || false
@@ -167,17 +168,17 @@ const SettingFirst = ({ darkmode }: any) => {
   const applyTheme = (isDark: boolean) => {
     const root = document.documentElement;
     if (isDark) {
-      root.classList.add('dark');
-      sendEventToNative('dark');
+      root.classList.add("dark");
+      sendEventToNative("dark");
     } else {
-      root.classList.remove('dark');
-      sendEventToNative('light');
+      root.classList.remove("dark");
+      sendEventToNative("light");
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     applyTheme(themeMode);
-  },[themeMode]);
+  }, [themeMode]);
 
   const sendEventToNative = async (theme: string) => {
     if (
@@ -191,8 +192,8 @@ const SettingFirst = ({ darkmode }: any) => {
         value: theme,
       });
     }
-  }
-  
+  };
+
   return (
     <div className="profile-div">
       <div
@@ -331,7 +332,7 @@ const SettingFirst = ({ darkmode }: any) => {
         <div className="p-first">
           <div className="flex gap-1 max-w-[230px] flex-col ">
             <h1 className={`${darkmode ? " text-white" : "text-black"}`}>
-            深色主题 
+              深色主题
             </h1>
             <p
               className={`settings-text ${

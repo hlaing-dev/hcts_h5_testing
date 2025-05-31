@@ -16,8 +16,7 @@ const Navbar: React.FC<NavbarProps> = ({ randomWord }) => {
   const [isFocused, setIsFocused] = useState(false); // Manage input focus
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State to track header visibility
+
   const darkmode = useSelector(selectTheme);
   const [triggerAutocomplete, { data: autocompleteData }] =
     useLazyGetAutocompleteQuery(); // Lazy query for autocomplete
@@ -63,25 +62,6 @@ const Navbar: React.FC<NavbarProps> = ({ randomWord }) => {
 
     navigate("/");
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > lastScrollY && window.scrollY > 68) {
-        // Scrolling down, hide the header
-        setIsHeaderVisible(false);
-      } else if (window.scrollY < lastScrollY) {
-        // Scrolling up, show the header
-        setIsHeaderVisible(true);
-      }
-      setLastScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
 
   return (
     <div className="relative">

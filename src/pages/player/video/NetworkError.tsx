@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NetworkIssue from "../../../assets/NetworkError.svg";
 import SorryUnableToPlay from "../../../assets/unhappy.svg"; // Import the background image
 import { useParams, useNavigate } from "react-router-dom";
@@ -6,10 +6,24 @@ import noPlayImage from "../../../assets/noplay.svg";
 
 const NetworkError: React.FC<any> = ({ switchNow, refresh, onBack }) => {
   const navigate = useNavigate();
+  const [countdown, setCountdown] = useState(5);
+
+  // Auto-switch countdown
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      // Auto switch when countdown reaches 0
+      switchNow();
+    }
+  }, [countdown, switchNow]);
 
   return (
     <div
-    className="sticky top-0 z-50 flex justify-center items-center w-full h-[220px]"
+    className="sticky top-0 z-50 flex justify-center items-center w-full h-[211px]"
     style={{
       // backgroundImage: `url(${noPlayImage})`,
       backgroundSize: "cover",
@@ -36,13 +50,13 @@ const NetworkError: React.FC<any> = ({ switchNow, refresh, onBack }) => {
     </div>
 
     <div className="relative z-10 flex flex-col items-center p-8 text-center text-white max-w-md mx-auto">
-    <img src={SorryUnableToPlay} alt="" className="h-10 w-auto object-contain mb-5" />
+    {/* <img src={SorryUnableToPlay} alt="" className="h-10 w-auto object-contain mb-5" /> */}
       <p className="text-sm mb-4 tracking-wide text-white">
-      播放出错，请尝试切换资源或刷新一下
+      播放出错，请尝试切换资源，或刷新一下
       </p>
       <div className="flex space-x-4">
         <button
-          className="px-6 py-2 text-white font-semibold rounded-md shadow-md hover:bg-gray-600 transition-all duration-300 ease-in-out"
+          className="px-8 py-2 text-white font-semibold rounded-full shadow-md hover:bg-gray-600 transition-all duration-300 ease-in-out"
           style={{background: 'rgba(255, 255, 255, 0.2)'}}
           onClick={refresh}
         >
@@ -50,10 +64,10 @@ const NetworkError: React.FC<any> = ({ switchNow, refresh, onBack }) => {
         </button>
         <button
           onClick={switchNow}
-          style={{background: '#FE58B5'}}
-          className="px-6 py-2 bg-gradient-to-r from-gray-400 to-gray-700 text-white font-semibold  rounded-md shadow-md transition-all duration-300 ease-in-out"
+          style={{background: 'linear-gradient(270deg, #FF9153 3.81%, #FF7584 45.16%, #FE58B5 86.5%)'}}
+          className="px-3 py-2 text-white font-semibold rounded-full shadow-md transition-all duration-300 ease-in-out"
         >
-          切换资源
+          切换资源 {countdown} 秒
         </button>
       </div>
     </div>

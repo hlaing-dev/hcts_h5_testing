@@ -13,6 +13,8 @@ interface SourceSelectorProps {
   movieDetail: MovieDetail;
   selectedSource: number;
   setSelectedSource: (source: number) => void;
+  setIsModalOpen: (open: boolean) => void;
+  isModalOpen: boolean;
 }
 
 const SourceSelector: React.FC<SourceSelectorProps> = ({

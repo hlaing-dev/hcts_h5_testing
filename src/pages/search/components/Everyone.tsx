@@ -3,18 +3,10 @@ import "../search.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setHistoryData } from "../slice/HistorySlice";
 import { selectTheme } from "../slice/ThemeSlice";
+import { useGetSearchLateQuery } from "../services/searchApi";
 
-const Everyone = ({
-  lists,
-  Loading,
-  Fetching,
-  refetch,
-}: {
-  lists: any;
-  refetch: any;
-  Loading: any;
-  Fetching: any;
-}) => {
+const Everyone = () => {
+  const { data: search_late, refetch } = useGetSearchLateQuery();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const darkmode = useSelector(selectTheme);
@@ -24,6 +16,7 @@ const Everyone = ({
       navigate(`/search?query=${encodeURIComponent(query.trim())}`);
     }
   };
+
   return (
     <div className="px-3 mt-5">
       <div className="flex justify-between items-center">
@@ -71,7 +64,7 @@ const Everyone = ({
       </div>
 
       <div className="flex flex-wrap gap-3 py-3">
-        {lists?.map((list: any, index: any) => (
+        {search_late?.data?.map((list: any, index: any) => (
           <button
             className={`flex items-center cursor-pointer ${
               darkmode ? "dark-everyone-tab " : "everyone-tab"

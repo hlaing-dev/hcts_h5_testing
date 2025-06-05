@@ -25,8 +25,71 @@ import {
 } from "../../services/newEncryption";
 import PlayerLoading from "./video/PlayerLoading";
 
+const useDynamicHeight = () => {
+  const [availableHeight, setAvailableHeight] = useState(300);
+  const [hasElement, setHasElement] = useState(false);
+
+  useEffect(() => {
+    const calculateHeight = () => {
+      const upperDiv = document.getElementById("upper-div");
+      if (upperDiv) {
+        const windowHeight = window.innerHeight;
+        const upperDivHeight = upperDiv.offsetHeight;
+        const tabsHeight = 60;
+        const padding = 20;
+        const calculated = windowHeight - upperDivHeight - tabsHeight - padding;
+        setAvailableHeight(Math.max(calculated, 300));
+        if (!hasElement) setHasElement(true);
+      }
+    };
+
+    // Try immediately
+    calculateHeight();
+
+    if (!hasElement) {
+      // Set up MutationObserver if element not found
+      const observer = new MutationObserver((mutations) => {
+        if (document.getElementById("upper-div")) {
+          calculateHeight();
+          observer.disconnect();
+        }
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+
+      // Also try periodically as fallback
+      const interval = setInterval(() => {
+        if (document.getElementById("upper-div")) {
+          calculateHeight();
+          clearInterval(interval);
+        }
+      }, 100);
+
+      window.addEventListener("resize", calculateHeight);
+
+      return () => {
+        observer.disconnect();
+        clearInterval(interval);
+        window.removeEventListener("resize", calculateHeight);
+      };
+    } else {
+      // Element exists, just listen for resize
+      window.addEventListener("resize", calculateHeight);
+      return () => window.removeEventListener("resize", calculateHeight);
+    }
+  }, [hasElement]);
+
+  return availableHeight;
+};
+
 const DetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+
+  const availableHeight = useDynamicHeight();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [movieDetail, setMovieDetail] = useState<MovieDetail | null>(null);
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [currentEpisodeNumber, setCurrentEpisodeNumber] = useState<number>(0);
@@ -42,6 +105,8 @@ const DetailPage: React.FC = () => {
   const [commentCount, setCommentCount] = useState(0);
   const [visible, setVisible] = useState(false);
   const [isPlayerLoading, setIsPlayerLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -232,15 +297,21 @@ const DetailPage: React.FC = () => {
 
   useEffect(() => {
     if (currentEpisode) {
-      window.scrollTo(0, 0);
+      // Removed window.scrollTo as we're controlling container scroll instead
     }
   }, [movieDetail, currentEpisode]);
 
+  // Reset scroll position on initial load and when episode changes
   useEffect(() => {
-    if (activeTab === "tab-1") {
-      window.scrollTo(0, 0);
+    if (scrollContainerRef.current && currentEpisode) {
+      // Small delay to ensure DOM is fully rendered
+      setTimeout(() => {
+        if (scrollContainerRef.current) {
+          scrollContainerRef.current.scrollTop = 0;
+        }
+      }, 100);
     }
-  }, [activeTab]);
+  }, [currentEpisode, movieDetail]);
 
   const handleVideoError = (errorUrl: string) => {
     // if (errorVideoUrl !== errorUrl && errorUrl) {
@@ -341,6 +412,36 @@ const DetailPage: React.FC = () => {
     }
   };
 
+  const sendEpisodeListEventToNative = (episodeList: any) => {
+    if (
+      (window as any).webkit &&
+      (window as any).webkit.messageHandlers &&
+      (window as any).webkit.messageHandlers.jsBridge
+    ) {
+      (window as any).webkit.messageHandlers.jsBridge.postMessage({
+        eventName: "episodeList",
+        value: episodeList,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (episodes?.length > 0) {
+      sendEpisodeListEventToNative(episodes);
+    }
+  }, [episodes]);
+
+  // Reset scroll position when switching to tab-1
+  useEffect(() => {
+    if (activeTab === "tab-1" && scrollContainerRef.current) {
+      setTimeout(() => {
+        if (scrollContainerRef.current) {
+          scrollContainerRef.current.scrollTop = 0;
+        }
+      }, 50);
+    }
+  }, [activeTab]);
+
   const handleChangeSource = async (nextSource: any) => {
     if (nextSource && nextSource.code && id) {
       setIsPlayerLoading(true);
@@ -377,25 +478,6 @@ const DetailPage: React.FC = () => {
       }
     }
   };
-
-  const sendEpisodeListEventToNative = (episodeList: any) => {
-    if (
-      (window as any).webkit &&
-      (window as any).webkit.messageHandlers &&
-      (window as any).webkit.messageHandlers.jsBridge
-    ) {
-      (window as any).webkit.messageHandlers.jsBridge.postMessage({
-        eventName: "episodeList",
-        value: episodeList,
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (episodes?.length > 0) {
-      sendEpisodeListEventToNative(episodes);
-    }
-  }, [episodes]);
 
   useEffect(() => {
     const handleIosEvent = (event: CustomEvent) => {
@@ -460,7 +542,7 @@ const DetailPage: React.FC = () => {
     fetchMovieDetail(id);
   };
   return (
-    <div className="bg-[#fff] dark:bg-[#161619] min-h-screen">
+    <div className="bg-[#fff] dark:bg-[#161619] min-h-screen overflow-hidden">
       {!movieDetail ? (
         <>
           <PlayerLoading onBack={navigateBackFunction} />
@@ -510,7 +592,7 @@ const DetailPage: React.FC = () => {
               <div className="flex">
                 <div
                   className={`px-4 py-3 bg-[#fff] dark:bg-[#161619] text-gray-400 rounded-t-lg cursor-pointer relative ${
-                    activeTab === "tab-1" ? "text-black  z-10" : ""
+                    activeTab === "tab-1" ? "text-black dark:text-white z-10" : ""
                   }`}
                   onClick={() => setActiveTab("tab-1")}
                 >
@@ -521,7 +603,7 @@ const DetailPage: React.FC = () => {
                 </div>
                 <div
                   className={`px-4 py-3 bg-[#fff] dark:bg-[#161619] text-gray-400 rounded-t-lg cursor-pointer relative ${
-                    activeTab === "tab-2" ? "text-black z-10" : ""
+                    activeTab === "tab-2" ? "text-black dark:text-white z-10" : ""
                   }`}
                   onClick={() => setActiveTab("tab-2")}
                 >
@@ -537,7 +619,14 @@ const DetailPage: React.FC = () => {
             </div>
           </div>
 
-          <div className={`${activeTab === "tab-1" && "overflow-y-scroll"}`}>
+          <div
+            ref={scrollContainerRef}
+            className={`${activeTab === "tab-1" ? "overflow-y-scroll" : ""}`}
+            style={{
+              height: activeTab === "tab-1" ? `${availableHeight}px` : "auto",
+              minHeight: "auto",
+            }}
+          >
             <DetailSection
               adsData={adsData}
               movieDetail={movieDetail}
@@ -546,6 +635,7 @@ const DetailPage: React.FC = () => {
               setActiveTab={setActiveTab}
               setCommentCount={setCommentCount}
               commentCount={commentCount}
+              setIsModalOpen={setIsModalOpen}
             />
             {activeTab === "tab-1" && (
               <>
@@ -557,6 +647,8 @@ const DetailPage: React.FC = () => {
                   movieDetail={movieDetail}
                   selectedSource={selectedSource}
                   setSelectedSource={setSelectedSource}
+                  setIsModalOpen={setIsModalOpen}
+                  isModalOpen={isModalOpen}
                 />
                 <EpisodeSelector
                   episodes={episodes || []}
@@ -578,7 +670,7 @@ const DetailPage: React.FC = () => {
         </>
       )}
       {visible && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#fff] dark:bg-[#161619] text-black text-lg font-medium px-4 py-2 rounded-lg shadow-md">
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#fff] dark:bg-[#161619] text-black dark:text-white text-lg font-medium px-4 py-2 rounded-lg shadow-md">
           没有更多资源了
         </div>
       )}

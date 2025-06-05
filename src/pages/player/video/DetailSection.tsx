@@ -25,7 +25,7 @@ import { useGetListQuery } from "../../../pages/profile/services/profileApi";
 import NewAds from "../../../components/NewAds";
 import Fire from "../../../assets/Fire.png";
 import PlayerText from "../../../assets/playerText.svg";
-
+import copy from "copy-to-clipboard";
 import {
   convertToSecurePayload,
   convertToSecureUrl,
@@ -33,7 +33,7 @@ import {
 } from "../../../services/newEncryption";
 import axios from "axios";
 import { useGetAdsQuery } from "../../../services/helperService";
-import copy from "copy-to-clipboard";
+import episode from "../../../assets/episode.png";
 
 const DetailSection: React.FC<DetailSectionProps> = ({
   movieDetail,
@@ -43,6 +43,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
   setActiveTab,
   setCommentCount,
   commentCount,
+  setIsModalOpen,
 }) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [hasMore, setHasMore] = useState(false);
@@ -63,12 +64,6 @@ const DetailSection: React.FC<DetailSectionProps> = ({
     setVisible(true);
     setTimeout(() => setVisible(false), 2000); // Hide after 2 seconds
   };
-
-  // const handleDetailClick = () => {
-  //   setShowModal(true);
-  // };
-
-  console.log("renderr");
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -274,25 +269,6 @@ const DetailSection: React.FC<DetailSectionProps> = ({
     }
   };
 
-  // useEffect(() => {
-  //   const updateHeight = () => {
-  //     setLowerDivHeight(customHeight());
-  //   };
-
-  //   updateHeight(); // Set initial height
-  //   window.addEventListener("resize", updateHeight); // Update height on window resize
-
-  //   return () => {
-  //     window.removeEventListener("resize", updateHeight); // Cleanup event listener
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     window.scrollTo(0, 0);
-  //   }, 200);
-  // }, []);
-
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -304,14 +280,6 @@ const DetailSection: React.FC<DetailSectionProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [modalRef]);
-
-  // useEffect(() => {
-  //   if (activeTab === "tab-1") {
-  //     setTimeout(() => {
-  //       window.scrollTo(0, 0);
-  //     }, 200);
-  //   }
-  // }, [activeTab]);
 
   return (
     <div className="flex flex-col w-full dark:bg-[#161619] bg-white">
@@ -382,61 +350,6 @@ const DetailSection: React.FC<DetailSectionProps> = ({
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="actions flex justify-between mt-4 mb-4">
-              <button
-                onClick={() => handleTabClick("star")}
-                className="action-btn flex flex-col items-center px-4 py-2 rounded-md"
-              >
-                <img
-                  src={isStarred ? selectedStar : star}
-                  alt=""
-                  className="h-7 mb-2 block dark:hidden"
-                />
-                <img
-                  src={isStarred ? selectedStar : star1}
-                  alt=""
-                  className="h-7 mb-2 hidden dark:block"
-                />
-                <span className="text-black/40 dark:text-[#FFFFFF66] text-[14px]">
-                  收藏
-                </span>
-              </button>
-
-              <button
-                onClick={() => handleTabClick("feedback")}
-                className="flex flex-col items-center px-4 py-2 rounded-md"
-              >
-                <img src={info} alt="" className="h-7 mb-2 block dark:hidden" />
-                <img
-                  src={info1}
-                  alt=""
-                  className="h-7 mb-2 hidden dark:block"
-                />
-                <span className="text-black/40 dark:text-[#FFFFFF66] text-[14px]">
-                  反馈/求片
-                </span>
-              </button>
-
-              <button
-                onClick={() => handleShare()}
-                className="action-btn flex flex-col items-center px-4 py-2 rounded-md"
-              >
-                <img
-                  src={share}
-                  alt=""
-                  className="h-7 mb-2 block dark:hidden"
-                />
-                <img
-                  src={share1}
-                  alt=""
-                  className="h-7 mb-2 hidden dark:block"
-                />
-                <span className="text-black/40 dark:text-[#FFFFFF66] text-[14px]">
-                  分享
-                </span>
-              </button>
-            </div>
             {/* Warning Message */}
             {data?.data?.["player_episode_up"]?.length <= 0 && (
               <div
@@ -448,9 +361,6 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                     <img src={PlayerText} alt="" className="mt-2" />
                     好事不独享，点击分享给好友一起体验！
                   </span>
-                  {/* <span className="warning-text text-white flex">
-                <img src={PlayerText} alt="" />    好事不独享，点击分享给好友一起体验！
-                </span> */}
                 </div>
               </div>
             )}
@@ -458,11 +368,13 @@ const DetailSection: React.FC<DetailSectionProps> = ({
         )}
 
         {visible && (
-          <img
-            src={shareLink}
-            alt=""
-            className="w-32 h-auto absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-          />
+          <div className="flex justify-center items-center ">
+            <div
+              className={`text-[12px] fixed w-fit  top-1/2 mx-auto left-0 right-0  py-3 px-5  flex items-center justify-center gap-1 rounded-full toast  text-white text-center z-[9999999999999999999]`}
+            >
+              <span className=" text-[13px]">链接已复制 </span>
+            </div>
+          </div>
         )}
 
         {activeTab === "tab-2" ? (
@@ -480,7 +392,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
             />
           </div>
         ) : (
-          <div>
+          <div className="mt-4">
             {/* {adsData && <AdsSection adsDataList={adsData?.player_episode_up} />} */}
             <NewAds section={"player_episode_up"} fromMovie={true} />
           </div>
@@ -529,7 +441,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                   {/* Director */}
                   <span>
                     导演{" "}
-                    <span className="text-white">
+                    <span className="text-black dark:text-white">
                       {movieDetail?.members?.find((member) => member.type === 3)
                         ?.name || "Unknown"}
                     </span>
@@ -537,7 +449,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                   {/* Screenwriter */}
                   <span>
                     编剧{" "}
-                    <span className="text-white">
+                    <span className="text-black dark:text-white">
                       {movieDetail?.members?.find((member) => member.type === 2)
                         ?.name || "Unknown"}
                     </span>
@@ -549,7 +461,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                   {movieDetail?.members
                     ?.filter((member) => member.type === 1)
                     .map((actor, index) => (
-                      <span key={index} className="text-white">
+                      <span key={index} className="text-black dark:text-white">
                         {actor.name || "Unknown"}
                         {index <
                         movieDetail.members.filter(
@@ -559,7 +471,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
                           ? ", "
                           : ""}
                       </span>
-                    )) || <span className="text-white">Unknown</span>}
+                    )) || <span className="text-black dark:text-white">Unknown</span>}
                 </div>
               </div>
 
@@ -581,6 +493,78 @@ const DetailSection: React.FC<DetailSectionProps> = ({
           isLoading={isLoading}
           height={`${lowerDivHeightRef.current}px`}
         />
+      )}
+
+      {/* Sticky Bottom Action Bar */}
+      {activeTab === "tab-1" && (
+        <div
+          className="fixed bottom-0 left-0 w-full z-50 bg-[#fff] dark:bg-[#1F1F21] flex justify-between items-center px-2 py-2 border-t border-gray-200 dark:border-gray-700"
+          style={{ boxShadow: "0 -2px 8px rgba(0,0,0,0.2)" }}
+        >
+          <div className="flex flex-1 justify-evenly">
+            {/* 选集 */}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex flex-col items-center px-2 py-1 rounded-md"
+            >
+                <img src={episode} alt="" className="h-5 mb-[5px] mt-0.5" />
+              <span className="text-black/40 dark:text-white/40 text-[14px]">选集</span>
+            </button>
+            {/* 收藏 */}
+            <button
+              onClick={() => handleTabClick("star")}
+              className="flex flex-col items-center px-2 py-1 rounded-md"
+            >
+              <img
+                src={isStarred ? selectedStar : star}
+                alt=""
+                className="h-6 mb-1 block dark:hidden"
+              />
+              <img
+                src={isStarred ? selectedStar : star1}
+                alt=""
+                className="h-6 mb-1 hidden dark:block"
+              />
+              <span className="text-black/40 dark:text-white/40 text-[13px]">收藏</span>
+            </button>
+            {/* 反馈/求片 */}
+            <button
+              onClick={() => handleTabClick("feedback")}
+              className="flex flex-col items-center px-2 py-1 rounded-md"
+            >
+              <img src={info} alt="" className="h-6 mb-1 block dark:hidden" />
+              <img
+                src={info1}
+                alt=""
+                className="h-6 mb-1 hidden dark:block"
+              />
+              <span className="text-black/40 dark:text-white/40 text-[13px]">反馈/求片</span>
+            </button>
+          </div>
+          {/* 分享好友得积分按钮 */}
+          <button
+            onClick={() => handleShare()}
+            className="ml-2 flex items-center rounded-full px-5 py-2 relative min-w-[170px] justify-center"
+            style={{
+              background:
+                "linear-gradient(271deg, rgba(254,228,179,0.06) 0%, rgba(255,217,147,0.06) 100%)",
+              backgroundBlendMode: "normal",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+            }}
+          >
+            <div className="flex justify-start items-start flex-row gap-2.5 px-1.5 bg-[#FF6A33] rounded-tl-[10px] rounded-tr-sm rounded-br-[10px] rounded-bl-sm absolute right-[0px] top-[-7.5px]">
+              <span className="text-[#FFFFFF] text-[10px] font-['PingFang_SC'] text-center font-medium">
+                可兑换
+              </span>
+            </div>
+            <img src={share} className="h-6 mr-1 block dark:hidden" alt="" />
+            <img src={share1} className="h-6 mr-1 hidden dark:block" alt="" />
+            <span className="text-[#E6D3A7] text-[15px] font-normal">
+              分享好友得积分
+            </span>
+          </button>
+        </div>
       )}
     </div>
   );

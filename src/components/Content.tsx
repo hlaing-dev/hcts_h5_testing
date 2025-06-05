@@ -1,8 +1,10 @@
+import "../utils/polyfills";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { showToast } from "../pages/profile/error/ErrorSlice";
 import { setActiveNav } from "../pages/home/slice/HomeSlice";
+import Markdown from 'react-markdown'
 
 const Content = ({ notice, handleAppClose }: any) => {
   const dispatch = useDispatch();
@@ -54,7 +56,7 @@ const Content = ({ notice, handleAppClose }: any) => {
           {notice.title}
         </h3>
         <p className="mt-3 text-[#888] text-[10px] font-[500]">
-          {notice.content}
+        <Markdown>{notice.content}</Markdown>
         </p>
         {/* {pageType ? (
           <>

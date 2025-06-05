@@ -23,6 +23,16 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const [isControlsVisible, setIsControlsVisible] = useState(false);
   const inactivityTimeout = useRef<number | null>(null);
   const [reHeight, setReHeight] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+  
+  // Function to check if browser natively supports HLS
+  const hasNativeHLSSupport = () => {
+    return false;
+    const video = document.createElement('video');
+    return video.canPlayType('application/vnd.apple.mpegurl') !== '' ||
+           video.canPlayType('application/x-mpegURL') !== '';
+  };
+
   // Function to get token from localStorage
   const getToken = () => {
     const isLoggedIn = localStorage.getItem("authToken");
@@ -56,7 +66,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     }
   };
 
-  
   useEffect(() => {
     let hls: Hls | null = null;
 
@@ -87,7 +96,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
                   (window as any).webkit.messageHandlers.jsBridge.postMessage({
                     eventName: "fullscreen",
                   });
-                  playerRef.current.pause();
                 } else {
                   playerRef.current.fullscreen = true;
                 }
@@ -100,24 +108,86 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           // },
         });
 
-        // Use Hls.js for HLS streams
-        if (Hls.isSupported() && videoUrl.includes(".m3u8")) {
-          hls = new Hls();
-          hls.loadSource(videoUrl);
-          hls.attachMedia(art.video);
+        // Handle HLS streams: prioritize native support, fallback to HLS.js
+        if (videoUrl.includes(".m3u8")) {
+          if (hasNativeHLSSupport()) {
+            // Use native HLS support (Safari, iOS, etc.)
+            art.video.src = videoUrl;
+            console.log("Using native HLS support");
+            
+            // Add error handling for native HLS
+            art.video.addEventListener('error', (e) => {
+              console.error("Native HLS error:", e);
+              handleVideoError(videoUrl);
+            });
+            
+            // Add timeout for loading
+            const loadTimeout = setTimeout(() => {
+              if (art.video.readyState === 0) {
+                console.error("Video loading timeout");
+                handleVideoError(videoUrl);
+              }
+            }, 10000); // 10 second timeout
+            
+            // Clear timeout when video starts loading
+            art.video.addEventListener('loadstart', () => {
+              clearTimeout(loadTimeout);
+            });
+            
+          } else if (Hls.isSupported()) {
+            // Fallback to HLS.js for browsers without native support
+            hls = new Hls();
+            hls.loadSource(videoUrl);
+            hls.attachMedia(art.video);
 
-          // Handle HLS errors
-          hls.on(Hls.Events.ERROR, (_, data) => {
-            if (data.fatal) {
-              console.error("HLS error:", data);
-              // handleVideoError(videoUrl);
-            }
-          });
+            // Handle HLS errors
+            hls.on(Hls.Events.ERROR, (_, data) => {
+              console.error("HLS.js error:", data);
+              if (data.fatal) {
+                handleVideoError(videoUrl);
+              } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                console.error("Network error, attempting recovery");
+                if (hls) {
+                  hls.startLoad();
+                }
+              }
+            });
+            
+            // Add timeout for HLS loading
+            const hlsTimeout = setTimeout(() => {
+              if (art.video.readyState === 0) {
+                console.error("HLS loading timeout");
+                handleVideoError(videoUrl);
+              }
+            }, 10000); // 10 second timeout
+            
+            // Clear timeout when manifest is loaded
+            hls.on(Hls.Events.MANIFEST_LOADED, () => {
+              clearTimeout(hlsTimeout);
+            });
+            
+            console.log("Using HLS.js library");
+          } else {
+            // Neither native nor HLS.js support available
+            art.video.src = videoUrl;
+            console.log("No HLS support detected, trying direct URL");
+            
+            // Add error handling for fallback
+            art.video.addEventListener('error', (e) => {
+              console.error("Video error (no HLS support):", e);
+              handleVideoError(videoUrl);
+            });
+          }
         } else {
-          art.video.src = videoUrl; // For Safari and iOS
+          // Non-HLS video
+          art.video.src = videoUrl;
+          
+          // Add error handling for regular videos
+          art.video.addEventListener('error', (e) => {
+            console.error("Video error:", e);
+            handleVideoError(videoUrl);
+          });
         }
-
-        // art.video.src = videoUrl; // For Safari and iOS
 
         // Adjust video ratio based on the video's actual dimensions
         art.once("video:loadedmetadata", () => {
@@ -125,15 +195,19 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           const videoHeight = art.video.videoHeight;
           if (videoWidth > videoHeight) {
             sendNativeEvent("landscape_view");
+            setIsLandscape(true);
           } else if (videoHeight > videoWidth) {
             sendNativeEvent("potrait_view");
+            setIsLandscape(false);
           } else {
             sendNativeEvent("square_view");
+            setIsLandscape(false);
           }
           setVideoRatio(videoHeight / videoWidth); // Set the dynamic aspect ratio
           setReHeight(videoWidth < videoHeight);
         });
         art.on("error", (error, reconnectTime) => {
+          console.error("ArtPlayer error:", error);
           handleVideoError(videoUrl);
         });
         const controls: any = document.querySelector(".art-controls-right");
@@ -219,14 +293,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   
   // Define the event handler
   const sendNativeEvent = (message: string) => {
-      if (
-        (window as any).webkit &&
-        (window as any).webkit.messageHandlers &&
-        (window as any).webkit.messageHandlers.jsBridge
-      ) {
-        (window as any).webkit.messageHandlers.jsBridge.postMessage(
-          message
-        );
+    if (
+      (window as any).webkit &&
+      (window as any).webkit.messageHandlers &&
+      (window as any).webkit.messageHandlers.jsBridge
+    ) {
+      (window as any).webkit.messageHandlers.jsBridge.postMessage(message);
     }
   };
 
@@ -261,39 +333,16 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     }
   };
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const playerElement = videoElementRef.current;
-  //     if (!playerElement) return;
-
-  //     const rect = playerElement.getBoundingClientRect();
-  //     console.log('rect top is=>', rect);
-  //     // const isOutOfView = rect.top < 0;
-
-  //     // Minimize player when scrolled out of view
-  //     // setIsMinimized(isOutOfView);
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
-
   return (
     <div
       id="my-player"
-      className={`relative w-full bg-white ${reHeight ? "h-[220px]" : "h-[220px]"}`}
+      className={`relative w-full bg-black ${reHeight ? "h-[211px]" : "h-[211px]"}`}
     >
       {/* Back button */}
       {isControlsVisible && (
         <>
-          <div className="absolute top-0 left-0 right-0 flex justify-between items-center p-4 z-50">
-            {/* Left Section - Back Button & Movie Name */}
-            <button
-              onClick={handleBack}
-              className="text-white flex items-center flex-1 overflow-hidden gap-2 pr-4"
-            >
+          <div className="absolute top-0 left-0 p-4 z-50">
+            <button onClick={handleBack} className="text-white flex">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -306,13 +355,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
                   fill="white"
                 />
               </svg>
-              <p className="cus-elips">
-                {movieDetail?.name} {selectedEpisode?.episode_name}
-              </p>
+              <p className="cus-elips">{selectedEpisode?.episode_name}</p>
             </button>
-
-            {/* Right Section - PiP Button */}
-            <button className="text-white flex-shrink-0" onClick={handlePiP}>
+          </div>
+          <div className="absolute top-0 right-0 p-4 z-50">
+            <button className="text-white" onClick={handlePiP}>
               <img src={floatingScreen} alt="PiP" className="h-5 w-5" />
             </button>
           </div>
@@ -321,15 +368,28 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* Video element wrapper */}
       <div
-        className={`relative w-full ${reHeight ? "h-[220px]" : "h-[220px]"}`}
-        style={{ paddingTop: `${videoRatio * 100}%` }}
+        className={`relative w-full ${reHeight ? "h-[211px]" : "h-[211px]"}`}
+        style={
+          isLandscape
+            ? { height: "211px" }
+            : { paddingTop: `${videoRatio * 100}%` }
+        }
       >
         {/* Video element */}
         <div
           ref={videoElementRef}
-          className={`absolute top-0 left-0 w-full ${
-            reHeight ? "h-[220px]" : "h-full"
+          className={`absolute w-full ${
+            reHeight
+              ? "h-[211px]"
+              : isLandscape
+              ? "h-[211px] flex items-center justify-center"
+              : "h-[211px]"
           }`}
+          style={
+            isLandscape
+              ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
+              : { top: 0, left: 0 }
+          }
         ></div>
       </div>
     </div>

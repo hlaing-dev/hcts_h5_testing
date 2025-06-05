@@ -16,14 +16,8 @@ import { useSelector } from "react-redux";
 import { selectTheme } from "./slice/ThemeSlice";
 
 const Search: React.FC = () => {
-  const {
-    data: search_late,
-    isLoading: lateLoading,
-    isFetching: lateFetching,
-    refetch,
-  } = useGetSearchLateQuery();
   const darkmode = useSelector(selectTheme);
-  const { data, isLoading, isFetching } = useGetSearchRankingQuery();
+  const { data } = useGetSearchRankingQuery();
   const ranks = data?.data;
 
   const [randomWord, setRandomWord] = useState<string | null>(null);
@@ -59,12 +53,7 @@ const Search: React.FC = () => {
           <Ads section={"search_input_under"} />
         </div>
         <History />
-        <Everyone
-          lists={search_late?.data}
-          Loading={lateLoading}
-          Fetching={lateFetching}
-          refetch={refetch}
-        />
+        <Everyone />
         <Rankings />
       </div>
     </>

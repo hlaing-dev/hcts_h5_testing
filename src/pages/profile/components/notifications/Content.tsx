@@ -1,5 +1,7 @@
+import "../../../../utils/polyfills";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Markdown from 'react-markdown'
 
 const Content = ({ notice, darkmode }: any) => {
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ const Content = ({ notice, darkmode }: any) => {
             darkmode ? "text-white" : "text-black"
           }`}
         >
-          {notice.content}
+          <Markdown>{notice.content}</Markdown>
         </p>
         {pageType ? (
           <>

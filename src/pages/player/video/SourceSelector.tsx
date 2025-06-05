@@ -26,8 +26,9 @@ const SourceSelector: React.FC<SourceSelectorProps> = ({
   movieDetail,
   selectedSource,
   setSelectedSource,
+  setIsModalOpen,
+  isModalOpen
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [source, setSource] = useState<"episodes" | "sources">("episodes"); // Modal state
 
   // Open the modal

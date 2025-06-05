@@ -328,7 +328,7 @@ const App: React.FC = () => {
             <></>
           )}
           <div
-            className={`flex  flex-col min-h-screen ${
+            className={`flex  flex-col full-height-fallback ${
               panding ? "invisible" : "visible"
             }`}
           >

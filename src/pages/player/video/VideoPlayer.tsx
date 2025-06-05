@@ -77,6 +77,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           autoplay: true,
           playbackRate: true,
           setting: true,
+          theme: '#FE58B5',
           // fullscreen: true,
           airplay: true,
           controls: [

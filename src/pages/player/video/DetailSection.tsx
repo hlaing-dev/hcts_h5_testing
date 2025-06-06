@@ -9,6 +9,7 @@ import shareLink from "../../../assets/shareLink1.png";
 import selectedStar from "../../../assets/selectedStar1.png";
 import rate from "../../../assets/rate2.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import icon from "../../../assets/logo2.svg";
 import {
   faChevronRight,
   faTimes,
@@ -368,12 +369,11 @@ const DetailSection: React.FC<DetailSectionProps> = ({
         )}
 
         {visible && (
-          <div className="flex justify-center items-center ">
-            <div
-              className={`text-[12px] fixed w-fit  top-1/2 mx-auto left-0 right-0  py-3 px-5  flex items-center justify-center gap-1 rounded-full toast  text-white text-center z-[9999999999999999999]`}
-            >
-              <span className=" text-[13px]">链接已复制 </span>
-            </div>
+          <div
+            className={`text-[12px] fixed w-fit top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-3 px-5 flex items-center justify-center gap-1 rounded-full toast text-white text-center z-[9999999999999999999]`}
+          >
+            <img src={icon} className="w-6 h-6" alt="" />
+            <span className=" text-[13px]">链接已复制 </span>
           </div>
         )}
 
@@ -543,27 +543,39 @@ const DetailSection: React.FC<DetailSectionProps> = ({
           </div>
           {/* 分享好友得积分按钮 */}
           <button
-            onClick={() => handleShare()}
-            className="ml-2 flex items-center rounded-full px-5 py-2 relative min-w-[170px] justify-center"
-            style={{
-              background:
-                "linear-gradient(271deg, rgba(254,228,179,0.06) 0%, rgba(255,217,147,0.06) 100%)",
-              backgroundBlendMode: "normal",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-            }}
-          >
-            <div className="flex justify-start items-start flex-row gap-2.5 px-1.5 bg-[#FF6A33] rounded-tl-[10px] rounded-tr-sm rounded-br-[10px] rounded-bl-sm absolute right-[0px] top-[-7.5px]">
-              <span className="text-[#FFFFFF] text-[10px] font-['PingFang_SC'] text-center font-medium">
-                可兑换
-              </span>
-            </div>
-            <img src={share} className="h-6 mr-1 block dark:hidden" alt="" />
-            <img src={share1} className="h-6 mr-1 hidden dark:block" alt="" />
-            <span className="text-[#E6D3A7] text-[15px] font-normal">
-              分享好友得积分
+          onClick={() => handleShare()}
+          disabled={isLoading}
+          className={`ml-2 flex items-center rounded-full px-5 py-2 relative min-w-[170px] justify-center ${
+            isLoading ? 'opacity-70 cursor-not-allowed' : ''
+          }`}
+          style={{
+            background:
+              "linear-gradient(271deg, rgba(254,228,179,0.06) 0%, rgba(255,217,147,0.06) 100%)",
+            backgroundBlendMode: "normal",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
+        >
+          <div className="flex justify-start items-start flex-row gap-2.5 px-1.5 bg-[#FF6A33] rounded-tl-[10px] rounded-tr-sm rounded-br-[10px] rounded-bl-sm absolute right-[0px] top-[-7.5px]">
+            <span className="text-[#FFFFFF] text-[10px] font-['PingFang_SC'] text-center font-medium">
+              可兑换
             </span>
-          </button>
+          </div>
+          {isLoading ? (
+            <>
+              <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#E6D3A7] border-t-transparent mr-2"></div>
+              <span className="text-[#E6D3A7] text-[15px] font-normal">
+              </span>
+            </>
+          ) : (
+            <>
+              <img src={share1} className="h-6 mr-1" alt="" />
+              <span className="text-[#E6D3A7] text-[15px] font-normal">
+                分享好友得积分
+              </span>
+            </>
+          )}
+        </button>
         </div>
       )}
     </div>
